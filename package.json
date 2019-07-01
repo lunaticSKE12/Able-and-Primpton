@@ -1,0 +1,17 @@
+{
+  "name": "able_and_primpton",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "electron": "electron ."
+  },
+  "author": "Napong Dungduangsasitorn",
+  "license": "MIT",
+  "dependencies": {
+    "bulma": "^0.7.5",
+    "electron": "^5.0.6",
+    "electron-window-state": "^5.0.3",
+    "jquery": "^3.4.1"
+  }
+}
