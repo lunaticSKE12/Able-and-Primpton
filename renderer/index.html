@@ -2,18 +2,28 @@
 <html>
 
 <head>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Able and Primpton</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
-  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-  <link rel="stlyesheet" href="./main.css">
+  <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <link rel="stylesheet" href="./main.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
+
+
+<script src="./app.js"></script>
 </head>
 
-<body background="../picture/bg.jpg" >
-  
+<body background="../picture/bg.jpg">
+
   <section class="section">
-    <div class="container" >
+    <div class="container">
       <h1 class="title" style="text-align: center">
         Able and primpton
       </h1>
@@ -30,9 +40,10 @@
               </div>
 
               <div class="field">
-                <label class="label">Username</label>
+                <label class="label">Email</label>
                 <div class="control has-icons-right">
-                  <input class="input" type="text">
+                  <input class="input" type="text" id="email" pattern="[a-z0-9._%+-]+@ableprimpton.com" size="30"
+                    required>
                   <span class="icon is-small is-right">
                     <i class="fa fa-user"></i>
                   </span>
@@ -42,14 +53,14 @@
               <div class="field">
                 <label class="label">Password</label>
                 <div class="control has-icons-right">
-                  <input class="input" type="password">
+                  <input class="input" type="password" id="password" pattern=".{6,}" title="Six or more characters">
                   <span class="icon is-small is-right">
                     <i class="fa fa-key"></i>
                   </span>
                 </div>
               </div>
               <div class="has-text-centered">
-                <a class="button is-vcentered is-primary is-outlined">Login</a>
+                <a class="button is-vcentered is-primary is-outlined" id="loginBtn" onclick="login()">Login</a>
               </div>
               <div class="has-text-centered">
                 <a href="signup.html"> Don't you have an account? Sign up now!</a>
@@ -64,23 +75,34 @@
 
     </div>
   </section>
+
+  <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+  
+
+
+
+
 </body>
-<footer class="footer" style="padding-bottom: 0px; background-color: white" >
-    <div class="content has-text-centered">
-      <p>
-        <strong>Able and Primpton</strong> by <a href="https://github.com/lunaticSKE12">Napong Dungduangsasitorn</a>. The source code is licensed
-        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. Power by <a href="https://electronjs.org/">Electron</a>, <a href="https://bulma.io/">Bulma</a>
-      </p>
-    </div>
+<footer class="footer" style="padding-bottom: 0px; background-color: white">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Able and Primpton</strong> by <a href="https://github.com/lunaticSKE12">Napong
+        Dungduangsasitorn</a>. The
+      source code is licensed
+      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. Power by <a
+        href="https://electronjs.org/">Electron</a>, <a href="https://bulma.io/">Bulma</a>
+    </p>
+  </div>
 </footer>
+
 <script>
 
   //jQuery
   $ = require('jquery')
 
-  // Main app script
-  require('./app.js')
-
 </script>
+
+
 
 </html>

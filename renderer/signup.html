@@ -2,82 +2,96 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="assets/img/logo_r_resumme.png" type="image/x-icon" />
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.3/css/bulma.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
-    <link rel="stylesheet" href="./main.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/img/logo_r_resumme.png" type="image/x-icon" />
+  <title>Able and Primpton</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+  <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <link rel="stylesheet" href="./main.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
+
+  <script src="./app.js"></script>
+
 </head>
 
 <body background="../picture/bg.jpg">
 
-    <div class="columns is-centered" >
-        <h1 class="title" style="padding-top: 24px">
-            Able and primpton
-        </h1>
-    </div>
-    <div class="columns is-vcentered is-centered">
+  <section class="section">
+    <div class="container">
+      <h1 class="title" style="text-align: center">
+        Able and primpton
+      </h1>
+      <div class="columns is-vcentered is-centered" style="margin-bottom: 0px">
         <div class="login column is-half ">
-            <div class="card">
-                <section class="section">
-                    <div class="has-text-centered">
-                        <img class="login-logo" src="../picture/logo.png">
-                    </div>
+          <div class="card">
+            <section class="section">
+              <div class="has-text-centered">
+                <img class="login-logo" src="../picture/logo.png">
+              </div>
 
-                    <div class="field">
-                        <label class="label">Username</label>
-                        <div class="control has-icons-right">
-                            <input class="input" type="text">
-                            <span class="icon is-small is-right">
-                                <i class="fa fa-user"></i>
-                            </span>
-                        </div>
-                    </div>
+              <div class="field">
+                <label class="label">Name</label>
+                <div class="control has-icons-right">
+                  <input class="input" type="text" id="name">
+                  <span class="icon is-small is-right">
+                    <i class="fa fa-user"></i>
+                  </span>
+                </div>
+              </div>
 
-                    <div class="field">
-                        <label class="label">Email</label>
-                        <div class="control has-icons-right">
-                            <input class="input" type="text">
-                            <span class="icon is-small is-right">
-                                <i class="fa fa-envelope"></i>
-                            </span>
-                        </div>
-                    </div>
+              <div class="field">
+                <label class="label">Email</label>
+                <div class="control has-icons-right">
+                  <input class="input" type="email" id="email" size="30" required>
+                  <span class="icon is-small is-right">
+                    <i class="fa fa-envelope"></i>
+                  </span>
+                </div>
+              </div>
 
-                    <div class="field">
-                        <label class="label">Password</label>
-                        <div class="control has-icons-right">
-                            <input class="input" type="password">
-                            <span class="icon is-small is-right">
-                                <i class="fa fa-key"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="has-text-centered">
-                        <a class="button is-vcentered is-primary is-outlined">Sign Up!</a>
-                    </div>
-                    <div class="has-text-centered">
-                        <a href="index.html"> Already have an account? Log in now !</a>
-                    </div>
-                </section>
-            </div>
+              <div class="field">
+                <label class="label">Password</label>
+                <div class="control has-icons-right">
+                  <input class="input" type="password" id="password" pattern=".{6,18}" title="Six or more characters">
+                  <span class="icon is-small is-right">
+                    <i class="fa fa-key"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="has-text-centered">
+                <a class="button is-vcentered is-primary is-outlined" id="signupBtn" onclick="signup()">Sign Up!</a>
+              </div>
+              <div class="has-text-centered">
+                <a href="index.html"> Already have an account? Log in now !</a>
+              </div>
+            </section>
+          </div>
         </div>
+      </div>
     </div>
+
+  </section>
+
 
 </body>
 
 <footer class="footer" style="padding: 24px 24px 0px; background-color: white">
-    <div class="content has-text-centered">
-        <p>
-            <strong>Able and Primpton</strong> by <a href="https://github.com/lunaticSKE12">Napong
-                Dungduangsasitorn</a>. The source code is licensed
-            <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. Power by <a
-                href="https://electronjs.org/">Electron</a>, <a href="https://bulma.io/">Bulma</a>
-        </p>
-    </div>
+  <div class="content has-text-centered">
+    <p>
+      <strong>Able and Primpton</strong> by <a href="https://github.com/lunaticSKE12">Napong
+        Dungduangsasitorn</a>. The source code is licensed
+      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. Power by <a
+        href="https://electronjs.org/">Electron</a>, <a href="https://bulma.io/">Bulma</a>
+    </p>
+  </div>
 </footer>
+
+
 
 </html>

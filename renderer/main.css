@@ -24,7 +24,6 @@
 
 .login-logo {
   margin: 0 auto;
-  margin-bottom: 50px;
   max-height: 100px;
 }
 
@@ -40,4 +39,12 @@
   
 .section {
     flex: 1;
+}
+
+nav {
+  padding: 24px;
+}
+
+body {
+  font-family: 'Roboto';
 }
