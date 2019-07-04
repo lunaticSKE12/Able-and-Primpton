@@ -1,3 +1,6 @@
+const { remote } = require('electron')
+const { BrowserWindow } = require('electron')
+
 // Your web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyDdo2GJJBhzs0kl6VGvvJmP50w-rY-993c",
@@ -14,62 +17,16 @@ firebase.initializeApp(firebaseConfig);
 // Make auth and firestore reference
 const auth = firebase.auth();
 
-var checkLogin = "checkState";
-
-
-// listen for auth status changes
-auth.onAuthStateChanged(user => {
-  if (user) {
-    console.log('user logged in: ', user);
-    if(checkLogin === "checkState"){
-      checkLogin = false;
-      console.log("check : " + checkLogin)
-      location.replace("home.html");
-    }
-    
-  } else {
-    console.log('user logged out');
-  }
-})
-
-/**
- * initApp handles setting up UI event listeners and registering Firebase auth listeners:
- *  - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
- *    out, and that is where we update the UI.
- */
-// function initApp() {
-//   // Listening for auth state changes.
-//   // [START authstatelistener]
-//   firebase.auth().onAuthStateChanged(function (user) {
-//     // [END_EXCLUDE]
-//     if (user) {
-//       // User is signed in.
-//       alert("login complete")
-
-//       document.getElementById("email").value = "";
-//       document.getElementById("password").value = "";
-//       location.replace("home.html");
-
-//     } else {
-//       // User is signed out.
-//     }
-//   });
-// }
-
 function logout() {
   auth.signOut();
   location.replace("index.html");
-  
+
 }
-
-
 
 function login() {
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
 
-  console.log("login : " + checkLogin);
-  
   auth.signInWithEmailAndPassword(email, password).catch(function (error) {
     // Handle Errors here.
     var errorCode = error.code;
@@ -86,6 +43,17 @@ function login() {
 
   });
 
+  // listen for auth status changes
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      console.log('user logged in: ', user);
+      // // Or load a local HTML file
+      remote.getCurrentWindow().loadURL(`file://${__dirname}/home.html`)
+
+    } else {
+      console.log('user logged out');
+    }
+  })
 
 }
 
