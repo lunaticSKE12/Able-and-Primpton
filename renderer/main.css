@@ -47,4 +47,39 @@ nav {
 
 body {
   font-family: 'Roboto';
+  user-select: none;
 }
+
+.card{
+  display: inline-flex;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  padding: 0;
+  margin-bottom: 24px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.card-image{
+  width: -webkit-fill-available
+}
+
+#description{
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 14px;
+}
+
+#image{
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.breadcrumb li{
+  font-style: italic;
+}
+
