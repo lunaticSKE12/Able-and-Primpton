@@ -39,6 +39,7 @@
   
 .section {
     flex: 1;
+    padding-bottom: 24px
 }
 
 nav {
