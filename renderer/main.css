@@ -80,7 +80,29 @@ body {
   border-top-right-radius: 5px;
 }
 
-.breadcrumb li{
-  font-style: italic;
+header{
+  display: inline;
+}
+
+#logout{
+  margin-right: 24px;
+  float: right;
+}
+
+#back{
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+.breadcrumb{
+  padding-top: 24px;
+}
+
+.navbar{
+  display: inline-flex;
+}
+
+#logout{
+  position: relative;
 }
 

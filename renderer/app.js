@@ -70,3 +70,8 @@ function signup() {
     location.replace("index.html");
   });
 }
+
+function companies(){
+  remote.getCurrentWindow().loadURL(`file://${__dirname}/companies.html`)
+}
+

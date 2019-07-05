@@ -20,17 +20,19 @@
 </head>
 
 <body>
-
-  <button class="button" id="logout" onclick="logout()">logout</button>
-  <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
-    <ul>
-      <h1>Now at page:</h1>
-      <li class="is-active"><a href="#" aria-current="page">Select workpace</a></li>
-    </ul>
-  </nav>
+  <header>
+      <button class="button is-danger is-pulled-right" id="logout" onclick="logout()">logout</button>
+    
+      <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+        <ul>
+          <h1>Now at page:</h1>
+          <li class="is-active is-italic is-uppercase"><a href="#" aria-current="page">Select workpace</a></li>
+        </ul>
+      </nav>
+  </header>
 
   <div class="cards">
-    <div class="card column is-3 is-offset-1">
+    <div class="card column is-3 is-offset-1" onclick="companies()">
       <div class="card-image">
         <figure class="image" id="visaWork">
           <img src="../picture/Visa.jpg" alt="Placeholder image" id="image">
