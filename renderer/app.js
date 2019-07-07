@@ -1,18 +1,12 @@
 const { remote } = require('electron')
 const { BrowserWindow } = require('electron')
 
-// Your web app's Firebase configuration
-var firebaseConfig = {
-  apiKey: "AIzaSyDdo2GJJBhzs0kl6VGvvJmP50w-rY-993c",
-  authDomain: "able-and-primpton-2f7db.firebaseapp.com",
-  databaseURL: "https://able-and-primpton-2f7db.firebaseio.com",
-  projectId: "able-and-primpton-2f7db",
-  storageBucket: "",
-  messagingSenderId: "709230549318",
-  appId: "1:709230549318:web:331c8264634830e8"
-};
+let firebaseConfig = sercetKey;
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
+console.log("asdawdsdad: "+firebaseConfig)
 
 // Make auth and firestore reference
 const auth = firebase.auth();
