@@ -17,8 +17,8 @@ exports.createWindow = () => {
     this.win = new BrowserWindow({
         width: winState.width,
         height: winState.height,
-        minWidth: 500,
-        minHeight: 400,
+        minWidth: 360,
+        minHeight: 640,
         x: winState.x,
         y: winState.y,
         webPreferences: {

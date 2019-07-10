@@ -121,15 +121,22 @@ header{
 }
 
 .new-company{
-  margin: 0 24px 0 24px;
+  margin: 12px 0px 0px 24px;
 }
 
 .card-company{
   display: flex;
   flex-wrap: wrap; 
   border-style: solid;
-  margin: 14px 5px 5px 5px;
+  margin: 0px 5px 5px 5px;
   border-width: 1px;
   border-radius: 5px;
   border-color:#FF9800;
 }
+
+.label{
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+

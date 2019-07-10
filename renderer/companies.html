@@ -15,7 +15,7 @@
   <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
   <script type='text/javascript' src='config.js'></script>
-  <script src="./app.js"></script>
+  <!-- <script src="./app.js"></script> -->
 </head>
 
 <body>
@@ -34,7 +34,14 @@
     </nav>
   </header>
 
-  <a class="button is-primary new-company">New company</a>
+  <div class="field columns is-3">
+      <label class="label">New company</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="Company name">
+        <button class="button is-primary new-company">Add</button>
+      </div>
+    </div>
+
   <br>
 
   <div class="card-company">
@@ -147,6 +154,7 @@
 
   </div>
 
+  <script src="./app.js"></script>
 </body>
 
 </html>

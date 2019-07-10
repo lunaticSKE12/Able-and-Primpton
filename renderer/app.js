@@ -7,8 +7,6 @@ let firebaseConfig = sercetKey;
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-console.log("asdawdsdad: "+firebaseConfig)
-
 // Make auth and firestore reference
 const auth = firebase.auth();
 
@@ -67,13 +65,13 @@ function signup() {
   });
 }
 
-function companies(){
+function companies() {
   remote.getCurrentWindow().loadURL(`file://${__dirname}/companies.html`)
 }
 
-function deleteCard(){
+function deleteCard() {
   dialog.showMessageBox(null, options, (response) => {
-    if(response === 1){
+    if (response === 1) {
       console.log('delete')
     }
   });
@@ -87,3 +85,37 @@ const options = {
   message: 'Do you want to do delete this?',
   detail: 'this company will permanent deleted'
 };
+
+firebase.firestore().collection('companies').get().then((snapshot) => {
+  renderCompanies(snapshot.docs)
+})
+
+const companiesList = document.querySelector('.card-company')
+
+
+const renderCompanies = (data) => {
+
+  let html = '';
+  data.forEach(doc => {
+    const detail = doc.data();
+    const li = `
+    <div class="cards column is-one-fifth" id="${doc.id}">
+    <div class="cards-item">
+      <header class="card-header">
+        <p class="card-header-title is-centered">
+          ${detail.name}
+        </p>
+        <span class="icon has-text-danger" onclick="deleteCard()">
+          <i class="fas fa-ban"></i>
+        </span>
+      </header>
+    </div>
+  </div>
+    `;
+
+    html += li
+    
+  });
+  companiesList.innerHTML = html;
+
+}
