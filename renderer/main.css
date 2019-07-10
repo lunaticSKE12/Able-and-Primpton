@@ -60,8 +60,8 @@ body {
   margin-bottom: 24px;
 }
 
-.card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+.card-image:hover {
+  box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.3);
 }
 
 .card-image{
@@ -91,7 +91,6 @@ header{
 
 #back{
   margin-left: 24px;
-  margin-right: 24px;
 }
 
 .breadcrumb{
@@ -102,4 +101,35 @@ header{
   display: inline-flex;
 }
 
+.breadcrumb ul li a{
+  text-decoration: underline;
+}
 
+.cards{
+  padding: 0px;
+  margin: 12px 24px 12px 24px ;
+}
+
+.cards-item{
+  box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.3);
+}
+
+.icon{
+  margin-right: 5px;
+  margin-top: auto;
+  margin-bottom: auto; 
+}
+
+.new-company{
+  margin: 0 24px 0 24px;
+}
+
+.card-company{
+  display: flex;
+  flex-wrap: wrap; 
+  border-style: solid;
+  margin: 14px 5px 5px 5px;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color:#FF9800;
+}

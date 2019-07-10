@@ -1,5 +1,6 @@
 const { remote } = require('electron')
 const { BrowserWindow } = require('electron')
+const { dialog } = require('electron').remote
 
 let firebaseConfig = sercetKey;
 
@@ -10,6 +11,7 @@ console.log("asdawdsdad: "+firebaseConfig)
 
 // Make auth and firestore reference
 const auth = firebase.auth();
+
 
 function logout() {
   auth.signOut();
@@ -69,3 +71,19 @@ function companies(){
   remote.getCurrentWindow().loadURL(`file://${__dirname}/companies.html`)
 }
 
+function deleteCard(){
+  dialog.showMessageBox(null, options, (response) => {
+    if(response === 1){
+      console.log('delete')
+    }
+  });
+}
+
+const options = {
+  type: 'question',
+  buttons: ['Cancel', 'Yes, please', 'No, thanks'],
+  defaultId: 2,
+  title: 'Question',
+  message: 'Do you want to do delete this?',
+  detail: 'this company will permanent deleted'
+};
