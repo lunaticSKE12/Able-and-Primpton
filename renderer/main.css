@@ -55,6 +55,7 @@ body {
   user-select: none;
 }
 
+/* card select work */
 .card{
   display: inline-flex;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -83,6 +84,7 @@ body {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
+/* card select work */
 
 header{
   display: inline;
@@ -97,18 +99,18 @@ header{
   margin-left: 24px;
 }
 
+/* Potiner */
 .breadcrumb{
   padding-top: 24px;
-}
-
-.navbar{
-  display: inline-flex;
 }
 
 .breadcrumb ul li a{
   text-decoration: underline;
 }
+/* Potiner */
 
+
+/* Companies card */
 .cards{
   padding: 0px;
   background: #fff;
@@ -151,6 +153,9 @@ header{
   margin-left: 24px;
   margin-right: 24px;
 }
+/* Companies card */
+
+
 
 .title{
   color: #000000
