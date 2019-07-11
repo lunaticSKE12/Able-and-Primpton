@@ -67,7 +67,25 @@ function signup() {
 
 function companies() {
   remote.getCurrentWindow().loadURL(`file://${__dirname}/companies.html`)
+  
 }
+
+let start
+
+var check = function(){
+  if(start){
+      // run when condition is met
+      reder()
+      start = false;
+      console.log('time')
+  }
+  else {
+      setTimeout(check, 1000); // check again in a second
+      start = true;
+  }
+}
+
+check();
 
 function deleteCard() {
   let id = document.querySelector('.cards').getAttribute('id')
@@ -89,45 +107,55 @@ const options = {
   detail: 'this company will permanent deleted'
 };
 
-firebase.firestore().collection('companies').orderBy('name').get().then((snapshot) => {
-  renderCompanies(snapshot.docs)
-})
 
-const companiesList = document.querySelector('.card-company')
-
-
-const renderCompanies = (data) => {
-
-  let html = '';
-  data.forEach(doc => {
-    const detail = doc.data();
-    const li = `
-    <div class="cards column is-one-fifth" id="${doc.id}">
-    <div class="cards-item">
-      <header class="card-header">
-        <p class="card-header-title is-centered">
-          ${detail.name}
-        </p>
-        <span class="icon has-text-danger" onclick="deleteCard()">
-          <i class="fas fa-ban"></i>
-        </span>
-      </header>
-    </div>
-  </div>
-    `;
-
-    html += li
-    
-  });
-  companiesList.innerHTML = html;
-
-}
 
 function newCompany(){
   let companyName = document.querySelector('#add-company-name').value;
-  firebase.firestore().collection('companies').add({
-    name: companyName
-  })
-  document.querySelector('#add-company-name').value = "";
+  if(companyName != '' || companyName == null){
+    firebase.firestore().collection('companies').add({
+      name: companyName
+    })
+    document.querySelector('#add-company-name').value = "";
+  }
+}
 
+function reder(){
+  firebase.firestore().collection('companies').orderBy('name').onSnapshot((snapshot) => {
+    renderCompanies(snapshot.docs)
+  })
+  
+  const companiesList = document.querySelector('.card-company')
+  
+  
+  const renderCompanies = (data) => {
+  
+    let html = '';
+    data.forEach(doc => {
+      const detail = doc.data();
+      const li = `
+      <div class="cards column is-one-fifth" id="${doc.id}">
+      <div class="cards-item">
+        <header class="card-header">
+          <p class="card-header-title is-centered">
+            ${detail.name}
+          </p>
+          <span class="icon has-text-danger" onclick="deleteCard()">
+            <i class="fas fa-ban"></i>
+          </span>
+        </header>
+      </div>
+    </div>
+      `;
+  
+      html += li
+      
+    });
+    companiesList.innerHTML = html;
+  
+  }
+}
+
+
+function people() {
+  remote.getCurrentWindow().loadURL(`file://${__dirname}/people.html`)
 }
