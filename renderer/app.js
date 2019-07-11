@@ -75,7 +75,7 @@ let start
 var check = function(){
   if(start){
       // run when condition is met
-      reder()
+      render()
       start = false;
       console.log('time')
   }
@@ -119,7 +119,7 @@ function newCompany(){
   }
 }
 
-function reder(){
+function render(){
   firebase.firestore().collection('companies').orderBy('name').onSnapshot((snapshot) => {
     renderCompanies(snapshot.docs)
   })
