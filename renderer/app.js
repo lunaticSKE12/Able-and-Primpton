@@ -70,9 +70,12 @@ function companies() {
 }
 
 function deleteCard() {
+  let id = document.querySelector('.cards').getAttribute('id')
   dialog.showMessageBox(null, options, (response) => {
     if (response === 1) {
       console.log('delete')
+      console.log(id)
+      firebase.firestore().collection('companies').doc(id).delete();
     }
   });
 }
@@ -86,7 +89,7 @@ const options = {
   detail: 'this company will permanent deleted'
 };
 
-firebase.firestore().collection('companies').get().then((snapshot) => {
+firebase.firestore().collection('companies').orderBy('name').get().then((snapshot) => {
   renderCompanies(snapshot.docs)
 })
 
@@ -117,5 +120,14 @@ const renderCompanies = (data) => {
     
   });
   companiesList.innerHTML = html;
+
+}
+
+function newCompany(){
+  let companyName = document.querySelector('#add-company-name').value;
+  firebase.firestore().collection('companies').add({
+    name: companyName
+  })
+  document.querySelector('#add-company-name').value = "";
 
 }
