@@ -67,14 +67,14 @@ function render() {
 		data.forEach(doc => {
 			const detail = doc.data();
 			const li = `
-      <div class="cards column is-one-fifth" id="${doc.id}">
+      <div class="cards column is-one-fifth" id="${doc.id}" >
       <div class="cards-item">
-        <header class="card-header">
-          <p class="card-header-title is-centered">
+        <header class="card-header" >
+          <p class="card-header-title is-centered" onclick="people()">
             ${detail.name}
           </p>
           <span class="icon has-text-danger" onclick="deleteCard()">
-            <i class="fas fa-ban"></i>
+            <i class="fas fa-lg fa-ban"></i>
           </span>
         </header>
       </div>
