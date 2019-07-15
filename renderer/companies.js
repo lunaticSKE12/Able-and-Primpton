@@ -1,3 +1,4 @@
+
 // Delay to load all companies
 let start
 var check = function () {
@@ -56,6 +57,7 @@ function newCompany() {
 function render() {
 	firebase.firestore().collection('companies').orderBy('name').onSnapshot((snapshot) => {
 		renderCompanies(snapshot.docs)
+
 	})
 
 	const companiesList = document.querySelector('.card-company')
@@ -67,7 +69,7 @@ function render() {
 		data.forEach(doc => {
 			const detail = doc.data();
 			const li = `
-      <div class="cards column is-one-fifth" id="${doc.id}" >
+      <div class="cards column is-one-fifth " id="${doc.id}" >
       <div class="cards-item">
         <header class="card-header" >
           <p class="card-header-title is-centered" onclick="people()">
@@ -91,5 +93,8 @@ function render() {
 
 // Go to people page see all people in company
 function people() {
+	myId = $(".cards").attr("id")
 	remote.getCurrentWindow().loadURL(`file://${__dirname}/people.html`)
 }
+
+

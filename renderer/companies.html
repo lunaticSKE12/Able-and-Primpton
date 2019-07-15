@@ -15,14 +15,15 @@
   <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
   <script type='text/javascript' src='config.js'></script>
+  <script src="./app.js"></script>
   <script src="./companies.js"></script>
 </head>
 
 <body>
 
   <header>
-    <button class="button is-warning" id="back" onclick="javascript:history.go(-1)">back</button>
-    <button class="button is-danger" id="logout" onclick="logout()">logout</button>
+    <button class="button is-warning" id="back" onclick="javascript:history.go(-1)">Back</button>
+    <button class="button is-danger" id="logout" onclick="logout()">Logout</button>
 
     <!-- Pointer what page now -->
     <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
@@ -53,8 +54,15 @@
     </a>
   </div>
   <!-- Loading company and render -->
-
-  <script src="./app.js"></script>
 </body>
+
+<script>
+
+  //jQuery
+  $ = require('jquery')
+
+</script>
+<script src="./ipc.js"></script>
+
 
 </html>

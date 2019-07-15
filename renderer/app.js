@@ -1,6 +1,6 @@
 const { remote } = require('electron')
-const { BrowserWindow } = require('electron')
-const { dialog } = require('electron').remote
+// const { BrowserWindow } = require('electron')
+// const { dialog } = require('electron').remote
 
 let firebaseConfig = sercetKey;
 
@@ -75,3 +75,5 @@ function companies() {
   remote.getCurrentWindow().loadURL(`file://${__dirname}/companies.html`)
   
 }
+
+var myId

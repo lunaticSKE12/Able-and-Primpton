@@ -28,6 +28,7 @@ html{
   margin-top: 20px;
   margin-bottom: 20px;
   min-width: 150px;
+  font-weight: bold;
 }
 
 .login-logo {
@@ -73,7 +74,7 @@ body {
 }
 
 .card-image{
-  width: -webkit-fill-available
+  width: -webkit-fill-available;
 }
 
 #description{
