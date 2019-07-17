@@ -1,10 +1,9 @@
-
 // Delay to load all companies
 let start
 var check = function () {
 	if (start) {
 		// run when condition is met
-		render()
+		renderCompanies()
 		start = false;
 		console.log('time')
 	}
@@ -54,7 +53,7 @@ function newCompany() {
 }
 
 // Render all companies realtime  
-function render() {
+function renderCompanies() {
 	firebase.firestore().collection('companies').orderBy('name').onSnapshot((snapshot) => {
 		renderCompanies(snapshot.docs)
 
@@ -71,8 +70,8 @@ function render() {
 			const li = `
       <div class="cards column is-one-fifth " id="${doc.id}" >
       <div class="cards-item">
-        <header class="card-header" >
-          <p class="card-header-title is-centered" onclick="people()">
+        <header class="card-header">
+          <p class="card-header-title is-centered" id="${doc.id}" onclick="people(this.id)">
             ${detail.name}
           </p>
           <span class="icon has-text-danger" onclick="deleteCard()">
@@ -92,9 +91,14 @@ function render() {
 }
 
 // Go to people page see all people in company
-function people() {
-	myId = $(".cards").attr("id")
+// Set company selected id to firestore
+function people(click_id) {
+	firebase.firestore().collection('selected').doc('bca9OaqB3GoSJzxJ6To4').update({
+		"card" : click_id
+	}) 
 	remote.getCurrentWindow().loadURL(`file://${__dirname}/people.html`)
 }
+
+
 
 

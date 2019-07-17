@@ -1,12 +1,11 @@
-
 // Delay to load all companies
 let start
 var check = function () {
 	if (start) {
 		// run when condition is met
-		render()
+		renderPeople()
 		start = false;
-		// console.log('time')
+		console.log('time')
 	}
 	else {
 		setTimeout(check, 1000); // check again in a second
@@ -16,14 +15,22 @@ var check = function () {
 check();
 // ************************
 
-
-
 // Render all people in company realtime  
-function render() {
-	console.log("id1234 : " + myId);
-	firebase.firestore().collection('companies').doc('O2UsfiIHVN8wMPuZFkNx').collection('people').onSnapshot((snapshot) => {
-		renderPeople(snapshot.docs)
-	})
+function renderPeople() {
+	var company_id
+	// Get selected company id 
+	firebase.firestore().collection('selected').get().then(function(querySnapshot) {
+		querySnapshot.forEach(function(doc) {
+			// doc.data() is never undefined for query doc snapshots
+			company_id = doc.data().card
+
+			// Render people from selected company
+			firebase.firestore().collection('companies').doc(company_id).collection('people').onSnapshot((snapshot) => {
+				renderPeople(snapshot.docs)
+			})
+		});
+	});
+
 
 	const peopleList = document.querySelector('.card-people')
 

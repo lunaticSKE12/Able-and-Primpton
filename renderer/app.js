@@ -75,5 +75,3 @@ function companies() {
   remote.getCurrentWindow().loadURL(`file://${__dirname}/companies.html`)
   
 }
-
-var myId
