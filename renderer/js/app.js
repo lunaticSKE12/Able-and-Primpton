@@ -1,6 +1,6 @@
 const { remote } = require('electron')
-// const { BrowserWindow } = require('electron')
-// const { dialog } = require('electron').remote
+const { BrowserWindow } = require('electron')
+const { dialog } = require('electron').remote
 
 let firebaseConfig = sercetKey;
 

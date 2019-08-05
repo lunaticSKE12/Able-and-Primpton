@@ -5,8 +5,6 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Document</title>
-
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
 	<script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 	<link rel="stylesheet" href="./main.css">
@@ -16,9 +14,9 @@
 	<!-- Add Firebase products that you want to use -->
 	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
-	<script type='text/javascript' src='config.js'></script>
-	<script src="./app.js"></script>
-	<script src="./people.js"></script>
+	<script type='text/javascript' src='./js/config.js'></script>
+	<script src="./js/app.js"></script>
+	<script src="./js/people.js"></script>
 </head>
 
 <body>
@@ -30,7 +28,7 @@
 		<nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
 			<ul>
 				<h1>Now at page:</h1>
-				<li><a href="home.html" aria-current="page">Select workpace</a></li>
+				<li><a href="home.html" aria-current="page">Select workspace</a></li>
 				<li><a href="companies.html" aria-current="page">Companies</a></li>
 				<li class="is-active is-italic is-uppercase"><a href="#">People</a></li>
 			</ul>
@@ -41,10 +39,12 @@
 	<!-- Add new people -->
 	<div class="field columns is-3">
 		<div class="control">
-			<button class="button is-primary new-company" onclick="newCompany()">New person</button>
+			<button class="button is-primary new-person" onclick="newPerson()">New person</button>
 		</div>
 	</div>
 	<!-- Add new people -->
+
+	<h1 id="companyName"></h1>
 
 	<!-- Loading people and render -->
 	<div class="card-people">
