@@ -5,10 +5,9 @@ var check = function () {
 		// run when condition is met
 		renderCompanies()
 		start = false;
-		console.log('time')
 	}
 	else {
-		setTimeout(check, 1000); // check again in a second
+		setTimeout(check, 500); // check again in a second
 		start = true;
 	}
 }
@@ -47,20 +46,26 @@ function newCompany() {
 	if (companyName != '' || companyName == null) {
 		firebase.firestore().collection('companies').add({
 			name: companyName
-		})
-		document.querySelector('#add-company-name').value = "";
+		}).then(function (docRef) {
+			// Create sub collection for people in company
+			// console.log("Document written with ID: ", docRef.id);
+			firebase.firestore().collection('companies').doc(docRef.id).collection('people').add({
+				status: 'create'
+			})
+		}).catch(function (error) {
+			console.error("Error adding document: ", error);
+		});
 	}
+
 }
 
 // Render all companies realtime  
 function renderCompanies() {
 	firebase.firestore().collection('companies').orderBy('name').onSnapshot((snapshot) => {
 		renderCompanies(snapshot.docs)
-
 	})
 
 	const companiesList = document.querySelector('.card-company')
-
 
 	const renderCompanies = (data) => {
 
@@ -68,19 +73,19 @@ function renderCompanies() {
 		data.forEach(doc => {
 			const detail = doc.data();
 			const li = `
-      <div class="cards column is-one-fifth " id="${doc.id}" >
-      <div class="cards-item">
-        <header class="card-header">
-          <p class="card-header-title is-centered" id="${doc.id}" onclick="people(this.id)">
-            ${detail.name}
-          </p>
-          <span class="icon has-text-danger" onclick="deleteCard()">
-            <i class="fas fa-lg fa-ban"></i>
-          </span>
+<div class="cards column is-one-fifth " id="${doc.id}" >
+	<div class="cards-item">
+		<header class="card-header">
+    		<p class="card-header-title is-centered" id="${doc.id}" onclick="people(this.id)">
+        	${detail.name}
+			</p>
+			
+        	<span class="icon has-text-danger" onclick="deleteCard()">
+        	<i class="fas fa-lg fa-ban"></i>
+        	</span>
         </header>
-      </div>
     </div>
-      `;
+</div>`;
 
 			html += li
 
@@ -93,9 +98,9 @@ function renderCompanies() {
 // Go to people page see all people in company
 // Set company selected id to firestore
 function people(click_id) {
-	firebase.firestore().collection('selected').doc('bca9OaqB3GoSJzxJ6To4').update({
-		"card" : click_id
-	}) 
+	firebase.firestore().collection('selected_company').doc('9z9ibXKG7U02MEcDBfwO').update({
+		"selected_card": click_id
+	})
 	remote.getCurrentWindow().loadURL(`file://${__dirname}/people.html`)
 }
 
