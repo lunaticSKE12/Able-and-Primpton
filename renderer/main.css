@@ -211,3 +211,20 @@ header {
 .redDot {
   color: red;
 }
+
+#delete {
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.card-detail {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  border-style: solid;
+  margin: 0px 5px 5px 5px;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #ff9800;
+  padding-top: 24px;
+}

@@ -98,10 +98,14 @@ function renderCompanies() {
 // Go to people page see all people in company
 // Set company selected id to firestore
 function people(click_id) {
+
 	firebase.firestore().collection('selected_company').doc('9z9ibXKG7U02MEcDBfwO').update({
 		"selected_card": click_id
+	}).then(function () {
+		console.log(click_id)
+		remote.getCurrentWindow().loadURL(`file://${__dirname}/people.html`)
 	})
-	remote.getCurrentWindow().loadURL(`file://${__dirname}/people.html`)
+
 }
 
 
