@@ -26,11 +26,13 @@ firebase.firestore().collection('selected_company').get().then(function (querySn
     firebase.firestore().collection('companies').doc(company_id).onSnapshot((snapshot) => {
       let text = document.getElementById('companyTxt')
       console.log(snapshot.data().name)
+      // Show Company name in breadcrumb
       text.innerHTML = snapshot.data().name
     })
   });
 });
 
+// Show detail from server
 function newPerson() {
   let name_en = document.getElementById('name_en').value
   let name_th = document.getElementById('name_th').value
@@ -63,6 +65,7 @@ function newPerson() {
 
         console.log(datepickerWorkpermit, datepickerPassport)
 
+        // Save detail to server
         firebase.firestore().collection('companies').doc(company_id).collection('people').add({
           name_en: name_en,
           name_th: name_th,
@@ -90,6 +93,7 @@ function newPerson() {
   }
 }
 
+// Option fail save detail
 const options = {
   type: 'question',
   buttons: ['Ok'],

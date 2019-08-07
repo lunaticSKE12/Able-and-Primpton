@@ -173,6 +173,10 @@ header {
   border-color: #ff9800;
 }
 
+#deletePerson {
+  margin-bottom: 10px;
+}
+
 /* Person edit field */
 
 .editField {
