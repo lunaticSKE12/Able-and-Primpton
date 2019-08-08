@@ -1,3 +1,5 @@
+import { Debugger } from "electron";
+
 // // Initialize all input of type date
 // var calendars = bulmaCalendar.attach('[type="date"]', options);
 
@@ -46,7 +48,6 @@ function newPerson() {
   let datepickerVisa = document.getElementById('datepickerVisa').value
   let remark = document.getElementById('remark').value;
 
-
   let check = (name_en != '' || name_en == null) &&
     (nationality != '' || nationality == null) &&
     (passportNumber != '' || passportNumber == null) &&
@@ -56,7 +57,7 @@ function newPerson() {
     (datepickerVisa != '' || datepickerVisa == null)
 
   if (check) {
-    console.log(name_en, name_th)
+    console.log(name_en, name_th, visaType)
 
     firebase.firestore().collection('selected_company').get().then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
@@ -76,8 +77,10 @@ function newPerson() {
           visaType: visaType,
           datepickerVisa: new Date(datepickerVisa),
           remark: remark
+        }).then(function () {
+          Debugger();
+          remote.getCurrentWindow().loadURL(`file://${__dirname}/people.html`)
         })
-
       });
     });
 

@@ -114,7 +114,7 @@ const options = {
 	defaultId: 2,
 	title: 'Question',
 	message: 'Do you want to do delete this?',
-	detail: 'this company will permanent deleted'
+	detail: 'this person will permanent deleted'
 };
 
 // Open person details
