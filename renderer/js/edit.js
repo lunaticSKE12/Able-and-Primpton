@@ -492,7 +492,7 @@ function newPerson() {
         console.log(datepickerWorkpermit, datepickerPassport)
 
         // Save detail to server
-        firebase.firestore().collection('companies').doc(company_id).collection('people').add({
+        firebase.firestore().collection('companies').doc(company_id).collection('people').doc(company_person).update({
           name_en: name_en,
           name_th: name_th,
           nationality: nationality,
@@ -506,6 +506,20 @@ function newPerson() {
 
           remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
         })
+        // firebase.firestore().collection('companies').doc(company_id).collection('people').add({
+        //   name_en: name_en,
+        //   name_th: name_th,
+        //   nationality: nationality,
+        //   passportNumber: passportNumber,
+        //   datepickerPassport: new Date(datepickerPassport),
+        //   datepickerWorkpermit: new Date(datepickerWorkpermit),
+        //   visaType: visaType,
+        //   datepickerVisa: new Date(datepickerVisa),
+        //   remark: remark
+        // }).then(function () {
+
+        //   remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
+        // })
       });
     });
 

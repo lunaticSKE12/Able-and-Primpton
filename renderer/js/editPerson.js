@@ -1,4 +1,3 @@
-import { Debugger } from "electron";
 
 // // Initialize all input of type date
 // var calendars = bulmaCalendar.attach('[type="date"]', options);
@@ -78,7 +77,6 @@ function newPerson() {
           datepickerVisa: new Date(datepickerVisa),
           remark: remark
         }).then(function () {
-          Debugger();
           remote.getCurrentWindow().loadURL(`file://${__dirname}/people.html`)
         })
       });
