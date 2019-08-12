@@ -335,12 +335,23 @@ function renderDetails() {
     </label>
     <span class="select" id="visaType">
       <select id="type">
-        <option selected>Selected</option>
-        <option value="Afghan">Afghan</option>
-        <option value="Albanian">Albanian</option>
-        <option value="Algerian">Algerian</option>
-        <option value="American">American</option>
-        <option value="Andorran">Andorran</option>
+      <option selected>Selected</option>
+      <option value="Tourist Visa">Tourist Visa</option>
+      <option value="Transit Visa">Transit Visa</option>
+      <option value="Non – Immigrant Visa “F”">Non – Immigrant Visa “F”</option>
+      <option value="Non - Immigrant Visa “IB”">Non - Immigrant Visa “IB”</option>
+      <option value="Non – Immigrant Visa “B”
+      ">Non – Immigrant Visa “B”
+      </option>
+      <option value="Non – Immigrant Visa “ED”">Non – Immigrant Visa “ED”</option>
+      <option value="Non – Immigrant Visa “M”">Non – Immigrant Visa “M”</option>
+      <option value="Non – Immigrant Visa “R”">Non – Immigrant Visa “R”</option>
+      <option value="Non – Immigrant Visa “EX”">Non – Immigrant Visa “EX”</option>
+      <option value="Non – Immigrant Visa “RS”">Non – Immigrant Visa “RS”</option>
+      <option value="Non – Immigrant Visa “O”">Non – Immigrant Visa “O”</option>
+      <option value="Non – Immigrant Visa “O-A” (Long Stay)">Non – Immigrant Visa “O-A” (Long Stay)</option>
+      <option value="Non – Immigrant Visa “O - X” (Long Stay 10 years)">Non – Immigrant Visa “O - X” (Long Stay 10
+        years)</option>
       </select>
     </span>
     <label class="label">Date of expiry
@@ -503,23 +514,8 @@ function newPerson() {
           datepickerVisa: new Date(datepickerVisa),
           remark: remark
         }).then(function () {
-
           remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
         })
-        // firebase.firestore().collection('companies').doc(company_id).collection('people').add({
-        //   name_en: name_en,
-        //   name_th: name_th,
-        //   nationality: nationality,
-        //   passportNumber: passportNumber,
-        //   datepickerPassport: new Date(datepickerPassport),
-        //   datepickerWorkpermit: new Date(datepickerWorkpermit),
-        //   visaType: visaType,
-        //   datepickerVisa: new Date(datepickerVisa),
-        //   remark: remark
-        // }).then(function () {
-
-        //   remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
-        // })
       });
     });
 

@@ -22,35 +22,42 @@ function login() {
   // Get email and password from input
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
+  if (email.split('@')[1] === allowedEmailDomain) {
+    // do something, we accept this email
+    auth.signInWithEmailAndPassword(email, password).catch(function (error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+      console.log(error);
+      // [START_EXCLUDE]
+      if (errorCode === 'auth/wrong-password') {
+        alert('Wrong password.');
+      } else {
+        alert(errorMessage);
+      }
+      location.reload();
+    });
 
-  auth.signInWithEmailAndPassword(email, password).catch(function (error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // ...
-    console.log(error);
-    // [START_EXCLUDE]
-    if (errorCode === 'auth/wrong-password') {
-      alert('Wrong password.');
-    } else {
-      alert(errorMessage);
-    }
+    // listen for auth status changes
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        console.log('user logged in: ', user);
+        // // Or load a local HTML file
+        // Login success go to home page
+        remote.getCurrentWindow().loadURL(`file://${__dirname}/home.html`)
+
+      } else {
+        console.log('user logged out');
+      }
+    })
+  } else {
+    // return an error or do nothing
+    alert('Email error')
     location.reload();
+  }
 
-  });
 
-  // listen for auth status changes
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      console.log('user logged in: ', user);
-      // // Or load a local HTML file
-      // Login success go to home page
-      remote.getCurrentWindow().loadURL(`file://${__dirname}/home.html`)
-
-    } else {
-      console.log('user logged out');
-    }
-  })
 
 }
 
@@ -62,6 +69,10 @@ function signup() {
 
   // Sign up and save to firebase then back to log in page
   auth.createUserWithEmailAndPassword(email, password).then(cred => {
+    return firebase.firestore().collection('users').doc(cred.user.uid).set({
+      name: name
+    });
+  }).then(() => {
     alert("Sing up complete");
     document.getElementById("name").value = "";
     document.getElementById("email").value = "";
@@ -73,5 +84,5 @@ function signup() {
 // Go to companies page
 function companies() {
   remote.getCurrentWindow().loadURL(`file://${__dirname}/companies.html`)
-  
+
 }
