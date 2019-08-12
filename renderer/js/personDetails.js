@@ -4,52 +4,42 @@ let getNationality = document.getElementById("getNationality");
 let passportNumber = document.getElementById('getPassportNumber')
 let datepickerPassport = document.getElementById('getDatepickerPassport')
 
-var company_id
-// Get selected company id 
-firebase.firestore().collection('selected_company').get().then(function (querySnapshot) {
-    querySnapshot.forEach(function (doc) {
-        // doc.data() is never undefined for query doc snapshots
-        company_id = doc.data().selected_card
-        firebase.firestore().collection('companies').doc(company_id).onSnapshot((snapshot) => {
-            let text = document.getElementById('companyTxt')
-            console.log(snapshot.data().name)
-            // Show Company name in breadcrumb
-            text.innerHTML = snapshot.data().name
-        })
-    });
-});
-
 function renderDetails() {
-    var company_id
-    var company_person
-    // Get selected company id 
-    firebase.firestore().collection('selected_company').get().then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-            // doc.data() is never undefined for query doc snapshots
-            company_id = doc.data().selected_card
-            company_person = doc.data().selected_person
-            // Render people from selected company
-            firebase.firestore().collection('companies').doc(company_id).collection('people').doc(company_person).onSnapshot((snapshot) => {
-                renderDetail(snapshot.data())
+  var company_person
+  // Get selected company id 
+  dbSelectedCom.get().then(function (querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      // doc.data() is never undefined for query doc snapshots
+      // Get id selected company and person
+      company_id = doc.data().selected_card
+      company_person = doc.data().selected_person
 
-                // get data from firebase
-                console.log("Current data: ", snapshot.data());
-            })
-        });
+      // Find match company id selected to show name
+      dbCom.doc(company_id).onSnapshot((snapshot) => {
+        let text = document.getElementById('companyTxt')
+        // Show Company name in breadcrumb
+        text.innerHTML = snapshot.data().name
+      })
+
+      // Render people from selected company
+      dbCom.doc(company_id).collection('people').doc(company_person).onSnapshot((snapshot) => {
+        renderDetail(snapshot.data())
+      })
     });
+  });
 
-    const renderDetail = (data) => {
-
-
-        let { datePassport, remainingPassport,
-            dateWorkpermit, remainingWorkpermit,
-            dateVisa, remainingVisa }
-            = convert(data.datepickerPassport.seconds,
-                data.datepickerWorkpermit.seconds,
-                data.datepickerVisa.seconds);
+  const renderDetail = (data) => {
 
 
-        document.querySelector('.card-detail').innerHTML = `
+    let { datePassport, remainingPassport,
+      dateWorkpermit, remainingWorkpermit,
+      dateVisa, remainingVisa }
+      = convert(data.datepickerPassport.seconds,
+        data.datepickerWorkpermit.seconds,
+        data.datepickerVisa.seconds);
+
+
+    document.querySelector('.card-detail').innerHTML = `
         <div>
             <figure class="image is-256x256" id="personImage">
                 <img style="width: 256px;" src="https://bulma.io/images/placeholders/256x256.png">
@@ -132,7 +122,7 @@ function renderDetails() {
         </div>
 
         `;
-    }
+  }
 
 
 }
@@ -142,53 +132,52 @@ renderDetails();
 
 function convert(timePassport, timeWorkpermit, timeVisa) {
 
-    // Unixtimestamp
-    // get now date in seconds
-    let now = Math.round(+new Date() / 1000);
-    // elapsed time in day
-    let elapsedPassport = Math.ceil((timePassport - now) / 86400)
-    let elapsedWorkpermit = Math.ceil((timeWorkpermit - now) / 86400)
-    let elapsedVisa = Math.ceil((timeVisa - now) / 86400)
-    // Months array
-    let months_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  // Unixtimestamp
+  // get now date in seconds
+  let now = Math.round(+new Date() / 1000);
+  // elapsed time in day
+  let elapsedPassport = Math.ceil((timePassport - now) / 86400)
+  let elapsedWorkpermit = Math.ceil((timeWorkpermit - now) / 86400)
+  let elapsedVisa = Math.ceil((timeVisa - now) / 86400)
+  // Months array
+  let months_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    // Convert timestamp to milliseconds
-    let dateP = new Date(timePassport * 1000);
-    let dateW = new Date(timeWorkpermit * 1000)
-    let dateV = new Date(timeVisa * 1000)
+  // Convert timestamp to milliseconds
+  let dateP = new Date(timePassport * 1000);
+  let dateW = new Date(timeWorkpermit * 1000)
+  let dateV = new Date(timeVisa * 1000)
 
-    // Year
-    let yearP = dateP.getFullYear();
-    let yearW = dateW.getFullYear();
-    let yearV = dateV.getFullYear();
+  // Year
+  let yearP = dateP.getFullYear();
+  let yearW = dateW.getFullYear();
+  let yearV = dateV.getFullYear();
 
-    // Month
-    let monthP = months_arr[dateP.getMonth()];
-    let monthW = months_arr[dateW.getMonth()];
-    let monthV = months_arr[dateV.getMonth()];
+  // Month
+  let monthP = months_arr[dateP.getMonth()];
+  let monthW = months_arr[dateW.getMonth()];
+  let monthV = months_arr[dateV.getMonth()];
 
-    // Day
-    let dayP = dateP.getDate();
-    let dayW = dateW.getDate();
-    let dayV = dateV.getDate();
+  // Day
+  let dayP = dateP.getDate();
+  let dayW = dateW.getDate();
+  let dayV = dateV.getDate();
 
-    // Display date time in MM-dd-yyyy h:m:s format
-    let convdataTimeP = dayP + ' ' + monthP + ' ' + yearP
-    let convdataTimeW = dayW + ' ' + monthW + ' ' + yearW
-    let convdataTimeV = dayV + ' ' + monthV + ' ' + yearV
+  // Display date time in MM-dd-yyyy h:m:s format
+  let convdataTimeP = dayP + ' ' + monthP + ' ' + yearP
+  let convdataTimeW = dayW + ' ' + monthW + ' ' + yearW
+  let convdataTimeV = dayV + ' ' + monthV + ' ' + yearV
 
-    return {
-        datePassport: convdataTimeP,
-        remainingPassport: elapsedPassport,
-        dateWorkpermit: convdataTimeW,
-        remainingWorkpermit: elapsedWorkpermit,
-        dateVisa: convdataTimeV,
-        remainingVisa: elapsedVisa
-    };
+  return {
+    datePassport: convdataTimeP,
+    remainingPassport: elapsedPassport,
+    dateWorkpermit: convdataTimeW,
+    remainingWorkpermit: elapsedWorkpermit,
+    dateVisa: convdataTimeV,
+    remainingVisa: elapsedVisa
+  };
 }
 
-
 function edit() {
-    remote.getCurrentWindow().loadURL(`file://${__dirname}/edit.html`)
+  remote.getCurrentWindow().loadURL(`file://${__dirname}/edit.html`)
 }
 

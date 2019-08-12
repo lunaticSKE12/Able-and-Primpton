@@ -1,32 +1,12 @@
 
-// // Initialize all input of type date
-// var calendars = bulmaCalendar.attach('[type="date"]', options);
-
-// // Loop on each calendar initialized
-// for (var i = 0; i < calendars.length; i++) {
-// 	// Add listener to date:selected event
-// 	calendars[i].on('select', date => {
-// 		console.log(date);
-// 	});
-// }
-
-// To access to bulmaCalendar instance of an element
-// var element = document.querySelector('#my-element');
-// if (element) {
-//   // bulmaCalendar instance is available as element.bulmaCalendar
-//   element.bulmaCalendar.on('select', function (datepicker) {
-//     console.log(datepicker.data.value());
-//   });
-// }
-var company_id
 // Get selected company id 
-firebase.firestore().collection('selected_company').get().then(function (querySnapshot) {
+dbSelectedCom.get().then(function (querySnapshot) {
   querySnapshot.forEach(function (doc) {
     // doc.data() is never undefined for query doc snapshots
+    // Get id selected company and person
     company_id = doc.data().selected_card
-    firebase.firestore().collection('companies').doc(company_id).onSnapshot((snapshot) => {
+    dbCom.doc(company_id).onSnapshot((snapshot) => {
       let text = document.getElementById('companyTxt')
-      console.log(snapshot.data().name)
       // Show Company name in breadcrumb
       text.innerHTML = snapshot.data().name
     })
@@ -56,17 +36,14 @@ function newPerson() {
     (datepickerVisa != '' || datepickerVisa == null)
 
   if (check) {
-    console.log(name_en, name_th, visaType)
 
-    firebase.firestore().collection('selected_company').get().then(function (querySnapshot) {
+    dbSelectedCom.get().then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
         // doc.data() is never undefined for query doc snapshots
         company_id = doc.data().selected_card
 
-        console.log(datepickerWorkpermit, datepickerPassport)
-
         // Save detail to server
-        firebase.firestore().collection('companies').doc(company_id).collection('people').add({
+        dbCom.doc(company_id).collection('people').add({
           name_en: name_en,
           name_th: name_th,
           nationality: nationality,
@@ -89,7 +66,6 @@ function newPerson() {
         console.log('alert')
       }
     });
-
 
   }
 }

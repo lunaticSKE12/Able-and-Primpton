@@ -9,6 +9,7 @@ firebase.initializeApp(firebaseConfig);
 
 // Make auth and firestore reference
 const auth = firebase.auth();
+const db = firebase.firestore();
 
 
 // Logout back to login page
@@ -16,12 +17,18 @@ function logout() {
   auth.signOut();
   location.replace("index.html");
 }
+let dbCom = firebase.firestore().collection('companies')
+let dbSelectedCom = firebase.firestore().collection('selected_company')
+
+var company_id
 
 // Login
 function login() {
   // Get email and password from input
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
+
+  // Login if use specific email
   if (email.split('@')[1] === allowedEmailDomain) {
     // do something, we accept this email
     auth.signInWithEmailAndPassword(email, password).catch(function (error) {
@@ -69,7 +76,7 @@ function signup() {
 
   // Sign up and save to firebase then back to log in page
   auth.createUserWithEmailAndPassword(email, password).then(cred => {
-    return firebase.firestore().collection('users').doc(cred.user.uid).set({
+    return db.collection('users').doc(cred.user.uid).set({
       name: name
     });
   }).then(() => {
@@ -86,3 +93,4 @@ function companies() {
   remote.getCurrentWindow().loadURL(`file://${__dirname}/companies.html`)
 
 }
+

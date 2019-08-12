@@ -1,52 +1,35 @@
-var company_id
-var company_person
-// Get selected company id 
-firebase.firestore().collection('selected_company').get().then(function (querySnapshot) {
-  querySnapshot.forEach(function (doc) {
-    // doc.data() is never undefined for query doc snapshots
-    company_id = doc.data().selected_card
-    company_person = doc.data().selected_person
-
-    firebase.firestore().collection('companies').doc(company_id).onSnapshot((snapshot) => {
-      let text = document.getElementById('companyTxt')
-      console.log(snapshot.data().name)
-      // Show Company name in breadcrumb
-      text.innerHTML = snapshot.data().name
-    })
-    firebase.firestore().collection('companies').doc(company_id).collection('people').doc(company_person).onSnapshot((snapshot) => {
-      // Show person name in breadcrumb
-      let text2 = document.getElementById('personTxt')
-      text2.innerHTML = snapshot.data().name_en
-      // console.log(company_id + "       " + company_person)
-      // console.log(snapshot.data().name_en)
-
-    })
-
-  });
-});
-
 
 function renderDetails() {
-  var company_id
   var company_person
   // Get selected company id 
-  firebase.firestore().collection('selected_company').get().then(function (querySnapshot) {
+  dbSelectedCom.get().then(function (querySnapshot) {
     querySnapshot.forEach(function (doc) {
       // doc.data() is never undefined for query doc snapshots
+      // Get id selected company and person
       company_id = doc.data().selected_card
       company_person = doc.data().selected_person
+
+      // Find match company id selected to show name
+      dbCom.doc(company_id).onSnapshot((snapshot) => {
+        let text = document.getElementById('companyTxt')
+        console.log(snapshot.data().name)
+        // Show Company name in breadcrumb
+        text.innerHTML = snapshot.data().name
+      })
       // Render people from selected company
-      firebase.firestore().collection('companies').doc(company_id).collection('people').doc(company_person).onSnapshot((snapshot) => {
+      dbCom.doc(company_id).collection('people').doc(company_person).onSnapshot((snapshot) => {
+        // Show person name in breadcrumb
+        let text2 = document.getElementById('personTxt')
+        text2.innerHTML = snapshot.data().name_en
+
+        // Render
         renderDetail(snapshot.data())
 
-        // get data from firebase
-        console.log("Current data: ", snapshot.data());
       })
     });
   });
 
   const renderDetail = (data) => {
-
 
     let { datePassport,
       dateWorkpermit,
@@ -409,8 +392,6 @@ function renderDetails() {
     }
   }
 
-
-
 }
 
 renderDetails();
@@ -495,15 +476,13 @@ function newPerson() {
   if (check) {
     console.log(name_en, name_th)
 
-    firebase.firestore().collection('selected_company').get().then(function (querySnapshot) {
+    dbSelectedCom.get().then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
         // doc.data() is never undefined for query doc snapshots
         company_id = doc.data().selected_card
 
-        console.log(datepickerWorkpermit, datepickerPassport)
-
         // Save detail to server
-        firebase.firestore().collection('companies').doc(company_id).collection('people').doc(company_person).update({
+        dbCom.doc(company_id).collection('people').doc(company_person).update({
           name_en: name_en,
           name_th: name_th,
           nationality: nationality,

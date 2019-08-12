@@ -18,13 +18,10 @@ check();
 function deleteCard() {
 	// Get id of company to delete in firestore
 	let id = document.querySelector('.cards').getAttribute('id')
-
 	// Confirm before delete
 	dialog.showMessageBox(null, options, (response) => {
 		if (response === 1) {
-			console.log('delete')
-			console.log(id)
-			firebase.firestore().collection('companies').doc(id).delete();
+			dbCom.doc(id).delete();
 		}
 	});
 }
@@ -44,12 +41,12 @@ const options = {
 function newCompany() {
 	let companyName = document.querySelector('#add-company-name').value;
 	if (companyName != '' || companyName == null) {
-		firebase.firestore().collection('companies').add({
+		dbCom.add({
 			name: companyName
 		}).then(function (docRef) {
 			// Create sub collection for people in company
 			// console.log("Document written with ID: ", docRef.id);
-			firebase.firestore().collection('companies').doc(docRef.id).collection('people').add({
+			dbCom.doc(docRef.id).collection('people').add({
 				status: 'create'
 			})
 		}).catch(function (error) {
@@ -61,7 +58,7 @@ function newCompany() {
 
 // Render all companies realtime  
 function renderCompanies() {
-	firebase.firestore().collection('companies').orderBy('name').onSnapshot((snapshot) => {
+	dbCom.orderBy('name').onSnapshot((snapshot) => {
 		renderCompanies(snapshot.docs)
 	})
 
@@ -99,7 +96,7 @@ function renderCompanies() {
 // Set company selected id to firestore
 function people(click_id) {
 
-	firebase.firestore().collection('selected_company').doc('9z9ibXKG7U02MEcDBfwO').update({
+	dbSelectedCom.doc(selected_company_id).update({
 		"selected_card": click_id
 	}).then(function () {
 		console.log(click_id)

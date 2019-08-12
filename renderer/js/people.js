@@ -5,7 +5,6 @@ var check = function () {
 		// run when condition is met
 		renderPeople()
 		start = false;
-		console.log('time')
 	}
 	else {
 		setTimeout(check, 500); // check again in a second
@@ -15,16 +14,17 @@ var check = function () {
 check();
 // ************************
 
-
 // Render all people in company realtime  
 function renderPeople() {
-	var company_id
 	// Get selected company id 
-	firebase.firestore().collection('selected_company').get().then(function (querySnapshot) {
+	dbSelectedCom.get().then(function (querySnapshot) {
 		querySnapshot.forEach(function (doc) {
 			// doc.data() is never undefined for query doc snapshots
+			// Get id selected company
 			company_id = doc.data().selected_card
-			firebase.firestore().collection('companies').doc(company_id).onSnapshot((snapshot) => {
+
+			// Find match company id selected to show name
+			dbCom.doc(company_id).onSnapshot((snapshot) => {
 				let text = document.getElementById('companyTxt')
 				console.log(snapshot.data().name)
 				// Show company name in breadcrumb
@@ -32,7 +32,7 @@ function renderPeople() {
 			})
 
 			// Render people from selected company
-			firebase.firestore().collection('companies').doc(company_id).collection('people').orderBy('name_en').onSnapshot((snapshot) => {
+			dbCom.doc(company_id).collection('people').orderBy('name_en').onSnapshot((snapshot) => {
 				renderPeople(snapshot.docs)
 			})
 		});
@@ -79,12 +79,11 @@ function renderPeople() {
 
 // Delete person
 function deleteCard() {
-
-	var company_id
 	// Get selected company id 
-	firebase.firestore().collection('selected_company').get().then(function (querySnapshot) {
+	dbSelectedCom.get().then(function (querySnapshot) {
 		querySnapshot.forEach(function (doc) {
 			// doc.data() is never undefined for query doc snapshots
+			// Find match company id selected to show name
 			company_id = doc.data().selected_card
 
 			// Get id of company to delete in firestore
@@ -93,17 +92,11 @@ function deleteCard() {
 			// Confirm before delete
 			dialog.showMessageBox(null, options, (response) => {
 				if (response === 1) {
-					console.log('delete' + company_id)
-					console.log(" id " + id)
-
-					firebase.firestore().collection('companies').doc(company_id).collection('people').doc(id).delete();
-
+					dbCom.doc(company_id).collection('people').doc(id).delete();
 				}
 			});
 		});
 	});
-
-
 
 }
 
@@ -119,9 +112,7 @@ const options = {
 
 // Open person details
 function selectPerson(id) {
-	// console.log("click " + id)
-
-	firebase.firestore().collection('selected_company').doc('9z9ibXKG7U02MEcDBfwO').update({
+	dbSelectedCom.doc(selected_company_id).update({
 		"selected_person": id
 	}).then(function () {
 		remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
