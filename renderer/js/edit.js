@@ -505,8 +505,6 @@ function newPerson() {
         console.log('alert')
       }
     });
-
-
   }
 }
 
