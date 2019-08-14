@@ -47,7 +47,9 @@ function renderPeople() {
 		data.forEach(doc => {
 
 			const detail = doc.data();
-			const li = `
+			if (detail.img === '' || detail.img === null) {
+				console.log("1 ")
+				const li = `
 <div class="cards column is-3">
 	<div class="person" id="${doc.id}" onclick="selectPerson(this.id)">
 	<div class="card-people-image">
@@ -67,8 +69,33 @@ function renderPeople() {
 		<i class="fas fa-lg fa-ban" ></i>
 	</span>
 </div>`;
+				html += li
+			} else if (detail.img !== '' || detail.img !== null) {
+				console.log("2 ")
+				const li = `
+<div class="cards column is-3">
+	<div class="person" id="${doc.id}" onclick="selectPerson(this.id)">
+	<div class="card-people-image">
+		<figure class="image">
+		<img src="${detail.img}" alt="Person image">
+		</figure>
+	</div>
+	<div class="card-content">
+		<div class="content">
+			<p id="name_en">${detail.name_en}</p>
+			<p id="name_th">${detail.name_th}</p>
+		</div>
+	</div>
+	</div>
 
-			html += li
+	<span class="icon has-text-danger is-pulled-right" id="deletePerson" onclick="deleteCard()">
+		<i class="fas fa-lg fa-ban" ></i>
+	</span>
+</div>`;
+				html += li
+			}
+
+
 
 
 		});
@@ -125,3 +152,6 @@ function newPerson() {
 }
 
 
+function newPage() {
+	remote.getCurrentWindow().loadURL(`file://${__dirname}/new.html`)
+}

@@ -50,9 +50,13 @@ function login() {
     auth.onAuthStateChanged(user => {
       if (user) {
         console.log('user logged in: ', user);
+        db.collection('users').doc(user.uid).get().then(doc => {
+          alert("Welcom back! " + doc.data().name)
+        }).then(doc => {
+          remote.getCurrentWindow().loadURL(`file://${__dirname}/home.html`)
+        })
         // // Or load a local HTML file
         // Login success go to home page
-        remote.getCurrentWindow().loadURL(`file://${__dirname}/home.html`)
 
       } else {
         console.log('user logged out');

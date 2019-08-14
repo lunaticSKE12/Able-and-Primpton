@@ -14,8 +14,10 @@
   <!-- Add Firebase products that you want to use -->
   <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-storage.js"></script>
   <script type='text/javascript' src='./js/config.js'></script>
   <script src="./js/app.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
   <script src="./js/editPerson.js"></script>
 
 
@@ -41,14 +43,29 @@
 
 
   <!-- Edit Field -->
-
   <div class="editField">
-
-    <div>
+    <div class="column cards" id="field">
+      <label class="label"><u>Photo</u></label>
       <figure class="image is-256x256" id="personImage">
         <img style="width: 256px;" src="https://bulma.io/images/placeholders/256x256.png">
+        <div class="field">
+          <div class="file is-info is-small has-name ">
+            <label class="file-label">
+              <input class="file-input" type="file" name="resume" id="fileImg" onchange="showFileName()">
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label ">
+                  upload file…
+                </span>
+              </span>
+              <span class="file-name" id="textInput">
+              </span>
+            </label>
+          </div>
+        </div>
       </figure>
-
     </div>
 
     <!-- Field name email -->
@@ -59,9 +76,9 @@
           <label class="label">Full name
             <label class="redDot">*</label>
           </label>
-          <input class="input inputPerson" id="name_en" type="text" placeholder="e.g Alice Tanya">
+          <input class="input inputPerson" id="name_en" type="text" placeholder="e.g Alice Tanya" value="">
           <label class="label">Full name in Thai</label>
-          <input class="input inputPerson" id="name_th" type="text" placeholder="e.g อลิส ธัญญา">
+          <input class="input inputPerson" id="name_th" type="text" placeholder="e.g อลิส ธัญญา" value="">
         </div>
       </div>
 
@@ -316,7 +333,7 @@
     <!-- Field Visa -->
     <div class="field column cards" id="field">
       <br>
-      <label class="label"><u>Visa (Non-Immigrant B)</u></label>
+      <label class="label"><u>Visa</u></label>
       <br>
       <label class="label">Visa Type
         <label class="redDot">*</label>
@@ -328,18 +345,15 @@
           <option value="Transit Visa">Transit Visa</option>
           <option value="Non – Immigrant Visa “F”">Non – Immigrant Visa “F”</option>
           <option value="Non - Immigrant Visa “IB”">Non - Immigrant Visa “IB”</option>
-          <option value="Non – Immigrant Visa “B”
-          ">Non – Immigrant Visa “B”
-          </option>
+          <option value="Non – Immigrant Visa “B”">Non – Immigrant Visa “B”</option>
           <option value="Non – Immigrant Visa “ED”">Non – Immigrant Visa “ED”</option>
           <option value="Non – Immigrant Visa “M”">Non – Immigrant Visa “M”</option>
           <option value="Non – Immigrant Visa “R”">Non – Immigrant Visa “R”</option>
           <option value="Non – Immigrant Visa “EX”">Non – Immigrant Visa “EX”</option>
           <option value="Non – Immigrant Visa “RS”">Non – Immigrant Visa “RS”</option>
           <option value="Non – Immigrant Visa “O”">Non – Immigrant Visa “O”</option>
-          <option value="Non – Immigrant Visa “O-A” (Long Stay)">Non – Immigrant Visa “O-A” (Long Stay)</option>
-          <option value="Non – Immigrant Visa “O - X” (Long Stay 10 years)">Non – Immigrant Visa “O - X” (Long Stay 10
-            years)</option>
+          <option value="Non – Immigrant Visa “O-A”">Non – Immigrant Visa “O-A”</option>
+          <option value="Non – Immigrant Visa “O-X”">Non – Immigrant Visa “O-X”</option>
         </select>
       </span>
       <label class="label">Date of expiry
@@ -369,31 +383,19 @@
       <br>
       <label class="label"><u>Upload files</u></label>
       <br>
-      <div class="field ">
-        <div class="file is-large is-boxed is-fullwidth">
-          <label class="file-label">
-            <input class="file-input" type="file" name="resume">
-            <span class="file-cta ">
-              <span class="file-icon">
-                <i class="fas fa-upload"></i>
-              </span>
-              <span class="file-label">
-                Large file…
-              </span>
-            </span>
-          </label>
-        </div>
-      </div>
     </div>
-    <!-- Field Remark -->
+    <div class="mainDiv">
+      <button type="button" class="button is-primary" id="upload" onclick="uploadFile()">
+        upload</button>
 
+    </div> <!-- Field Remark -->
 
-
+    <progress class="progress is-link" value="0" max="100" id="uploader"></progress>
 
   </div>
   <!-- Edit Field -->
   <button class="button is-danger" id="back" onclick="javascript:history.go(-1)">Cancel</button>
-  <button class="button is-success" id="logout" onclick="newPerson()">Save</button>
+  <button class="button is-success" id="logout" onclick="save()">Save</button>
 
 
 </body>

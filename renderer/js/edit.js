@@ -39,12 +39,29 @@ function renderDetails() {
         data.datepickerVisa.seconds);
 
     document.querySelector('.editField').innerHTML = `
-    <div>
-    <figure class="image is-256x256" id="personImage">
-      <img style="width: 256px;" src="https://bulma.io/images/placeholders/256x256.png">
-    </figure>
-
-  </div>
+    <div class="column cards" id="field">
+      <label class="label"><u>Photo</u></label>
+      <figure class="image is-256x256" id="personImage">
+        <img style="width: 256px;" src="${data.img}">
+        <div class="field">
+          <div class="file is-info is-small has-name ">
+            <label class="file-label">
+              <input class="file-input" type="file" name="resume" id="file2" onchange="showFileName()">
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label ">
+                  upload file…
+                </span>
+              </span>
+              <span class="file-name" id="textInput">
+              </span>
+            </label>
+          </div>
+        </div>
+      </figure>
+    </div>
 
   <!-- Field name email -->
   <div class="column cards" id="field">
@@ -323,18 +340,15 @@ function renderDetails() {
       <option value="Transit Visa">Transit Visa</option>
       <option value="Non – Immigrant Visa “F”">Non – Immigrant Visa “F”</option>
       <option value="Non - Immigrant Visa “IB”">Non - Immigrant Visa “IB”</option>
-      <option value="Non – Immigrant Visa “B”
-      ">Non – Immigrant Visa “B”
-      </option>
+      <option value="Non – Immigrant Visa “B”">Non – Immigrant Visa “B”</option>
       <option value="Non – Immigrant Visa “ED”">Non – Immigrant Visa “ED”</option>
       <option value="Non – Immigrant Visa “M”">Non – Immigrant Visa “M”</option>
       <option value="Non – Immigrant Visa “R”">Non – Immigrant Visa “R”</option>
       <option value="Non – Immigrant Visa “EX”">Non – Immigrant Visa “EX”</option>
       <option value="Non – Immigrant Visa “RS”">Non – Immigrant Visa “RS”</option>
       <option value="Non – Immigrant Visa “O”">Non – Immigrant Visa “O”</option>
-      <option value="Non – Immigrant Visa “O-A” (Long Stay)">Non – Immigrant Visa “O-A” (Long Stay)</option>
-      <option value="Non – Immigrant Visa “O - X” (Long Stay 10 years)">Non – Immigrant Visa “O - X” (Long Stay 10
-        years)</option>
+      <option value="Non – Immigrant Visa “O-A”">Non – Immigrant Visa “O-A”</option>
+      <option value="Non – Immigrant Visa “O-X”">Non – Immigrant Visa “O-X”</option>
       </select>
     </span>
     <label class="label">Date of expiry
@@ -354,29 +368,6 @@ function renderDetails() {
     <div class="field">
       <div class="control">
         <textarea class="textarea is-primary is-medium" id="remark" placeholder="Remark something">${data.remark}</textarea>
-      </div>
-    </div>
-  </div>
-  <!-- Field Remark -->
-
-  <!-- Field Remark -->
-  <div class="field column cards" id="field">
-    <br>
-    <label class="label"><u>Upload files</u></label>
-    <br>
-    <div class="field ">
-      <div class="file is-large is-boxed is-fullwidth">
-        <label class="file-label">
-          <input class="file-input" type="file" name="resume">
-          <span class="file-cta ">
-            <span class="file-icon">
-              <i class="fas fa-upload"></i>
-            </span>
-            <span class="file-label">
-              Large file…
-            </span>
-          </span>
-        </label>
       </div>
     </div>
   </div>
@@ -474,12 +465,11 @@ function newPerson() {
     (datepickerVisa != '' || datepickerVisa == null)
 
   if (check) {
-    console.log(name_en, name_th)
-
     dbSelectedCom.get().then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
         // doc.data() is never undefined for query doc snapshots
         company_id = doc.data().selected_card
+        company_person = doc.data().selected_person
 
         // Save detail to server
         dbCom.doc(company_id).collection('people').doc(company_person).update({
@@ -502,7 +492,6 @@ function newPerson() {
   else {
     dialog.showMessageBox(null, options, (response) => {
       if (response === 1) {
-        console.log('alert')
       }
     });
   }

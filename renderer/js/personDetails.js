@@ -42,7 +42,7 @@ function renderDetails() {
     document.querySelector('.card-detail').innerHTML = `
         <div>
             <figure class="image is-256x256" id="personImage">
-                <img style="width: 256px;" src="https://bulma.io/images/placeholders/256x256.png">
+                <img style="width: 256px;" src="${data.img}">
             </figure>
         </div>
 

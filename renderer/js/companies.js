@@ -99,7 +99,6 @@ function people(click_id) {
 	dbSelectedCom.doc(selected_company_id).update({
 		"selected_card": click_id
 	}).then(function () {
-		console.log(click_id)
 		remote.getCurrentWindow().loadURL(`file://${__dirname}/people.html`)
 	})
 
