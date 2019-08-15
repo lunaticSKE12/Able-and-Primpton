@@ -1,4 +1,63 @@
 
+// Show detail from server
+function newPerson(url) {
+  // Get all field value
+  let { name_en, name_th, nationality,
+    passportNumber, datepickerPassport,
+    datepickerWorkpermit, visaType,
+    datepickerVisa, remark } = getField()
+
+  dbSelectedCom.get().then(function (querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      // doc.data() is never undefined for query doc snapshots
+      company_id = doc.data().selected_card
+      company_person = doc.data().selected_person
+
+      if (url === '') {
+        // no img
+        // console.log("no img update")
+        updatePerson()
+      }
+      else {
+        // console.log("have img to update")
+        // Save details to server
+        dbCom.doc(company_id).collection('people').doc(company_person).update({
+          img: url,
+          name_en: name_en,
+          name_th: name_th,
+          nationality: nationality,
+          passportNumber: passportNumber,
+          datepickerPassport: new Date(datepickerPassport),
+          datepickerWorkpermit: new Date(datepickerWorkpermit),
+          visaType: visaType,
+          datepickerVisa: new Date(datepickerVisa),
+          remark: remark
+        }).then(function () {
+          remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
+        })
+      }
+    });
+  });
+}
+
+// Save details to server
+function updatePerson() {
+  dbCom.doc(company_id).collection('people').doc(company_person).update({
+    name_en: name_en,
+    name_th: name_th,
+    nationality: nationality,
+    passportNumber: passportNumber,
+    datepickerPassport: new Date(datepickerPassport),
+    datepickerWorkpermit: new Date(datepickerWorkpermit),
+    visaType: visaType,
+    datepickerVisa: new Date(datepickerVisa),
+    remark: remark
+  }).then(function () {
+    remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
+  })
+}
+
+// Render page
 function renderDetails() {
   var company_person
   // Get selected company id 
@@ -31,6 +90,7 @@ function renderDetails() {
 
   const renderDetail = (data) => {
 
+    // Get timestamp
     let { datePassport,
       dateWorkpermit,
       dateVisa }
@@ -46,7 +106,7 @@ function renderDetails() {
         <div class="field">
           <div class="file is-info is-small has-name ">
             <label class="file-label">
-              <input class="file-input" type="file" name="resume" id="file2" onchange="showFileName()">
+              <input class="file-input" type="file" name="resume" id="fileImg" onchange="showFileName()">
               <span class="file-cta">
                 <span class="file-icon">
                   <i class="fas fa-upload"></i>
@@ -374,9 +434,11 @@ function renderDetails() {
   <!-- Field Remark -->
         `;
 
+    // Set dropdown nation and visa type value
     SelectElement("nation", `${data.nationality}`)
     SelectElement("type", `${data.visaType}`)
 
+    // Set dropdown value
     function SelectElement(id, valueToSelect) {
       var element = document.getElementById(id);
       element.value = valueToSelect;
@@ -385,9 +447,10 @@ function renderDetails() {
 
 }
 
+// Call render
 renderDetails();
 
-
+// Convert timestamp
 function convert(timePassport, timeWorkpermit, timeVisa) {
 
   // Convert timestamp to milliseconds
@@ -442,66 +505,3 @@ function convert(timePassport, timeWorkpermit, timeVisa) {
   };
 }
 
-// Show detail from server
-function newPerson() {
-  let name_en = document.getElementById('name_en').value
-  let name_th = document.getElementById('name_th').value
-  let getNationality = document.getElementById("nation");
-  let nationality = getNationality.options[getNationality.selectedIndex].value;
-  let passportNumber = document.getElementById('passportNumber').value
-  let datepickerPassport = document.getElementById('datepickerPassport').value
-  let datepickerWorkpermit = document.getElementById('datepickerWorkpermit').value
-  let type = document.getElementById("type");
-  let visaType = type.options[type.selectedIndex].value;
-  let datepickerVisa = document.getElementById('datepickerVisa').value
-  let remark = document.getElementById('remark').value;
-
-  let check = (name_en != '' || name_en == null) &&
-    (nationality != '' || nationality == null) &&
-    (passportNumber != '' || passportNumber == null) &&
-    (datepickerPassport != '' || datepickerPassport == null) &&
-    (datepickerWorkpermit != '' || datepickerWorkpermit == null) &&
-    (visaType != '' || visaType == null) &&
-    (datepickerVisa != '' || datepickerVisa == null)
-
-  if (check) {
-    dbSelectedCom.get().then(function (querySnapshot) {
-      querySnapshot.forEach(function (doc) {
-        // doc.data() is never undefined for query doc snapshots
-        company_id = doc.data().selected_card
-        company_person = doc.data().selected_person
-
-        // Save detail to server
-        dbCom.doc(company_id).collection('people').doc(company_person).update({
-          name_en: name_en,
-          name_th: name_th,
-          nationality: nationality,
-          passportNumber: passportNumber,
-          datepickerPassport: new Date(datepickerPassport),
-          datepickerWorkpermit: new Date(datepickerWorkpermit),
-          visaType: visaType,
-          datepickerVisa: new Date(datepickerVisa),
-          remark: remark
-        }).then(function () {
-          remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
-        })
-      });
-    });
-
-  }
-  else {
-    dialog.showMessageBox(null, options, (response) => {
-      if (response === 1) {
-      }
-    });
-  }
-}
-
-// Option fail save detail
-const options = {
-  type: 'question',
-  buttons: ['Ok'],
-  defaultId: 2,
-  title: 'Alert',
-  message: 'Please fill all require field'
-};

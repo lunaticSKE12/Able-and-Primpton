@@ -4,7 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "electron": "electron ."
+    "start": "electron .",
+    "win": "electron-builder -w",
+    "make-cert": "electron-builder create-self-signed-cert -p LunaticSKE12"
+  },
+  "build": {
+    "appId": "able.and.primpton",
+    "directories": {
+      "buildResources": "."
+    },
+    "win": {
+      "certificateFile": "private/LunaticSKE12.pfx",
+      "verifyUpdateCodeSignature": false,
+      "publisherName": "Napong Dungduangsasitorn"
+    }
   },
   "author": "Napong Dungduangsasitorn",
   "license": "MIT",

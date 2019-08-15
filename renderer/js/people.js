@@ -47,7 +47,7 @@ function renderPeople() {
 		data.forEach(doc => {
 
 			const detail = doc.data();
-			if (detail.img === '' || detail.img === null) {
+			if (detail.img === '') {
 				console.log("1 ")
 				const li = `
 <div class="cards column is-3">
@@ -70,7 +70,7 @@ function renderPeople() {
 	</span>
 </div>`;
 				html += li
-			} else if (detail.img !== '' || detail.img !== null) {
+			} else if (detail.img !== '') {
 				console.log("2 ")
 				const li = `
 <div class="cards column is-3">

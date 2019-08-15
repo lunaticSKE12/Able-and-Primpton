@@ -29,6 +29,12 @@ build/Release
 # https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 node_modules
 
+# Config api key
 config.js
 
+# Compile version program 
 dist/
+
+# Sign key
+private/
+
