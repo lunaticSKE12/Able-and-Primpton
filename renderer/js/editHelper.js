@@ -109,7 +109,9 @@ function save() {
         // Set progress bar
         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         var bar = document.getElementById('uploader');
+        var barValue = document.getElementById('uploaderValue');
         bar.value = progress;
+        barValue.innerText = `${progress}%`
 
         // console.log('Upload is ' + progress + '% done');
         switch (snapshot.state) {

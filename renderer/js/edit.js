@@ -102,7 +102,7 @@ function renderDetails() {
     <div class="column cards" id="field">
       <label class="label"><u>Photo</u></label>
       <figure class="image is-256x256" id="personImage">
-        <img style="width: 256px;" src="${data.img}">
+        <img style="width: 256px;" src="${data.img}" alt="Person Image">
         <div class="field">
           <div class="file is-info is-small has-name ">
             <label class="file-label">
@@ -398,6 +398,7 @@ function renderDetails() {
       <option selected>Selected</option>
       <option value="Tourist Visa">Tourist Visa</option>
       <option value="Transit Visa">Transit Visa</option>
+      <option value="Non-Quota Immigrant">Non-Quota Immigrant</option>
       <option value="Non – Immigrant Visa “F”">Non – Immigrant Visa “F”</option>
       <option value="Non - Immigrant Visa “IB”">Non - Immigrant Visa “IB”</option>
       <option value="Non – Immigrant Visa “B”">Non – Immigrant Visa “B”</option>

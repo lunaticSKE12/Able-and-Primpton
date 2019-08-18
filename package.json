@@ -1,19 +1,24 @@
 {
   "name": "able_and_primpton",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "electron .",
     "win": "electron-builder -w",
-    "make-cert": "electron-builder create-self-signed-cert -p LunaticSKE12"
+    "make-cert": "electron-builder create-self-signed-cert -p LunaticSKE12",
+    "publishWin": "electron-builder build -w -p onTagOrDraft"
   },
   "build": {
-    "appId": "able.and.primpton",
+    "appId": "com.electron.AbleAndPrimpton",
     "directories": {
       "buildResources": "."
     },
     "win": {
+      "publish": [
+        "github"
+      ],
+      "target": "NSIS",
       "certificateFile": "private/LunaticSKE12.pfx",
       "verifyUpdateCodeSignature": false,
       "publisherName": "Napong Dungduangsasitorn"
@@ -25,7 +30,9 @@
     "bulma": "^0.7.5",
     "bulma-calendar": "^6.0.7",
     "bulma-extensions": "^6.2.7",
+    "electron-log": "^3.0.7",
     "electron-oauth-helper": "^5.0.1",
+    "electron-updater": "^4.1.2",
     "electron-window-state": "^5.0.3",
     "firebase": "^6.2.4",
     "jquery": "^3.4.1"

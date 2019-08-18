@@ -44,12 +44,13 @@ function renderPeople() {
 	const renderPeople = (data) => {
 
 		let html = '';
+		let li = ``;
 		data.forEach(doc => {
 
 			const detail = doc.data();
-			if (detail.img === '') {
-				console.log("1 ")
-				const li = `
+			// If no person image
+			if (detail.img === undefined || detail.img === '') {
+				li = `
 <div class="cards column is-3">
 	<div class="person" id="${doc.id}" onclick="selectPerson(this.id)">
 	<div class="card-people-image">
@@ -70,9 +71,10 @@ function renderPeople() {
 	</span>
 </div>`;
 				html += li
-			} else if (detail.img !== '') {
-				console.log("2 ")
-				const li = `
+			}
+			// If have person image
+			else if (detail.img !== '') {
+				li = `
 <div class="cards column is-3">
 	<div class="person" id="${doc.id}" onclick="selectPerson(this.id)">
 	<div class="card-people-image">
@@ -94,9 +96,6 @@ function renderPeople() {
 </div>`;
 				html += li
 			}
-
-
-
 
 		});
 		peopleList.innerHTML = html;
