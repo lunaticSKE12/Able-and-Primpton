@@ -33,7 +33,7 @@ exports.createWindow = () => {
     winState.manage(this.win)
 
     // Open the DevTools.
-    this.win.webContents.openDevTools()
+    // this.win.webContents.openDevTools()
 
     // Show window when it finish loaded
     this.win.once('ready-to-show', this.win.show)
