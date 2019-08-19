@@ -15,13 +15,19 @@ check();
 // ************************
 
 // Delete company
-function deleteCard() {
+function deleteCard(id) {
 	// Get id of company to delete in firestore
-	let id = document.querySelector('.cards').getAttribute('id')
+	// let id = document.querySelector('.cards').getAttribute('id')
+	console.log(id)
+
 	// Confirm before delete
 	dialog.showMessageBox(null, options, (response) => {
 		if (response === 1) {
-			dbCom.doc(id).delete();
+			dbCom.doc(id).delete().then(function () {
+				console.log("Document successfully deleted!");
+			}).catch(function (error) {
+				console.error("Error removing document: ", error);
+			});
 		}
 	});
 }
@@ -40,19 +46,22 @@ const options = {
 // Add new company
 function newCompany() {
 	let companyName = document.querySelector('#add-company-name').value;
-	if (companyName != '' || companyName == null) {
+
+	if (companyName !== '') {
 		dbCom.add({
 			name: companyName
 		}).then(function (docRef) {
 			// Create sub collection for people in company
-			// console.log("Document written with ID: ", docRef.id);
+			console.log("Document written with ID: ", docRef.id);
 			dbCom.doc(docRef.id).collection('people').add({
 				status: 'create'
 			})
+
 		}).catch(function (error) {
 			console.error("Error adding document: ", error);
 		});
 	}
+	document.querySelector('#add-company-name').value = ''
 
 }
 
@@ -73,14 +82,14 @@ function renderCompanies() {
 <div class="cards column is-one-fifth " id="${doc.id}" >
 	<div class="cards-item">
 		<header class="card-header">
-    		<p class="card-header-title is-centered" id="${doc.id}" onclick="people(this.id)">
-        	${detail.name}
+    	<p class="card-header-title is-centered" id="${doc.id}" onclick="people(this.id)">
+       	${detail.name}
 			</p>
+			<span class="icon has-text-danger" id="${doc.id}" onclick="deleteCard(this.id)">
+       	<i class="fas fa-lg fa-ban"></i>
+      </span>
+		</header>
 			
-        	<span class="icon has-text-danger" onclick="deleteCard()">
-        	<i class="fas fa-lg fa-ban"></i>
-        	</span>
-        </header>
     </div>
 </div>`;
 

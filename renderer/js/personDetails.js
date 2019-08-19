@@ -31,9 +31,13 @@ function renderDetails() {
     const renderDetail = (data) => {
 
 
+        // Send data to calculate date of expiry, remaining days and status
         let { datePassport, remainingPassport,
+            passportStatus,
             dateWorkpermit, remainingWorkpermit,
-            dateVisa, remainingVisa }
+            workpermitStatus,
+            dateVisa, remainingVisa,
+            visaStatus }
             = convert(data.datepickerPassport.seconds,
                 data.datepickerWorkpermit.seconds,
                 data.datepickerVisa.seconds);
@@ -71,7 +75,7 @@ function renderDetails() {
                         <label id="passportRemaining">${remainingPassport}</label>
                     </label>
                     <label class="label">Status :
-                        <label id="passportStatus">valid</label>
+                        <label id="passportStatus">${passportStatus}</label>
                     </label>
                     <div class="is-divider is-primary"></div>
                     <!-- ----------------------------------------------------------- -->
@@ -83,7 +87,7 @@ function renderDetails() {
                         <label id="workpermitRemaining">${remainingWorkpermit}</label>
                     </label>
                     <label class="label">Status :
-                        <label id="workpermitStatus">valid</label>
+                        <label id="workpermitStatus">${workpermitStatus}</label>
                     </label>
                 </div>
             </div>
@@ -105,7 +109,7 @@ function renderDetails() {
                         <label id="getDatepickerPassport">${remainingVisa}</label>
                     </label>
                     <label class="label">Status :
-                        <label id="visaStatus">valid</label>
+                        <label id="visaStatus">${visaStatus}</label>
                     </label>
                     <div class="is-divider is-primary"></div>
                     <!-- ----------------------------------------------------------- -->
@@ -167,14 +171,65 @@ function convert(timePassport, timeWorkpermit, timeVisa) {
     let convdataTimeW = dayW + ' ' + monthW + ' ' + yearW
     let convdataTimeV = dayV + ' ' + monthV + ' ' + yearV
 
+    // Check status
+    let { passportStatus, workpermitStatus, visaStatus } =
+        checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa)
+
+
     return {
         datePassport: convdataTimeP,
         remainingPassport: elapsedPassport,
+        passportStatus: passportStatus,
         dateWorkpermit: convdataTimeW,
         remainingWorkpermit: elapsedWorkpermit,
+        workpermitStatus: workpermitStatus,
         dateVisa: convdataTimeV,
-        remainingVisa: elapsedVisa
+        remainingVisa: elapsedVisa,
+        visaStatus: visaStatus
     };
+}
+
+function checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa) {
+
+    // passportStatus ----------------------
+    if (elapsedPassport >= 1 && elapsedPassport <= 195) {
+        passportStatus = 'warning'
+    }
+    else if (elapsedPassport > 195) {
+        passportStatus = 'valid'
+    }
+    else {
+        passportStatus = 'expired'
+    }
+    // passportStatus ----------------------
+
+    // workpermitStatus ----------------------
+    if (elapsedWorkpermit >= 1 && elapsedWorkpermit <= 60) {
+        workpermitStatus = 'warning'
+    }
+    else if (elapsedWorkpermit > 60) {
+        workpermitStatus = 'valid'
+    }
+    else {
+        workpermitStatus = 'expired'
+    }
+    // workpermitStatus ----------------------
+
+    // visaStatus ----------------------
+    if (elapsedVisa >= 1 && elapsedVisa <= 45) {
+        visaStatus = 'warning'
+    }
+    else if (elapsedPassport > 45) {
+        visaStatus = 'valid'
+    }
+    else {
+        visaStatus = 'expired'
+    }
+    // visaStatus ----------------------
+
+    return {
+        passportStatus, workpermitStatus, visaStatus
+    }
 }
 
 function edit() {
