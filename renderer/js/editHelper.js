@@ -98,7 +98,9 @@ function save() {
     // if all filled
     if (isFieldFilled()) {
       let name_en = document.getElementById('name_en').value
-      var storageRef = firebase.storage().ref(`/img/${name_en}/${inputFileName}`);
+      let storageRef = firebase.storage().ref(`/img/${name_en}/${inputFileName}`);
+
+      console.log("ref " + storageRef);
 
       // Upload
       var uploadTask = storageRef.put(selectedFile);
@@ -148,3 +150,5 @@ function save() {
     warning()
   }
 }
+
+

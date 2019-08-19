@@ -167,7 +167,7 @@ header {
   border-color: #ff9800;
 }
 
-#deletePerson {
+.icon {
   margin-bottom: 10px;
 }
 /* People card */

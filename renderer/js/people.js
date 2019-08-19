@@ -66,7 +66,7 @@ function renderPeople() {
 	</div>
 	</div>
 
-	<span class="icon has-text-danger is-pulled-right" id="deletePerson" onclick="deleteCard()">
+	<span class="icon has-text-danger is-pulled-right" id="${doc.id}" onclick="deleteCard(this.id)">
 		<i class="fas fa-lg fa-ban" ></i>
 	</span>
 </div>`;
@@ -90,7 +90,7 @@ function renderPeople() {
 	</div>
 	</div>
 
-	<span class="icon has-text-danger is-pulled-right" id="deletePerson" onclick="deleteCard()">
+	<span class="icon has-text-danger is-pulled-right" id="${doc.id}" onclick="deleteCard(this.id)">
 		<i class="fas fa-lg fa-ban" ></i>
 	</span>
 </div>`;
@@ -104,8 +104,9 @@ function renderPeople() {
 }
 
 // Delete person
-function deleteCard() {
+function deleteCard(id) {
 	// Get selected company id 
+	console.log(id)
 	dbSelectedCom.get().then(function (querySnapshot) {
 		querySnapshot.forEach(function (doc) {
 			// doc.data() is never undefined for query doc snapshots
@@ -113,7 +114,7 @@ function deleteCard() {
 			company_id = doc.data().selected_card
 
 			// Get id of company to delete in firestore
-			let id = document.querySelector('.person').getAttribute('id')
+			// let id = document.querySelector('.person').getAttribute('id')
 
 			// Confirm before delete
 			dialog.showMessageBox(null, options, (response) => {

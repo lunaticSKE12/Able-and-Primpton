@@ -16,7 +16,10 @@ function newPerson(url) {
       if (url === '') {
         // no img
         // console.log("no img update")
-        updatePerson()
+        updatePerson(name_en, name_th, nationality,
+          passportNumber, datepickerPassport,
+          datepickerWorkpermit, visaType,
+          datepickerVisa, remark)
       }
       else {
         // console.log("have img to update")
@@ -41,7 +44,10 @@ function newPerson(url) {
 }
 
 // Save details to server
-function updatePerson() {
+function updatePerson(name_en, name_th, nationality,
+  passportNumber, datepickerPassport,
+  datepickerWorkpermit, visaType,
+  datepickerVisa, remark) {
   dbCom.doc(company_id).collection('people').doc(company_person).update({
     name_en: name_en,
     name_th: name_th,
