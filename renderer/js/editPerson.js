@@ -1,16 +1,19 @@
-
-// Get selected company id 
-dbSelectedCom.get().then(function (querySnapshot) {
-  querySnapshot.forEach(function (doc) {
-    // doc.data() is never undefined for query doc snapshots
-    // Get id selected company and person
-    company_id = doc.data().selected_card
-    dbCom.doc(company_id).onSnapshot((snapshot) => {
-      let text = document.getElementById('companyTxt')
-      // Show Company name in breadcrumb
-      text.innerHTML = snapshot.data().name
+// Get selected company id onAuthStateChanged
+firebase.auth().onAuthStateChanged(function (user) {
+  if (user) {
+    // User is signed in.
+    db.collection('users').doc(user.uid).get().then(doc => {
+      // Selected company for this user
+      company_id = doc.data().selected_company_id
+      dbCom.doc(company_id).get().then(function (doc) {
+        // Show company name on breadcrumbs
+        let text = document.getElementById('companyTxt')
+        text.innerHTML = doc.data().name
+      })
     })
-  });
+  } else {
+    // No user is signed in.
+  }
 });
 
 // Save detail to server
@@ -22,26 +25,33 @@ function newPerson(url) {
     datepickerWorkpermit, visaType,
     datepickerVisa, remark } = getField()
 
-  dbSelectedCom.get().then(function (querySnapshot) {
-    querySnapshot.forEach(function (doc) {
-      // doc.data() is never undefined for query doc snapshots
-      company_id = doc.data().selected_card
+  // onAuthStateChanged
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      // User is signed in.
+      db.collection('users').doc(user.uid).get().then(doc => {
+        // Selected company for this user
+        company_id = doc.data().selected_company_id
 
-      // Save detail to server
-      dbCom.doc(company_id).collection('people').add({
-        img: url,
-        name_en: name_en,
-        name_th: name_th,
-        nationality: nationality,
-        passportNumber: passportNumber,
-        datepickerPassport: new Date(datepickerPassport),
-        datepickerWorkpermit: new Date(datepickerWorkpermit),
-        visaType: visaType,
-        datepickerVisa: new Date(datepickerVisa),
-        remark: remark
-      }).then(function () {
-        remote.getCurrentWindow().loadURL(`file://${__dirname}/people.html`)
+        // Save detail to server
+        dbCom.doc(company_id).collection('people').add({
+          img: url,
+          name_en: name_en,
+          name_th: name_th,
+          nationality: nationality,
+          passportNumber: passportNumber,
+          datepickerPassport: new Date(datepickerPassport),
+          datepickerWorkpermit: new Date(datepickerWorkpermit),
+          visaType: visaType,
+          datepickerVisa: new Date(datepickerVisa),
+          remark: remark
+        }).then(function () {
+          remote.getCurrentWindow().loadURL(`file://${__dirname}/people.html`)
+        })
       })
-    });
+    } else {
+      // No user is signed in.
+    }
   });
+
 }

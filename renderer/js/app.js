@@ -3,6 +3,7 @@ const { BrowserWindow } = require('electron')
 const { dialog } = require('electron').remote
 
 let firebaseConfig = sercetKey;
+let selectedCompanyId;
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -17,9 +18,11 @@ function logout() {
   location.replace("index.html");
 }
 let dbCom = firebase.firestore().collection('companies')
-let dbSelectedCom = firebase.firestore().collection('selected_company')
+// let dbSelectedCom = firebase.firestore().collection('selected_company')
 
+// Initialize selected co
 var company_id
+var company_person
 
 // Login
 function login() {
@@ -67,8 +70,6 @@ function login() {
     location.reload();
   }
 
-
-
 }
 
 // Sign up
@@ -96,4 +97,3 @@ function companies() {
   remote.getCurrentWindow().loadURL(`file://${__dirname}/companies.html`)
 
 }
-

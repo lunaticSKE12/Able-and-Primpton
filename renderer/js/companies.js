@@ -12,7 +12,7 @@ var check = function () {
 	}
 }
 check();
-// ************************
+// ******************
 
 // Delete company
 function deleteCard(id) {
@@ -104,9 +104,14 @@ function renderCompanies() {
 // Go to people page see all people in company
 // Set company selected id to firestore
 function people(click_id) {
+	// Get current user login
+	var user = firebase.auth().currentUser;
 
-	dbSelectedCom.doc(selected_company_id).update({
-		"selected_card": click_id
+	console.log(user.uid)
+
+	// update selected for each user
+	db.collection('users').doc(user.uid).update({
+		selected_company_id: click_id
 	}).then(function () {
 		remote.getCurrentWindow().loadURL(`file://${__dirname}/people.html`)
 	})

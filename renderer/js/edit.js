@@ -7,39 +7,45 @@ function newPerson(url) {
     datepickerWorkpermit, visaType,
     datepickerVisa, remark } = getField()
 
-  dbSelectedCom.get().then(function (querySnapshot) {
-    querySnapshot.forEach(function (doc) {
-      // doc.data() is never undefined for query doc snapshots
-      company_id = doc.data().selected_card
-      company_person = doc.data().selected_person
+  // onAuthStateChanged
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      // User is signed in.
+      db.collection('users').doc(user.uid).get().then(doc => {
+        // Selected company for this user
+        company_id = doc.data().selected_company_id
+        company_person = doc.data().selected_person_id
+        if (url === '') {
+          // no img
+          // console.log("no img update")
+          updatePerson(name_en, name_th, nationality,
+            passportNumber, datepickerPassport,
+            datepickerWorkpermit, visaType,
+            datepickerVisa, remark)
+        }
+        else {
+          // console.log("have img to update")
+          // Save details to server
+          dbCom.doc(company_id).collection('people').doc(company_person).update({
+            img: url,
+            name_en: name_en,
+            name_th: name_th,
+            nationality: nationality,
+            passportNumber: passportNumber,
+            datepickerPassport: new Date(datepickerPassport),
+            datepickerWorkpermit: new Date(datepickerWorkpermit),
+            visaType: visaType,
+            datepickerVisa: new Date(datepickerVisa),
+            remark: remark
+          }).then(function () {
+            remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
+          })
+        }
 
-      if (url === '') {
-        // no img
-        // console.log("no img update")
-        updatePerson(name_en, name_th, nationality,
-          passportNumber, datepickerPassport,
-          datepickerWorkpermit, visaType,
-          datepickerVisa, remark)
-      }
-      else {
-        // console.log("have img to update")
-        // Save details to server
-        dbCom.doc(company_id).collection('people').doc(company_person).update({
-          img: url,
-          name_en: name_en,
-          name_th: name_th,
-          nationality: nationality,
-          passportNumber: passportNumber,
-          datepickerPassport: new Date(datepickerPassport),
-          datepickerWorkpermit: new Date(datepickerWorkpermit),
-          visaType: visaType,
-          datepickerVisa: new Date(datepickerVisa),
-          remark: remark
-        }).then(function () {
-          remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
-        })
-      }
-    });
+      })
+    } else {
+      // No user is signed in.
+    }
   });
 }
 
@@ -65,34 +71,38 @@ function updatePerson(name_en, name_th, nationality,
 
 // Render page
 function renderDetails() {
-  var company_person
-  // Get selected company id 
-  dbSelectedCom.get().then(function (querySnapshot) {
-    querySnapshot.forEach(function (doc) {
-      // doc.data() is never undefined for query doc snapshots
-      // Get id selected company and person
-      company_id = doc.data().selected_card
-      company_person = doc.data().selected_person
 
-      // Find match company id selected to show name
-      dbCom.doc(company_id).onSnapshot((snapshot) => {
-        let text = document.getElementById('companyTxt')
-        console.log(snapshot.data().name)
-        // Show Company name in breadcrumb
-        text.innerHTML = snapshot.data().name
+
+  // onAuthStateChanged
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      // User is signed in.
+      db.collection('users').doc(user.uid).get().then(doc => {
+        // Selected company for this user
+        company_id = doc.data().selected_company_id
+        company_person = doc.data().selected_person_id
+
+        // Find match company id selected to show name
+        dbCom.doc(company_id).onSnapshot((snapshot) => {
+          let text = document.getElementById('companyTxt')
+          // Show Company name in breadcrumb
+          text.innerHTML = snapshot.data().name
+        })
+        // Render people from selected company
+        dbCom.doc(company_id).collection('people').doc(company_person).onSnapshot((snapshot) => {
+          // Show person name in breadcrumb
+          let text2 = document.getElementById('personTxt')
+          text2.innerHTML = snapshot.data().name_en
+
+          // Render
+          renderDetail(snapshot.data())
+        })
       })
-      // Render people from selected company
-      dbCom.doc(company_id).collection('people').doc(company_person).onSnapshot((snapshot) => {
-        // Show person name in breadcrumb
-        let text2 = document.getElementById('personTxt')
-        text2.innerHTML = snapshot.data().name_en
-
-        // Render
-        renderDetail(snapshot.data())
-
-      })
-    });
+    } else {
+      // No user is signed in.
+    }
   });
+
 
   const renderDetail = (data) => {
 
