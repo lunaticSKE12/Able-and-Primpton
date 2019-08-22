@@ -89,8 +89,7 @@ function renderCompanies() {
        	<i class="fas fa-lg fa-ban"></i>
       </span>
 		</header>
-			
-    </div>
+  </div>
 </div>`;
 
 			html += li

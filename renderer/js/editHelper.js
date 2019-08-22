@@ -1,11 +1,30 @@
 // Show file name
-function showFileName() {
-  // Get file name
-  var inputFileName = document.getElementById('fileImg').files[0].name;
-  // Get field text 
-  var text = document.getElementById('textInput')
-  // Show file name
-  text.textContent = inputFileName;
+function showFileName(type) {
+  if (type === 'passport') {
+    // Get file name
+    var inputFilePassport = document.getElementById('passportFile').files[0].name;
+    // Get field text 
+    var text = document.getElementById('textInput_passport')
+    // Show file name
+    text.textContent = inputFilePassport;
+  }
+  else if (type === 'workpermit') {
+    // Get file name
+    var inputFileWorkpermit = document.getElementById('workpermitFile').files[0].name;
+    // Get field text 
+    var text = document.getElementById('textInput_workpermit')
+    // Show file name
+    text.textContent = inputFileWorkpermit;
+  }
+  else {
+    // Get file name
+    var inputFileVisa = document.getElementById('visaFile').files[0].name;
+    // Get field text 
+    var text = document.getElementById('textInput_visa')
+    // Show file name
+    text.textContent = inputFileVisa;
+  }
+
 }
 
 // Get all field value
