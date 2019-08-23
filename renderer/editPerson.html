@@ -305,6 +305,10 @@
           </span>
         </label>
       </div>
+      <div class="progress-wrapper">
+        <progress class="progress is-link is-medium" value="0" max="100" id="progressPassport"></progress>
+        <p class="progress-value" id="uploaderPassportValue">0%</p>
+      </div>
     </div>
     <!-- Field passport -->
 
@@ -337,7 +341,10 @@
           </span>
         </label>
       </div>
-
+      <div class="progress-wrapper">
+        <progress class="progress is-link is-medium" value="0" max="100" id="progressWorkpermit"></progress>
+        <p class="progress-value" id="uploaderWorkpermitValue">0%</p>
+      </div>
 
     </div>
     <!-- Field workpermit -->
@@ -391,7 +398,10 @@
           </span>
         </label>
       </div>
-
+      <div class="progress-wrapper">
+        <progress class="progress is-link is-medium" value="0" max="100" id="progressVisa"></progress>
+        <p class="progress-value" id="uploaderVisaValue">0%</p>
+      </div>
     </div>
     <!-- Field Visa -->
 
@@ -411,10 +421,6 @@
   </div>
   <!-- Edit Field -->
 
-  <div class="progress-wrapper">
-    <progress class="progress is-link is-medium" value="0" max="100" id="uploader"></progress>
-    <p class="progress-value" id="uploaderValue">0%</p>
-  </div>
   <button class="button is-danger" id="back" onclick="javascript:history.go(-1)">Cancel</button>
   <button class="button is-success" id="logout" onclick="save()">Save</button>
 
