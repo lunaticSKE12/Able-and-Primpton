@@ -48,12 +48,7 @@ function renderDetails() {
 
 
     document.querySelector('.card-detail').innerHTML = `
-        <div>
-            <figure class="image is-256x256" id="personImage">
-                <img style="width: 256px;" src="${data.img}" alt="Person Image">
-            </figure>
-        </div>
-
+        
         <div class="column cards is-3" id="field">
             <div class="field">
                 <div class="control">
@@ -81,6 +76,7 @@ function renderDetails() {
                     <label class="label">Status :
                         <label id="passportStatus">${passportStatus}</label>
                     </label>
+                    <a hef="${data.passport}">passport</a>
                     <div class="is-divider is-primary"></div>
                     <!-- ----------------------------------------------------------- -->
                     <label class="label"><u>Work Permit</u></label>

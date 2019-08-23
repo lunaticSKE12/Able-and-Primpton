@@ -1,6 +1,6 @@
 
 // Show detail from server
-function newPerson(url) {
+function newPerson(passport, workpermit, visa) {
   // Get all field value
   let { name_en, name_th, nationality,
     passportNumber, datepickerPassport,
@@ -15,58 +15,43 @@ function newPerson(url) {
         // Selected company for this user
         company_id = doc.data().selected_company_id
         company_person = doc.data().selected_person_id
-        if (url === '') {
-          // no img
-          // console.log("no img update")
-          updatePerson(name_en, name_th, nationality,
-            passportNumber, datepickerPassport,
-            datepickerWorkpermit, visaType,
-            datepickerVisa, remark)
-        }
-        else {
-          // console.log("have img to update")
-          // Save details to server
+
+        if (passport !== '') {
           dbCom.doc(company_id).collection('people').doc(company_person).update({
-            img: url,
-            name_en: name_en,
-            name_th: name_th,
-            nationality: nationality,
-            passportNumber: passportNumber,
-            datepickerPassport: new Date(datepickerPassport),
-            datepickerWorkpermit: new Date(datepickerWorkpermit),
-            visaType: visaType,
-            datepickerVisa: new Date(datepickerVisa),
-            remark: remark
-          }).then(function () {
-            remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
+            passport: passport
+          })
+        }
+        if (workpermit !== '') {
+          dbCom.doc(company_id).collection('people').doc(company_person).update({
+            workpermit: workpermit
+          })
+        }
+        if (visa !== '') {
+          dbCom.doc(company_id).collection('people').doc(company_person).update({
+            visa: visa
           })
         }
 
+        // console.log("have img to update")
+        // Save details to server
+        dbCom.doc(company_id).collection('people').doc(company_person).update({
+          name_en: name_en,
+          name_th: name_th,
+          nationality: nationality,
+          passportNumber: passportNumber,
+          datepickerPassport: new Date(datepickerPassport),
+          datepickerWorkpermit: new Date(datepickerWorkpermit),
+          visaType: visaType,
+          datepickerVisa: new Date(datepickerVisa),
+          remark: remark
+        }).then(function () {
+          remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
+        })
       })
     } else {
       // No user is signed in.
     }
   });
-}
-
-// Save details to server
-function updatePerson(name_en, name_th, nationality,
-  passportNumber, datepickerPassport,
-  datepickerWorkpermit, visaType,
-  datepickerVisa, remark) {
-  dbCom.doc(company_id).collection('people').doc(company_person).update({
-    name_en: name_en,
-    name_th: name_th,
-    nationality: nationality,
-    passportNumber: passportNumber,
-    datepickerPassport: new Date(datepickerPassport),
-    datepickerWorkpermit: new Date(datepickerWorkpermit),
-    visaType: visaType,
-    datepickerVisa: new Date(datepickerVisa),
-    remark: remark
-  }).then(function () {
-    remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
-  })
 }
 
 // Render page
@@ -115,34 +100,11 @@ function renderDetails() {
         data.datepickerVisa.seconds);
 
     document.querySelector('.editField').innerHTML = `
-    <div class="column cards" id="field">
-      <label class="label"><u>Photo</u></label>
-      <figure class="image is-256x256" id="personImage">
-        <img style="width: 256px;" src="${data.img}" alt="Person Image">
-        <div class="field">
-          <div class="file is-info is-small has-name ">
-            <label class="file-label">
-              <input class="file-input" type="file" name="resume" id="fileImg" onchange="showFileName()">
-              <span class="file-cta">
-                <span class="file-icon">
-                  <i class="fas fa-upload"></i>
-                </span>
-                <span class="file-label ">
-                  upload file…
-                </span>
-              </span>
-              <span class="file-name" id="textInput">
-              </span>
-            </label>
-          </div>
-        </div>
-      </figure>
-    </div>
 
   <!-- Field name email -->
   <div class="column cards" id="field">
     <div class="field">
-      <!-- <label class="label">Name</label> -->
+    <label class="label"><u>Name</u></label>
       <div class="control">
         <label class="label">Full name
           <label class="redDot">*</label>
@@ -383,6 +345,28 @@ function renderDetails() {
     <div class="control datepicker">
       <input type="date" class="select-date" id="datepickerPassport" value="${datePassport}">
     </div>
+
+    <br>
+      <div class="file has-name is-boxed upload-box is-centered">
+        <label class="file-label">
+          <input class="file-input" type="file" name="resume" id="passportFile" onchange="showFileName('passport')">
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Choose a file…
+            </span>
+          </span>
+          <span class="file-name" id="textInput_passport">
+          </span>
+        </label>
+      </div>
+      <div class="progress-wrapper">
+        <progress class="progress is-link is-medium" value="0" max="100" id="progressPassport"></progress>
+        <p class="progress-value" id="uploaderPassportValue">0%</p>
+      </div>
+    </div>
   </div>
   <!-- Field passport -->
 
@@ -398,6 +382,27 @@ function renderDetails() {
     <div class="control datepicker">
       <input type="date" class="select-date" id="datepickerWorkpermit" value="${dateWorkpermit}">
     </div>
+
+    <br>
+      <div class="file has-name is-boxed upload-box is-centered">
+        <label class="file-label">
+          <input class="file-input" type="file" name="resume" id="workpermitFile" onchange="showFileName('workpermit')">
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Choose a file…
+            </span>
+          </span>
+          <span class="file-name" id="textInput_workpermit">
+          </span>
+        </label>
+      </div>
+      <div class="progress-wrapper">
+        <progress class="progress is-link is-medium" value="0" max="100" id="progressWorkpermit"></progress>
+        <p class="progress-value" id="uploaderWorkpermitValue">0%</p>
+      </div>
   </div>
   <!-- Field workpermit -->
 
@@ -434,6 +439,27 @@ function renderDetails() {
     <div class="control datepicker">
       <input type="date" class="select-date" id="datepickerVisa" value="${dateVisa}">
     </div>
+
+    <br>
+      <div class="file has-name is-boxed upload-box is-centered">
+        <label class="file-label">
+          <input class="file-input" type="file" name="resume" id="visaFile" onchange="showFileName('visa')">
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Choose a file…
+            </span>
+          </span>
+          <span class="file-name" id="textInput_visa">
+          </span>
+        </label>
+      </div>
+      <div class="progress-wrapper">
+        <progress class="progress is-link is-medium" value="0" max="100" id="progressVisa"></progress>
+        <p class="progress-value" id="uploaderVisaValue">0%</p>
+      </div>
   </div>
   <!-- Field Visa -->
 
