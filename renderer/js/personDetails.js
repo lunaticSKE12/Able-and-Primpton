@@ -119,9 +119,17 @@ function renderDetails() {
                     <label class="label">Nationality :
                         <label id="getNationality">${data.nationality}</label>
                     </label>
-                    <div class="is-divider is-primary"></div>
-                    <!-- ----------------------------------------------------------- -->
-                    <label class="label"><u>Passport</u></label>
+                    
+                </div>
+            </div>
+
+        </div>
+
+        <div class="column cards is-5" id="field">
+            <div class="field">
+                <div class="control">
+
+                <label class="label"><u>Passport</u></label>
                     <label class="label">Passport Number :
                         <label id="getPassportNumber">${data.passportNumber}</label>
                     </label>
@@ -134,25 +142,40 @@ function renderDetails() {
                     <label class="label">Status :
                         <label id="passportStatus">${passportStatus}</label>
                     </label>
+                    <figure class="image is-256x256">
+                      <img src="${data.passport}">
+                    </figure>
                     
-                    <div class="is-divider is-primary"></div>
-                    <!-- <a hef="${data.passport}">passport</a>----------------------------------------------------------- -->
-                    <label class="label"><u>Work Permit</u></label>
-                    <label class="label">Date of expiry:
-                        <label id="getDatepickerWorkpermit">${dateWorkpermit}</label>
-                    </label>
-                    <label class="label">Remaining days :
-                        <label id="workpermitRemaining">${remainingWorkpermit}</label>
-                    </label>
-                    <label class="label">Status :
-                        <label id="workpermitStatus">${workpermitStatus}</label>
-                    </label>
                 </div>
             </div>
-
         </div>
 
-        <div class="column cards is-3" id="field">
+        
+
+        <div class="column cards is-5" id="field">
+            <div class="field">
+                <div class="control">
+
+                <label class="label"><u>Work Permit</u></label>
+                <label class="label">Date of expiry:
+                    <label id="getDatepickerWorkpermit">${dateWorkpermit}</label>
+                </label>
+                <label class="label">Remaining days :
+                    <label id="workpermitRemaining">${remainingWorkpermit}</label>
+                </label>
+                <label class="label">Status :
+                    <label id="workpermitStatus">${workpermitStatus}</label>
+                </label>
+
+                <figure class="image is-256x256">
+                  <img src="${data.workpermit}">
+                </figure>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="column cards is-5" id="field">
             <div class="field">
                 <div class="control">
 
@@ -169,8 +192,19 @@ function renderDetails() {
                     <label class="label">Status :
                         <label id="visaStatus">${visaStatus}</label>
                     </label>
-                    <div class="is-divider is-primary"></div>
-                    <!-- ----------------------------------------------------------- -->
+                    
+                    <figure class="image is-256x256">
+                      <img src="${data.visa}">
+                    </figure>
+                </div>
+            </div>
+        </div>
+
+        <div class="column cards is-3" id="field">
+            <div class="field">
+                <div class="control">
+
+                    
                     <label class="label"><u>Remark</u></label>
                     <br>
                     <div class="field">
