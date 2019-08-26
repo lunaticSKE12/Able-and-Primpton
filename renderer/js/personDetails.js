@@ -4,6 +4,8 @@ let getNationality = document.getElementById("getNationality");
 let passportNumber = document.getElementById('getPassportNumber')
 let datepickerPassport = document.getElementById('getDatepickerPassport')
 
+$ = require('jquery')
+
 function renderDetails() {
 
   // onAuthStateChanged
@@ -25,6 +27,62 @@ function renderDetails() {
         dbCom.doc(company_id).collection('people').doc(company_person).onSnapshot((snapshot) => {
           renderDetail(snapshot.data())
         })
+      }).then(function () {
+        let checkOnloaded = setInterval(function () {
+          let passportStatus = document.getElementById('passportStatus').textContent
+          let workpermitStatus = document.getElementById('workpermitStatus').textContent
+          let visaStatus = document.getElementById('visaStatus').textContent
+          if (passportStatus !== null) {
+            clearInterval(checkOnloaded)
+
+            if (passportStatus === 'expired') {
+              $('#passportRemaining').css('color', 'red')
+              $('#passportStatus').css('color', 'red')
+            }
+            else if (passportStatus === 'warning') {
+              $('#passportRemaining').css('color', 'orange')
+              $('#passportStatus').css('color', 'orange')
+            }
+            else if (passportStatus === 'valid') {
+              $('#passportRemaining').css('color', 'green')
+              $('#passportStatus').css('color', 'green')
+            }
+          }
+          if (workpermitStatus !== null) {
+            clearInterval(checkOnloaded)
+
+            if (workpermitStatus === 'expired') {
+              $('#workpermitRemaining').css('color', 'red')
+              $('#workpermitStatus').css('color', 'red')
+            }
+            else if (workpermitStatus === 'warning') {
+              $('#workpermitRemaining').css('color', 'orange')
+              $('#workpermitStatus').css('color', 'orange')
+            }
+            else if (workpermitStatus === 'valid') {
+              $('#workpermitRemaining').css('color', 'green')
+              $('#workpermitStatus').css('color', 'green')
+            }
+          }
+          if (visaStatus !== null) {
+            clearInterval(checkOnloaded)
+
+            if (visaStatus === 'expired') {
+              $('#visaRemaining').css('color', 'red')
+              $('#visaStatus').css('color', 'red')
+            }
+            else if (visaStatus === 'warning') {
+              $('#visaRemaining').css('color', 'orange')
+              $('#visaStatus').css('color', 'orange')
+            }
+            else if (visaStatus === 'valid') {
+              $('#visaRemaining').css('color', 'green')
+              $('#visaStatus').css('color', 'green')
+            }
+          }
+
+        }, 1000)
+
       })
     } else {
       // No user is signed in.
@@ -76,9 +134,9 @@ function renderDetails() {
                     <label class="label">Status :
                         <label id="passportStatus">${passportStatus}</label>
                     </label>
-                    <a hef="${data.passport}">passport</a>
+                    
                     <div class="is-divider is-primary"></div>
-                    <!-- ----------------------------------------------------------- -->
+                    <!-- <a hef="${data.passport}">passport</a>----------------------------------------------------------- -->
                     <label class="label"><u>Work Permit</u></label>
                     <label class="label">Date of expiry:
                         <label id="getDatepickerWorkpermit">${dateWorkpermit}</label>
@@ -106,7 +164,7 @@ function renderDetails() {
                         <label id="getDatepickerVisa">${dateVisa}</label>
                     </label>
                     <label class="label">Remaining days :
-                        <label id="getDatepickerPassport">${remainingVisa}</label>
+                        <label id="visaRemaining">${remainingVisa}</label>
                     </label>
                     <label class="label">Status :
                         <label id="visaStatus">${visaStatus}</label>
@@ -219,7 +277,7 @@ function checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa) {
   if (elapsedVisa >= 1 && elapsedVisa <= 45) {
     visaStatus = 'warning'
   }
-  else if (elapsedPassport > 45) {
+  else if (elapsedVisa > 45) {
     visaStatus = 'valid'
   }
   else {
