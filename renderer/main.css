@@ -246,7 +246,6 @@ header {
 }
 /* Progress bar */
 
-#line1 {
-  height: 10px;
-  background-color: #000000;
+.notiBoard {
+  background-color: #fffaf2;
 }
