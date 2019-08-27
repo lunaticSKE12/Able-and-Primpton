@@ -245,3 +245,8 @@ header {
   line-height: 1.25rem;
 }
 /* Progress bar */
+
+#line1 {
+  height: 10px;
+  background-color: #000000;
+}

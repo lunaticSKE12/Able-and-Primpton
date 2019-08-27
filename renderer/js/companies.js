@@ -117,6 +117,8 @@ function people(click_id) {
 
 }
 
-
+function checkNotification() {
+	window.open(`file://${__dirname}/notification.html`, 'Notification Board', 'nodeIntegration=yes')
+}
 
 
