@@ -74,66 +74,7 @@ function renderBoard() {
         });
 
     })
-  }).then(function () {
-    let checkOnloaded = setInterval(function () {
-      let passportStatus = document.getElementById('passportStatus').textContent
-      let workpermitStatus = document.getElementById('workpermitStatus').textContent
-      let visaStatus = document.getElementById('visaStatus').textContent
-      if (passportStatus !== null) {
-        console.log("after")
-        clearInterval(checkOnloaded)
-
-        if (passportStatus === 'expired') {
-          $('#passportRemaining').css('color', 'red')
-          $('#passportStatus').css('color', 'red')
-        }
-        else if (passportStatus === 'warning') {
-          $('#passportRemaining').css('color', 'orange')
-          $('#passportStatus').css('color', 'orange')
-        }
-        else if (passportStatus === 'valid') {
-          $('#passportRemaining').css('color', 'green')
-          $('#passportStatus').css('color', 'green')
-        }
-      }
-      if (workpermitStatus !== null) {
-        clearInterval(checkOnloaded)
-
-        if (workpermitStatus === 'expired') {
-          $('#workpermitRemaining').css('color', 'red')
-          $('#workpermitStatus').css('color', 'red')
-        }
-        else if (workpermitStatus === 'warning') {
-          $('#workpermitRemaining').css('color', 'orange')
-          $('#workpermitStatus').css('color', 'orange')
-        }
-        else if (workpermitStatus === 'valid') {
-          $('#workpermitRemaining').css('color', 'green')
-          $('#workpermitStatus').css('color', 'green')
-        }
-      }
-      if (visaStatus !== null) {
-        clearInterval(checkOnloaded)
-
-        if (visaStatus === 'expired') {
-          $('#visaRemaining').css('color', 'red')
-          $('#visaStatus').css('color', 'red')
-        }
-        else if (visaStatus === 'warning') {
-          $('#visaRemaining').css('color', 'orange')
-          $('#visaStatus').css('color', 'orange')
-        }
-        else if (visaStatus === 'valid') {
-          $('#visaRemaining').css('color', 'green')
-          $('#visaStatus').css('color', 'green')
-        }
-      }
-
-    }, 1000)
   });
-
-
-
 
   const notiBoard = document.querySelector('.notiBoard')
   const renderCompanies = (companyName, doc,
@@ -155,24 +96,68 @@ function renderBoard() {
               <ul class="column">
                 <li><a><b>${detail.name_en}</b></a></li>
                 <li><a><b>Passport Date of expiry : ${datePassport}</b></a></li>
-                <li id="passportRemaining"><a><b >Passport Remaining days : ${remainingPassport}</b></a></li>
-                <li id="passportStatus"><a><b>Passport Status : ${passportStatus}</b></a></li>
-              </ul>
+                ${passportStatus === 'valid' ? (`
+                <li><a><b style='color: green'>
+                  Passport Remaining days : ${remainingPassport}
+                </b></a></li>
+                <li><a><b style='color: green' >
+                  Passport Status : ${passportStatus}
+                </b></a></li>`) :
+        (`
+                <li><a><b ${passportStatus === 'warning' ?
+            "style='color: orange'" : "style='color: red'"}>
+                  Passport Remaining days : ${remainingPassport}
+                </b></a></li>
+                <li><a><b ${passportStatus === 'warning' ?
+            "style='color: orange'" : "style='color: red'"}>
+                  Passport Status : ${passportStatus}
+                </b></a></li>
+        `)}
+                </ul>
               <ul class="column">
                 <li><a><b>Workpermit Date of expiry : ${dateWorkpermit}</b></a></li>
-                <li id="workpermitRemaining"><a><b>Workpermit Remaining days : ${remainingWorkpermit}</b></a></li>
-                <li id="workpermitStatus"><a><b>Workpermit Status : ${workpermitStatus}</b></a></li>
+                ${workpermitStatus === 'valid' ? (`
+                <li><a><b style='color: green'>
+                  Workpermit Remaining days : ${remainingWorkpermit}
+                </b></a></li>
+                <li><a><b style='color: green'>
+                  Workpermit Status : ${workpermitStatus}
+                </b></a></li>`) :
+        (`
+                <li><a><b ${workpermitStatus === 'warning' ?
+            "style='color: orange'" : "style='color: red'"}>
+                  Workpermit Remaining days : ${remainingWorkpermit}
+                </b></a></li>
+                <li><a><b ${workpermitStatus === 'warning' ?
+            "style='color: orange'" : "style='color: red'"}>
+                  Workpermit Status : ${workpermitStatus}
+                </b></a></li>
+          `)}
               </ul>
               <ul class="column">
                 <li><a><b>Visa Date of expiry : ${dateVisa}</b></a></li>
-                <li id="visaRemaining"><a><b>Visa Remaining days : ${remainingVisa}</b></a></li>
-                <li id="visaStatus"><a><b>Visa Status : ${visaStatus}</b></a></li>
+                ${visaStatus === 'valid' ? (`
+                <li><a><b style='color: green'>
+                  Workpermit Remaining days : ${remainingVisa}
+                </b></a></li>
+                <li><a><b style='color: green'>
+                  Workpermit Status : ${visaStatus}
+                </b></a></li>`) :
+        (`
+                <li><a><b ${visaStatus === 'warning' ?
+            "style='color: orange'" : "style='color: red'"}>
+                  Workpermit Remaining days : ${remainingVisa}
+                </b></a></li>
+                <li><a><b ${visaStatus === 'warning' ?
+            "style='color: orange'" : "style='color: red'"}>
+                  Workpermit Status : ${visaStatus}
+                </b></a></li>
+          `)}
               </ul>
             </ul>
           </li>
         </ul>
       </aside>
-      <div class="is-divider" id="line1"></div>
       `;
 
     html += li
