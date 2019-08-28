@@ -1,4 +1,7 @@
-// Show file name
+// Initialize done progress
+let percent = 100
+
+// Show file name to upload passport, workpermit, visa
 function showFileName(type) {
   if (type === 'passport') {
     // Get file name
@@ -27,7 +30,7 @@ function showFileName(type) {
 
 }
 
-// Get all field value
+// Get all field value and return value
 function getField() {
   let name_en = document.getElementById('name_en').value
   let name_th = document.getElementById('name_th').value
@@ -49,7 +52,8 @@ function getField() {
   }
 }
 
-// Check all fields are not filled
+// Check all require fields are filled
+// Return true if all require filled
 function isFieldFilled() {
 
   // Get all field value
@@ -75,16 +79,20 @@ function save() {
     // passport -------------------------------------------------------
     // if no passport upload
     if (document.getElementById('passportFile').files[0] === undefined) {
-      // newPerson(downloadURL)
+
+      // Get current user
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.
+
+          // Set passport URL temp in user before update to person
           db.collection('users').doc(user.uid).update({
             passportURL: ''
           }).then(function () {
+            // Set passport progress 100%
             var bar = document.getElementById('progressPassport');
             var barValue = document.getElementById('uploaderPassportValue');
-            bar.value = 100;
+            bar.value = percent;
             barValue.innerText = "100%"
           })
         }
@@ -108,8 +116,8 @@ function save() {
       uploadTask.on('state_changed', function (snapshot) {
         // Observe state change events such as progress, pause, and resume
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        // Set progress bar
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        // Set progress bar passport
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * percent;
         var bar = document.getElementById('progressPassport');
         var barValue = document.getElementById('uploaderPassportValue');
         bar.value = progress;
@@ -134,6 +142,7 @@ function save() {
           firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
               // User is signed in.
+              // Set passport URL temp in user before update to person
               db.collection('users').doc(user.uid).update({
                 passportURL: downloadURL
               })
@@ -150,22 +159,27 @@ function save() {
     // workpermit -------------------------------------------------------
     var trackPassport = setInterval(function () {
       // Set delay for upload passport
-      if (document.getElementById('progressPassport').value === 100) {
+      // If passport progress 100%
+      if (document.getElementById('progressPassport').value === percent) {
 
+        // Clear delay
         clearInterval(trackPassport)
         // If no workpermit to upload
         if (document.getElementById('workpermitFile').files[0] === undefined) {
 
-          // onAuthStateChanged
+          // Get current user
           firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
               // User is signed in.
+
+              // Set workpermit URL temp in user before update to person
               db.collection('users').doc(user.uid).update({
                 workpermitURL: ''
               }).then(function () {
+                // Set progress bar workpermit
                 var bar = document.getElementById('progressWorkpermit');
                 var barValue = document.getElementById('uploaderWorkpermitValue');
-                bar.value = 100;
+                bar.value = percent;
                 barValue.innerText = "100%"
               })
             }
@@ -187,8 +201,8 @@ function save() {
           uploadTask.on('state_changed', function (snapshot) {
             // Observe state change events such as progress, pause, and resume
             // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-            // Set progress bar
-            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            // Set progress bar workpermit
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * percent;
             var bar = document.getElementById('progressWorkpermit');
             var barValue = document.getElementById('uploaderWorkpermitValue');
             bar.value = progress;
@@ -214,13 +228,9 @@ function save() {
               firebase.auth().onAuthStateChanged(function (user) {
                 if (user) {
                   // User is signed in.
+                  // Set workpermit URL temp in user before update to person
                   db.collection('users').doc(user.uid).update({
                     workpermitURL: downloadURL
-                  }).then(function () {
-                    var bar = document.getElementById('progressVisa');
-                    var barValue = document.getElementById('uploaderVisaValue');
-                    bar.value = 100;
-                    barValue.innerText = '100%'
                   })
                 }
               });
@@ -236,30 +246,35 @@ function save() {
 
     // visa -------------------------------------------------------
     var trackWorkpermit = setInterval(function () {
-      // Set delay for upload passport
-      if (document.getElementById('progressWorkpermit').value === 100) {
+      // Set delay for upload workpermit
+      // If workpermit progress 100%
+      if (document.getElementById('progressWorkpermit').value === percent) {
 
+        // Clear delay
         clearInterval(trackWorkpermit)
         // If no workpermit to upload
         if (document.getElementById('visaFile').files[0] === undefined) {
 
           // onAuthStateChanged
+          // Get current user
           firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
               // User is signed in.
+              // Set visa URL temp in user before update to person
               db.collection('users').doc(user.uid).update({
                 visaURL: ''
               }).then(function () {
+                // Set progress bar visa
                 var bar = document.getElementById('progressVisa');
                 var barValue = document.getElementById('uploaderVisaValue');
-                bar.value = 100;
+                bar.value = percent;
                 barValue.innerText = '100%'
               })
             }
           })
         }
 
-        // if have workpermit to upload
+        // if have visa to upload
         else if (document.getElementById('workpermitFile').files[0] !== undefined) {
           // Get file and file name then set directory in firebase
           var selectedFile = document.getElementById('visaFile').files[0]
@@ -273,8 +288,8 @@ function save() {
           uploadTask.on('state_changed', function (snapshot) {
             // Observe state change events such as progress, pause, and resume
             // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-            // Set progress bar
-            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            // Set progress bar visa
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * percent;
             var bar = document.getElementById('progressVisa');
             var barValue = document.getElementById('uploaderVisaValue');
             bar.value = progress;
@@ -299,6 +314,7 @@ function save() {
               firebase.auth().onAuthStateChanged(function (user) {
                 if (user) {
                   // User is signed in.
+                  // Set visa URL temp in user before update to person
                   db.collection('users').doc(user.uid).update({
                     visaURL: downloadURL
                   })
@@ -312,23 +328,33 @@ function save() {
     }, 2000);
     // end visa -------------------------------------------------------
 
+    // save person -------------------------------------------------------
     var trackVisa = setInterval(function () {
-      if (document.getElementById('progressVisa').value === 100) {
+      // Set delay for done upload
+
+      // If visa progress 100%
+      if (document.getElementById('progressVisa').value === percent) {
+
+        // Clear delay
         clearInterval(trackVisa)
+
+        // Get current user
         firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
             // User is signed in.
             db.collection('users').doc(user.uid).get().then(doc => {
-              // Selected company for this user
+              // Get current user upload URL
               passport = doc.data().passportURL
               workpermit = doc.data().workpermitURL
               visa = doc.data().visaURL
+              // Then pass to save in person
               newPerson(passport, workpermit, visa)
             })
           }
         })
       }
     }, 2000)
+    // end save person -------------------------------------------------------
 
   }
   // not filled 

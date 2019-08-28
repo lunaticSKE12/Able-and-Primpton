@@ -1,4 +1,4 @@
-// Delay to load all companies
+// Delay to load all people
 let start
 var check = function () {
 	if (start) {
@@ -17,7 +17,7 @@ check();
 // Render all people in company realtime  
 function renderPeople() {
 
-	// onAuthStateChanged
+	// onAuthStateChanged check current user
 	firebase.auth().onAuthStateChanged(function (user) {
 		if (user) {
 			// User is signed in.
@@ -30,17 +30,20 @@ function renderPeople() {
 					text.innerHTML = doc.data().name
 				})
 				// Render all people in company
-				dbCom.doc(company_id).collection('people').orderBy('name_en').onSnapshot((snapshot) => {
-					renderPeople(snapshot.docs)
-				})
+				dbCom.doc(company_id).collection('people').orderBy('name_en')
+					.onSnapshot((snapshot) => {
+						renderPeople(snapshot.docs)
+					})
 			})
 		} else {
 			// No user is signed in.
 		}
 	});
 
+	// Get where to render
 	const peopleList = document.querySelector('.card-people')
 
+	// render people
 	const renderPeople = (data) => {
 
 		let li = ``;
@@ -57,7 +60,7 @@ function renderPeople() {
 			</div>
 		</div>
 	</div>
-	<span class="icon has-text-danger is-pulled-right" id="${doc.id}" onclick="deleteCard(this.id)">
+	<span class="icon has-text-danger is-pulled-right" id="${doc.id}" onclick="deleteCardPerson(this.id)">
 		<i class="fas fa-lg fa-ban" ></i>
 	</span>
 </div>`;
@@ -69,14 +72,17 @@ function renderPeople() {
 }
 
 // Delete person
-function deleteCard(id) {
-	// Get selected company id 
-	console.log(id)
+function deleteCardPerson(id) {
+	// Get selected person id 
+
+	// Get current user
 	var user = firebase.auth().currentUser;
 	db.collection('users').doc(user.uid).get().then(doc => {
+		// Get current user selected company id
 		company_id = doc.data().selected_company_id
 		dialog.showMessageBox(null, confirmDeletePerson, (response) => {
 			if (response === 1) {
+				// Deleting selected person in company
 				dbCom.doc(company_id).collection('people').doc(id).delete();
 			}
 		});
@@ -105,7 +111,7 @@ function selectPerson(id) {
 	})
 }
 
-// New person
+// Go to new person page
 function newPerson() {
-	remote.getCurrentWindow().loadURL(`file://${__dirname}/editPerson.html`)
+	remote.getCurrentWindow().loadURL(`file://${__dirname}/newPerson.html`)
 }

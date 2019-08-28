@@ -1,22 +1,31 @@
+// Change to seconds or milliseconds
+let changeSeconds = 1000
+// Seconds in one day
+let secondsPerDay = 86400
+// warning days for passport, workpermit, visa
+let passportWarningDays = 195
+let workpermitWarningDays = 60
+let visaWarningDays = 45
+
 // Convert time for timestamp to date dd-mm-yyyy for passport, workpermit, visa
 // return expire date, remaining days, status for passport, workpermit, visa
 function convert(timePassport, timeWorkpermit, timeVisa) {
 
   // Unixtimestamp
   // get now date in seconds
-  let now = Math.round(+new Date() / 1000);
+  let now = Math.round(+new Date() / changeSeconds);
 
   // elapsed time in day
-  let elapsedPassport = Math.ceil((timePassport - now) / 86400)
-  let elapsedWorkpermit = Math.ceil((timeWorkpermit - now) / 86400)
-  let elapsedVisa = Math.ceil((timeVisa - now) / 86400)
+  let elapsedPassport = Math.ceil((timePassport - now) / secondsPerDay)
+  let elapsedWorkpermit = Math.ceil((timeWorkpermit - now) / secondsPerDay)
+  let elapsedVisa = Math.ceil((timeVisa - now) / secondsPerDay)
   // Months array
   let months_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   // Convert timestamp to milliseconds
-  let dateP = new Date(timePassport * 1000);
-  let dateW = new Date(timeWorkpermit * 1000)
-  let dateV = new Date(timeVisa * 1000)
+  let dateP = new Date(timePassport * changeSeconds);
+  let dateW = new Date(timeWorkpermit * changeSeconds)
+  let dateV = new Date(timeVisa * changeSeconds)
 
   // Year
   let yearP = dateP.getFullYear();
@@ -59,10 +68,10 @@ function convert(timePassport, timeWorkpermit, timeVisa) {
 function checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa) {
 
   // passportStatus ----------------------
-  if (elapsedPassport >= 1 && elapsedPassport <= 195) {
+  if (elapsedPassport >= 1 && elapsedPassport <= passportWarningDays) {
     passportStatus = 'warning'
   }
-  else if (elapsedPassport > 195) {
+  else if (elapsedPassport > passportWarningDays) {
     passportStatus = 'valid'
   }
   else {
@@ -71,10 +80,10 @@ function checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa) {
   // end passportStatus ----------------------
 
   // workpermitStatus ----------------------
-  if (elapsedWorkpermit >= 1 && elapsedWorkpermit <= 60) {
+  if (elapsedWorkpermit >= 1 && elapsedWorkpermit <= workpermitWarningDays) {
     workpermitStatus = 'warning'
   }
-  else if (elapsedWorkpermit > 60) {
+  else if (elapsedWorkpermit > workpermitWarningDays) {
     workpermitStatus = 'valid'
   }
   else {
@@ -83,10 +92,10 @@ function checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa) {
   // end workpermitStatus ----------------------
 
   // visaStatus ----------------------
-  if (elapsedVisa >= 1 && elapsedVisa <= 45) {
+  if (elapsedVisa >= 1 && elapsedVisa <= visaWarningDays) {
     visaStatus = 'warning'
   }
-  else if (elapsedVisa > 45) {
+  else if (elapsedVisa > visaWarningDays) {
     visaStatus = 'valid'
   }
   else {

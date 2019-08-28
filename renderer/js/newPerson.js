@@ -17,7 +17,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 });
 
 // Save detail to server
-function newPerson(passport, workpermit, visa) {
+function newPerson(passportURL, workpermitURL, visaURL) {
 
   // Get all field value
   let { name_en, name_th, nationality,
@@ -35,9 +35,9 @@ function newPerson(passport, workpermit, visa) {
 
         // Save detail to server
         dbCom.doc(company_id).collection('people').add({
-          passport: passport,
-          workpermit: workpermit,
-          visa: visa,
+          passportURL: passportURL,
+          workpermitURL: workpermitURL,
+          visaURL: visaURL,
           name_en: name_en,
           name_th: name_th,
           nationality: nationality,
@@ -48,6 +48,7 @@ function newPerson(passport, workpermit, visa) {
           datepickerVisa: new Date(datepickerVisa),
           remark: remark
         }).then(function () {
+          // Return to people page
           remote.getCurrentWindow().loadURL(`file://${__dirname}/people.html`)
         })
       })

@@ -1,11 +1,6 @@
-let name_en = document.getElementById('getName_en')
-let name_th = document.getElementById('getName_th')
-let getNationality = document.getElementById("getNationality");
-let passportNumber = document.getElementById('getPassportNumber')
-let datepickerPassport = document.getElementById('getDatepickerPassport')
-
 $ = require('jquery')
 
+// Render person detail
 function renderDetails() {
 
   // onAuthStateChanged
@@ -27,71 +22,14 @@ function renderDetails() {
         dbCom.doc(company_id).collection('people').doc(company_person).onSnapshot((snapshot) => {
           renderDetail(snapshot.data())
         })
-      }).then(function () {
-        let checkOnloaded = setInterval(function () {
-          let passportStatus = document.getElementById('passportStatus').textContent
-          let workpermitStatus = document.getElementById('workpermitStatus').textContent
-          let visaStatus = document.getElementById('visaStatus').textContent
-          if (passportStatus !== null) {
-            clearInterval(checkOnloaded)
-
-            if (passportStatus === 'expired') {
-              $('#passportRemaining').css('color', 'red')
-              $('#passportStatus').css('color', 'red')
-            }
-            else if (passportStatus === 'warning') {
-              $('#passportRemaining').css('color', 'orange')
-              $('#passportStatus').css('color', 'orange')
-            }
-            else if (passportStatus === 'valid') {
-              $('#passportRemaining').css('color', 'green')
-              $('#passportStatus').css('color', 'green')
-            }
-          }
-          if (workpermitStatus !== null) {
-            clearInterval(checkOnloaded)
-
-            if (workpermitStatus === 'expired') {
-              $('#workpermitRemaining').css('color', 'red')
-              $('#workpermitStatus').css('color', 'red')
-            }
-            else if (workpermitStatus === 'warning') {
-              $('#workpermitRemaining').css('color', 'orange')
-              $('#workpermitStatus').css('color', 'orange')
-            }
-            else if (workpermitStatus === 'valid') {
-              $('#workpermitRemaining').css('color', 'green')
-              $('#workpermitStatus').css('color', 'green')
-            }
-          }
-          if (visaStatus !== null) {
-            clearInterval(checkOnloaded)
-
-            if (visaStatus === 'expired') {
-              $('#visaRemaining').css('color', 'red')
-              $('#visaStatus').css('color', 'red')
-            }
-            else if (visaStatus === 'warning') {
-              $('#visaRemaining').css('color', 'orange')
-              $('#visaStatus').css('color', 'orange')
-            }
-            else if (visaStatus === 'valid') {
-              $('#visaRemaining').css('color', 'green')
-              $('#visaStatus').css('color', 'green')
-            }
-          }
-
-        }, 1000)
-
       })
     } else {
       // No user is signed in.
     }
   });
 
-
+  // Render 
   const renderDetail = (data) => {
-
 
     // Send data to calculate date of expiry, remaining days and status
     let { datePassport, remainingPassport,
@@ -104,73 +42,91 @@ function renderDetails() {
         data.datepickerWorkpermit.seconds,
         data.datepickerVisa.seconds);
 
-
+    // Push render to HTML
     document.querySelector('.card-detail').innerHTML = `
         
         <div class="column cards is-3" id="field">
             <div class="field">
                 <div class="control">
                     <label class="label">Name :
-                        <label id="getName_en">${data.name_en}</label>
+                        <label>${data.name_en}</label>
                     </label>
                     <label class="label">ชื่อ :
-                        <label id="getName_th">${data.name_th}</label>
+                        <label>${data.name_th}</label>
                     </label>
                     <label class="label">Nationality :
-                        <label id="getNationality">${data.nationality}</label>
+                        <label>${data.nationality}</label>
                     </label>
                     
                 </div>
             </div>
-
         </div>
 
         <div class="column cards is-5" id="field">
             <div class="field">
                 <div class="control">
-
                 <label class="label"><u>Passport</u></label>
                     <label class="label">Passport Number :
-                        <label id="getPassportNumber">${data.passportNumber}</label>
+                        <label>${data.passportNumber}</label>
                     </label>
                     <label class="label">Date of expiry :
-                        <label id="getDatepickerPassport">${datePassport}</label>
+                        <label>${datePassport}</label>
                     </label>
-                    <label class="label">Remaining days :
-                        <label id="passportRemaining">${remainingPassport}</label>
+                    ${passportStatus === 'valid' ?
+        (`
+                    <label class="label" style='color: green'>
+                      Remaining days : ${remainingPassport}
                     </label>
-                    <label class="label">Status :
-                        <label id="passportStatus">${passportStatus}</label>
+                    <label class="label" style='color: green'>
+                      Status : ${passportStatus}
                     </label>
+        `) :
+        (`
+                    <label class="label" ${passportStatus === 'warning' ?
+            "style='color: orange'" : "style='color: red'"}>
+                      Remaining days : ${remainingPassport}
+                    </label>
+                    <label class="label" ${passportStatus === 'warning' ?
+            "style='color: orange'" : "style='color: red'"}>
+                      Status : ${passportStatus}
+                    </label>
+        `)}
                     <figure class="image is-256x256">
-                      <img src="${data.passport}">
+                      <img src="${data.passportURL}">
                     </figure>
-                    
                 </div>
             </div>
         </div>
 
-        
-
         <div class="column cards is-5" id="field">
             <div class="field">
                 <div class="control">
-
                 <label class="label"><u>Work Permit</u></label>
                 <label class="label">Date of expiry:
-                    <label id="getDatepickerWorkpermit">${dateWorkpermit}</label>
+                    <label>${dateWorkpermit}</label>
                 </label>
-                <label class="label">Remaining days :
-                    <label id="workpermitRemaining">${remainingWorkpermit}</label>
+                ${workpermitStatus === 'valid' ?
+        (`
+                <label class="label" style='color: green'>
+                  Remaining days : ${remainingWorkpermit}
                 </label>
-                <label class="label">Status :
-                    <label id="workpermitStatus">${workpermitStatus}</label>
+                <label class="label" style='color: green'>
+                  Status : ${workpermitStatus}
                 </label>
-
+        `) :
+        (`
+                <label class="label" ${workpermitStatus === 'warning' ?
+            "style='color: orange'" : "style='color: red'"}>
+                  Remaining days : ${remainingWorkpermit}
+                </label>
+                <label class="label" ${workpermitStatus === 'warning' ?
+            "style='color: orange'" : "style='color: red'"}>
+                  Status : ${workpermitStatus}
+                </label>
+        `)}
                 <figure class="image is-256x256">
-                  <img src="${data.workpermit}">
+                  <img src="${data.workpermitURL}">
                 </figure>
-                    
                 </div>
             </div>
         </div>
@@ -178,23 +134,34 @@ function renderDetails() {
         <div class="column cards is-5" id="field">
             <div class="field">
                 <div class="control">
-
                     <label class="label"><u>Visa</u></label>
                     <label class="label">Visa Type:
-                        <label id="getVisaTypr">${data.visaType}</label>
+                        <label>${data.visaType}</label>
                     </label>
                     <label class="label">Date of expiry:
-                        <label id="getDatepickerVisa">${dateVisa}</label>
+                        <label>${dateVisa}</label>
                     </label>
-                    <label class="label">Remaining days :
-                        <label id="visaRemaining">${remainingVisa}</label>
+                    ${visaStatus === 'valid' ?
+        (`
+                    <label class="label" style='color: green'>
+                      Remaining days : ${remainingVisa}
                     </label>
-                    <label class="label">Status :
-                        <label id="visaStatus">${visaStatus}</label>
+                    <label class="label" style='color: green'>
+                      Status : ${visaStatus}
                     </label>
-                    
+                    `) :
+        (`
+                    <label class="label" ${visaStatus === 'warning' ?
+            "style='color: orange'" : "style='color: red'"}>
+                      Remaining days : ${remainingVisa}
+                    </label>
+                    <label class="label" ${visaStatus === 'warning' ?
+            "style='color: orange'" : "style='color: red'"}>
+                      Status : ${visaStatus}
+                    </label>
+        `)}
                     <figure class="image is-256x256">
-                      <img src="${data.visa}">
+                      <img src="${data.visaURL}">
                     </figure>
                 </div>
             </div>
@@ -203,14 +170,12 @@ function renderDetails() {
         <div class="column cards is-3" id="field">
             <div class="field">
                 <div class="control">
-
-                    
                     <label class="label"><u>Remark</u></label>
                     <br>
                     <div class="field">
                         <div class="control">
-                            <textarea class="textarea is-primary is-medium" disabled
-                                id="getRemark">${data.remark}</textarea>
+                            <textarea class="textarea is-primary is-medium" disabled>
+                            ${data.remark}</textarea>
                         </div>
                     </div>
                 </div>
@@ -220,11 +185,12 @@ function renderDetails() {
         `;
   }
 
-
 }
 
+// Call render
 renderDetails();
 
+// Go to edit person page
 function edit() {
   remote.getCurrentWindow().loadURL(`file://${__dirname}/edit.html`)
 }
