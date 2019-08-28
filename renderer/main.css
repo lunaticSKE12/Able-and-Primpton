@@ -12,6 +12,7 @@
   }
 }
 
+/* Global */
 html {
   background: #fff3e0;
 }
@@ -60,6 +61,21 @@ body {
   user-select: none;
 }
 
+header {
+  display: inline;
+}
+
+#logout {
+  margin-right: 24px;
+  float: right;
+}
+
+#back {
+  margin-left: 24px;
+}
+
+/* end Global */
+
 /* card select work */
 .card {
   display: inline-flex;
@@ -88,22 +104,9 @@ body {
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 }
-/* card select work */
+/* end card select work */
 
-header {
-  display: inline;
-}
-
-#logout {
-  margin-right: 24px;
-  float: right;
-}
-
-#back {
-  margin-left: 24px;
-}
-
-/* Potiner */
+/* Potiner breadcrumb */
 .breadcrumb {
   padding-top: 24px;
 }
@@ -111,7 +114,7 @@ header {
 .breadcrumb ul li a {
   text-decoration: underline;
 }
-/* Potiner */
+/* end Potiner breadcrumb */
 
 /* Companies card */
 .cards {
@@ -150,7 +153,7 @@ header {
   margin-left: 24px;
   margin-right: 24px;
 }
-/* Companies card */
+/* end Companies card */
 
 /* People card */
 .new-person {
@@ -170,7 +173,7 @@ header {
 .icon {
   margin-bottom: 10px;
 }
-/* People card */
+/* end People card */
 
 /* Person edit field and card person details */
 .editField {
@@ -222,7 +225,7 @@ header {
   padding-top: 24px;
 }
 
-/* Person edit field */
+/* end Person edit field */
 
 /* Progress bar */
 .progress-wrapper {
@@ -244,8 +247,10 @@ header {
   font-size: calc(1.25rem / 1.5);
   line-height: 1.25rem;
 }
-/* Progress bar */
+/* end Progress bar */
 
+/* notification */
 .notiBoard {
   background-color: #fffaf2;
 }
+/* end notification */

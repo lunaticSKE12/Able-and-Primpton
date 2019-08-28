@@ -43,7 +43,6 @@ function renderPeople() {
 
 	const renderPeople = (data) => {
 
-		let html = '';
 		let li = ``;
 		data.forEach(doc => {
 
@@ -76,7 +75,7 @@ function deleteCard(id) {
 	var user = firebase.auth().currentUser;
 	db.collection('users').doc(user.uid).get().then(doc => {
 		company_id = doc.data().selected_company_id
-		dialog.showMessageBox(null, options, (response) => {
+		dialog.showMessageBox(null, confirmDeletePerson, (response) => {
 			if (response === 1) {
 				dbCom.doc(company_id).collection('people').doc(id).delete();
 			}
@@ -85,7 +84,7 @@ function deleteCard(id) {
 }
 
 // Dialog confirm delete
-const options = {
+const confirmDeletePerson = {
 	type: 'question',
 	buttons: ['Cancel', 'Yes, please', 'No, thanks'],
 	defaultId: 2,
@@ -109,9 +108,4 @@ function selectPerson(id) {
 // New person
 function newPerson() {
 	remote.getCurrentWindow().loadURL(`file://${__dirname}/editPerson.html`)
-}
-
-
-function newPage() {
-	remote.getCurrentWindow().loadURL(`file://${__dirname}/new.html`)
 }

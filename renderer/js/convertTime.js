@@ -1,8 +1,11 @@
+// Convert time for timestamp to date dd-mm-yyyy for passport, workpermit, visa
+// return expire date, remaining days, status for passport, workpermit, visa
 function convert(timePassport, timeWorkpermit, timeVisa) {
 
   // Unixtimestamp
   // get now date in seconds
   let now = Math.round(+new Date() / 1000);
+
   // elapsed time in day
   let elapsedPassport = Math.ceil((timePassport - now) / 86400)
   let elapsedWorkpermit = Math.ceil((timeWorkpermit - now) / 86400)
@@ -30,7 +33,7 @@ function convert(timePassport, timeWorkpermit, timeVisa) {
   let dayW = dateW.getDate();
   let dayV = dateV.getDate();
 
-  // Display date time in MM-dd-yyyy h:m:s format
+  // Display date time in dd-MM-yyyy h:m:s format
   let convdataTimeP = dayP + ' ' + monthP + ' ' + yearP
   let convdataTimeW = dayW + ' ' + monthW + ' ' + yearW
   let convdataTimeV = dayV + ' ' + monthV + ' ' + yearV
@@ -38,7 +41,6 @@ function convert(timePassport, timeWorkpermit, timeVisa) {
   // Check status
   let { passportStatus, workpermitStatus, visaStatus } =
     checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa)
-
 
   return {
     datePassport: convdataTimeP,
@@ -53,6 +55,7 @@ function convert(timePassport, timeWorkpermit, timeVisa) {
   };
 }
 
+// check status for passport, workpermit, visa. Return valid, warning, expired
 function checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa) {
 
   // passportStatus ----------------------
@@ -65,7 +68,7 @@ function checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa) {
   else {
     passportStatus = 'expired'
   }
-  // passportStatus ----------------------
+  // end passportStatus ----------------------
 
   // workpermitStatus ----------------------
   if (elapsedWorkpermit >= 1 && elapsedWorkpermit <= 60) {
@@ -77,7 +80,7 @@ function checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa) {
   else {
     workpermitStatus = 'expired'
   }
-  // workpermitStatus ----------------------
+  // end workpermitStatus ----------------------
 
   // visaStatus ----------------------
   if (elapsedVisa >= 1 && elapsedVisa <= 45) {
@@ -89,7 +92,7 @@ function checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa) {
   else {
     visaStatus = 'expired'
   }
-  // visaStatus ----------------------
+  // end visaStatus ----------------------
 
   return {
     passportStatus, workpermitStatus, visaStatus

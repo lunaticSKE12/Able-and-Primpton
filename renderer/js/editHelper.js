@@ -67,35 +67,6 @@ function isFieldFilled() {
     (datepickerVisa !== '')
 }
 
-// Warning require field 
-function warning() {
-  dialog.showMessageBox(null, options, (response) => {
-    if (response === 1) {
-      console.log('alert')
-    }
-  });
-}
-
-// Option fail save detail
-const options = {
-  type: 'question',
-  buttons: ['Ok'],
-  defaultId: 2,
-  title: 'Alert',
-  message: 'Please fill all require field'
-};
-
-// Option fail save detail
-const options2 = {
-  type: 'question',
-  buttons: ['Ok'],
-  defaultId: 2,
-  title: 'Alert',
-  message: 'Upload error refresh page and upload again'
-};
-
-
-
 // Create a storage reference from our storage service
 function save() {
   // if all filled
@@ -154,13 +125,7 @@ function save() {
             break;
         }
       }, function (error) {
-        // Handle unsuccessful uploads
-        dialog.showMessageBox(null, options2, (response) => {
-          if (response === 1) {
-            console.log('alert')
-            mainWindow.reload()
-          }
-        });
+
       }, function () {
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
@@ -240,12 +205,7 @@ function save() {
             }
           }, function (error) {
             // Handle unsuccessful uploads
-            dialog.showMessageBox(null, options2, (response) => {
-              if (response === 1) {
-                console.log('alert')
-                mainWindow.reload()
-              }
-            });
+
           }, function () {
             // Handle successful uploads on complete
             // For instance, get the download URL: https://firebasestorage.googleapis.com/...
@@ -330,13 +290,7 @@ function save() {
                 break;
             }
           }, function (error) {
-            // Handle unsuccessful uploads
-            dialog.showMessageBox(null, options2, (response) => {
-              if (response === 1) {
-                console.log('alert')
-                mainWindow.reload()
-              }
-            });
+
           }, function () {
             // Handle successful uploads on complete
             // For instance, get the download URL: https://firebasestorage.googleapis.com/...

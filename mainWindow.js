@@ -13,7 +13,7 @@ exports.createWindow = () => {
         defaultWidth: 1000, defaultHeight: 800
     })
 
-    // Create the browser window.
+    // Create the browser window. With save state width and height
     this.win = new BrowserWindow({
         width: winState.width,
         height: winState.height,
@@ -30,6 +30,7 @@ exports.createWindow = () => {
     // and load the index.html of the app.
     this.win.loadURL(`file://${__dirname}/renderer/index.html`)
 
+    // save state
     winState.manage(this.win)
 
     // Open the DevTools.

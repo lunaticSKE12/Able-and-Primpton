@@ -1,6 +1,6 @@
+$ = require('jquery')
 
-
-// Delay to load all companies
+// Delay to load all notification
 let start
 var check = function () {
   if (start) {
@@ -14,11 +14,6 @@ var check = function () {
   }
 }
 check();
-
-
-$ = require('jquery')
-
-let html = '';
 
 function renderBoard() {
 
@@ -91,7 +86,7 @@ function renderBoard() {
       <aside class="menu column is-12">
         <ul class="menu-list">
           <li >
-            <a class="is-active">${companyName}</a>
+            <a class="is-active"><b>${companyName}</b></a>
             <ul class="columns">
               <ul class="column">
                 <li><a><b>${detail.name_en}</b></a></li>

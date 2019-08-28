@@ -1,5 +1,3 @@
-
-
 // jQuery
 $ = require('jquery')
 // Require IPC

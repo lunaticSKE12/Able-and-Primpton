@@ -15,13 +15,11 @@ check();
 // ******************
 
 // Delete company
-function deleteCard(id) {
+function deleteCardCompany(id) {
 	// Get id of company to delete in firestore
-	// let id = document.querySelector('.cards').getAttribute('id')
-	console.log(id)
 
 	// Confirm before delete
-	dialog.showMessageBox(null, options, (response) => {
+	dialog.showMessageBox(null, confirmDeleteCompany, (response) => {
 		if (response === 1) {
 			dbCom.doc(id).delete().then(function () {
 				console.log("Document successfully deleted!");
@@ -33,7 +31,7 @@ function deleteCard(id) {
 }
 
 // Dialog confirm delete
-const options = {
+const confirmDeleteCompany = {
 	type: 'question',
 	buttons: ['Cancel', 'Yes, please', 'No, thanks'],
 	defaultId: 2,
@@ -45,8 +43,10 @@ const options = {
 
 // Add new company
 function newCompany() {
+	// Get company name from input
 	let companyName = document.querySelector('#add-company-name').value;
 
+	// If company name not empty can create new company
 	if (companyName !== '') {
 		dbCom.add({
 			name: companyName
@@ -56,11 +56,12 @@ function newCompany() {
 			dbCom.doc(docRef.id).collection('people').add({
 				status: 'create'
 			})
-
 		}).catch(function (error) {
 			console.error("Error adding document: ", error);
 		});
 	}
+
+	// Clear input value
 	document.querySelector('#add-company-name').value = ''
 
 }
@@ -71,11 +72,12 @@ function renderCompanies() {
 		renderCompanies(snapshot.docs)
 	})
 
+	// Get where HTML div tag to render
 	const companiesList = document.querySelector('.card-company')
 
+	// Render
 	const renderCompanies = (data) => {
 
-		let html = '';
 		data.forEach(doc => {
 			const detail = doc.data();
 			const li = `
@@ -85,16 +87,19 @@ function renderCompanies() {
     	<p class="card-header-title is-centered" id="${doc.id}" onclick="people(this.id)">
        	${detail.name}
 			</p>
-			<span class="icon has-text-danger" id="${doc.id}" onclick="deleteCard(this.id)">
+			<span class="icon has-text-danger" id="${doc.id}" onclick="deleteCardCompany(this.id)">
        	<i class="fas fa-lg fa-ban"></i>
       </span>
 		</header>
   </div>
 </div>`;
 
+			// Temp all render items
 			html += li
 
 		});
+
+		// Push all render items to replace
 		companiesList.innerHTML = html;
 
 	}
@@ -106,9 +111,7 @@ function people(click_id) {
 	// Get current user login
 	var user = firebase.auth().currentUser;
 
-	console.log(user.uid)
-
-	// update selected for each user
+	// update selected for each user and go to company's people page
 	db.collection('users').doc(user.uid).update({
 		selected_company_id: click_id
 	}).then(function () {
@@ -117,6 +120,7 @@ function people(click_id) {
 
 }
 
+// Check who will expire soon
 function checkNotification() {
 	window.open(`file://${__dirname}/notification.html`, 'Notification Board', 'nodeIntegration=yes')
 }

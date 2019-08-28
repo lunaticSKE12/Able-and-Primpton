@@ -80,7 +80,7 @@ exports.check = () => {
           type: 'info',
           title: 'Update Ready',
           message: 'A new version of Able and Primpton is ready, Quit and install now?',
-          buttons: ['Yes', 'Later']
+          buttons: ['Yes']
         }, (buttonIndex) => {
 
           // Update if 'Yes'
