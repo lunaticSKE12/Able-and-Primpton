@@ -19,3 +19,7 @@ and [Electron.js](https://electronjs.org/)
 [![ForTheBadge uses-js](http://ForTheBadge.com/images/badges/uses-js.svg)](http://ForTheBadge.com)
 [![ForTheBadge makes-people-smile](http://ForTheBadge.com/images/badges/makes-people-smile.svg)](http://ForTheBadge.com)
 [![ForTheBadge powered-by-electricity](http://ForTheBadge.com/images/badges/powered-by-electricity.svg)](http://ForTheBadge.com)
+
+# Download
+
+[DOWNLOAD HERRE](https://github.com/lunaticSKE12/Able-and-Primpton/releases) and install
