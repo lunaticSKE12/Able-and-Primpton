@@ -278,7 +278,7 @@ function save() {
         }
 
         // if have visa to upload
-        else if (document.getElementById('workpermitFile').files[0] !== undefined) {
+        else if (document.getElementById('workpermitVisa').files[0] !== undefined) {
           // Get file and file name then set directory in firebase
           var selectedFile = document.getElementById('visaFile').files[0]
           var inputFileName = document.getElementById('visaFile').files[0].name;
@@ -298,7 +298,7 @@ function save() {
             bar.value = progress;
             barValue.innerText = `${progress}%`
 
-            // console.log('Upload is ' + progress + '% done');
+            console.log('visa Upload is ' + progress + '% done');
             switch (snapshot.state) {
               case firebase.storage.TaskState.PAUSED: // or 'paused'
                 console.log('Upload is paused');
