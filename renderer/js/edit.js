@@ -1,6 +1,6 @@
 
 // Show detail from server
-function newPerson(passport, workpermit, visa) {
+function newPerson(passportURL, workpermitURL, visaURL) {
   // Get all field value
   let { name_en, name_th, nationality,
     passportNumber, datepickerPassport,
@@ -11,24 +11,26 @@ function newPerson(passport, workpermit, visa) {
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
       // User is signed in.
+      // Get current user 
       db.collection('users').doc(user.uid).get().then(doc => {
-        // Selected company for this user
+        // Selected company and person for this user
         company_id = doc.data().selected_company_id
         company_person = doc.data().selected_person_id
 
-        if (passport !== '') {
+        // Update URL passport, workpermit, visa
+        if (passportURL !== '') {
           dbCom.doc(company_id).collection('people').doc(company_person).update({
-            passport: passport
+            passportURL: passportURL
           })
         }
-        if (workpermit !== '') {
+        if (workpermitURL !== '') {
           dbCom.doc(company_id).collection('people').doc(company_person).update({
-            workpermit: workpermit
+            workpermitURL: workpermitURL
           })
         }
-        if (visa !== '') {
+        if (visaURL !== '') {
           dbCom.doc(company_id).collection('people').doc(company_person).update({
-            visa: visa
+            visaURL: visaURL
           })
         }
 
