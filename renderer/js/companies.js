@@ -1,3 +1,6 @@
+/**
+ *   @author Napong Dungduangsasitorn
+ * */
 // Delay to load all companies
 let start
 var check = function () {

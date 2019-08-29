@@ -1,3 +1,6 @@
+/**
+ *   @author Napong Dungduangsasitorn
+ * */
 // Modules
 const { dialog, app, BrowserWindow, ipcMain } = require('electron')
 const { autoUpdater } = require("electron-updater")

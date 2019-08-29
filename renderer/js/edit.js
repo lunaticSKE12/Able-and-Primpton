@@ -1,4 +1,6 @@
-
+/**
+ *   @author Napong Dungduangsasitorn
+ * */
 // Show detail from server
 function newPerson(passportURL, workpermitURL, visaURL) {
   // Get all field value

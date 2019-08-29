@@ -1,3 +1,6 @@
+/**
+ *   @author Napong Dungduangsasitorn
+ * */
 // jQuery
 $ = require('jquery')
 // Require IPC

@@ -1,3 +1,6 @@
+/**
+ *   @author Napong Dungduangsasitorn
+ * */
 // Modules to control application life and create native browser window
 const { app } = require('electron')
 const mainWindow = require('./mainWindow')

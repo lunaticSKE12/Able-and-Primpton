@@ -1,3 +1,6 @@
+/**
+ *   @author Napong Dungduangsasitorn
+ * */
 $ = require('jquery')
 
 // Delay to load all notification

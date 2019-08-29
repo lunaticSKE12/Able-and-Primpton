@@ -1,3 +1,6 @@
+/**
+ *   @author Napong Dungduangsasitorn
+ * */
 // Change to seconds or milliseconds
 let changeSeconds = 1000
 // Seconds in one day

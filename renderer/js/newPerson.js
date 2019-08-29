@@ -1,3 +1,6 @@
+/**
+ *   @author Napong Dungduangsasitorn
+ * */
 // Get selected company id onAuthStateChanged
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {

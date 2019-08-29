@@ -1,4 +1,7 @@
 
+/**
+ *   @author Napong Dungduangsasitorn
+ * */
 const { BrowserWindow } = require('electron')
 const windowStateKeeper = require('electron-window-state')
 

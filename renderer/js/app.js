@@ -1,3 +1,6 @@
+/**
+ *   @author Napong Dungduangsasitorn
+ * */
 const { remote } = require('electron')
 const { BrowserWindow } = require('electron')
 const { dialog } = require('electron').remote
