@@ -278,7 +278,7 @@ function save() {
         }
 
         // if have visa to upload
-        else if (document.getElementById('workpermitVisa').files[0] !== undefined) {
+        else if (document.getElementById('visaFile').files[0] !== undefined) {
           // Get file and file name then set directory in firebase
           var selectedFile = document.getElementById('visaFile').files[0]
           var inputFileName = document.getElementById('visaFile').files[0].name;
