@@ -2,6 +2,7 @@
  *   @author Napong Dungduangsasitorn
  * */
 $ = require('jquery')
+const { clipboard } = require('electron')
 
 // Render person detail
 function renderDetails() {
@@ -65,7 +66,7 @@ function renderDetails() {
             </div>
         </div>
 
-        <div class="column cards is-5" id="field">
+        <div class="column cards is-3" id="field">
             <div class="field">
                 <div class="control">
                 <label class="label"><u>Passport</u></label>
@@ -94,14 +95,14 @@ function renderDetails() {
                       Status : ${passportStatus}
                     </label>
         `)}
-                    <figure class="image is-256x256">
-                      <img src="${data.passportURL}">
-                    </figure>
+                  <label class="label">
+                    <a id="${data.passportURL}" onclick="copyURL(this.id)"><u>passport link</u></a>
+                  </label>
                 </div>
             </div>
         </div>
 
-        <div class="column cards is-5" id="field">
+        <div class="column cards is-3" id="field">
             <div class="field">
                 <div class="control">
                 <label class="label"><u>Work Permit</u></label>
@@ -127,14 +128,15 @@ function renderDetails() {
                   Status : ${workpermitStatus}
                 </label>
         `)}
-                <figure class="image is-256x256">
-                  <img src="${data.workpermitURL}">
-                </figure>
+        
+                  <label class="label">
+                    <a id="${data.workpermitURL}" onclick="copyURL(this.id)"><u>workpermit link</u></a>
+                  </label>
                 </div>
             </div>
         </div>
 
-        <div class="column cards is-5" id="field">
+        <div class="column cards is-3" id="field">
             <div class="field">
                 <div class="control">
                     <label class="label"><u>Visa</u></label>
@@ -163,9 +165,10 @@ function renderDetails() {
                       Status : ${visaStatus}
                     </label>
         `)}
-                    <figure class="image is-256x256">
-                      <img src="${data.visaURL}">
-                    </figure>
+
+                  <label class="label">
+                    <a id="${data.visaURL}" onclick="copyURL(this.id)"><u>visa link</u></a>
+                  </label>    
                 </div>
             </div>
         </div>
@@ -196,5 +199,11 @@ renderDetails();
 // Go to edit person page
 function edit() {
   remote.getCurrentWindow().loadURL(`file://${__dirname}/edit.html`)
+}
+
+function copyURL(url) {
+  clipboard.writeText(url, 'selection')
+  console.log(clipboard.readText('selection'))
+  alert("Copy link, plase paste in browser")
 }
 
