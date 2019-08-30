@@ -204,6 +204,6 @@ function edit() {
 function copyURL(url) {
   clipboard.writeText(url, 'selection')
   console.log(clipboard.readText('selection'))
-  alert("Copy link, plase paste in browser")
+  alert("Copy link, please paste in browser")
 }
 
