@@ -178,10 +178,10 @@ function renderDetails() {
                 <div class="control">
                     <label class="label"><u>Remark</u></label>
                     <br>
-
                     <div class="field">
                         <div class="control">
-                            <textarea class="textarea is-primary is-medium" disabled>${data.remark}</textarea>
+                            <textarea class="textarea is-primary is-medium" disabled>
+                            ${data.remark}</textarea>
                         </div>
                     </div>
                 </div>
