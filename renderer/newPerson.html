@@ -269,6 +269,34 @@
         </p>
       </div>
       <!-- end Select nationality -->
+
+      <!-- Uploading image -->
+
+      <br>
+      <label class="label">Person Image</label>
+      <div class="file has-name is-boxed upload-box is-centered">
+        <label class="file-label">
+          <input class="file-input" type="file" name="resume" id="imageFile" onchange="showFileName('image')">
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Choose a file…
+            </span>
+          </span>
+          <span class="file-name" id="textInput_image">
+          </span>
+        </label>
+      </div>
+      <div class="progress-wrapper">
+        <progress class="progress is-link is-medium" value="0" max="100" id="progressImage"></progress>
+        <p class="progress-value" id="uploaderImageValue">0%</p>
+      </div>
+
+      <!-- end Uploading image -->
+
+
     </div>
     <!-- end Field name email -->
 
@@ -414,6 +442,35 @@
       <!-- end Uploading visa -->
     </div>
     <!-- end Field Visa -->
+
+    <!-- Field Application -->
+    <div class="field column cards " id="field">
+      <br>
+      <label class="label"><u>Application Submission</u></label>
+      <br>
+      <label class="label">Date of application for extension</label>
+
+      <div class="control datepicker">
+        <input type="date" class="select-date" id="datepickerExtension">
+      </div>
+
+      <br>
+      <label class="label">Next appointment</label>
+      <div class="control datepicker">
+        <input type="date" class="select-date" id="datepickerNextAppointment">
+      </div>
+      <br>
+      <label class="label">Application Description</label>
+      <span class="select" id="description">
+        <select id="applicationDescription">
+          <option selected>Selected</option>
+          <option value="1 month">1 month</option>
+          <option value="90 days">90 days</option>
+          <option value="1 year">1 year</option>
+        </select>
+      </span>
+    </div>
+    <!-- end Field Application -->
 
     <!-- Field Remark -->
     <div class="field column cards " id="field">

@@ -7,7 +7,11 @@ function newPerson(passportURL, workpermitURL, visaURL) {
   let { name_en, name_th, nationality,
     passportNumber, datepickerPassport,
     datepickerWorkpermit, visaType,
-    datepickerVisa, remark } = getField()
+    datepickerVisa, remark,
+    dateApplicationExtendsion,
+    datepickerNextAppointment,
+    applicationDescription
+  } = getField()
 
   // onAuthStateChanged
   firebase.auth().onAuthStateChanged(function (user) {
@@ -47,6 +51,9 @@ function newPerson(passportURL, workpermitURL, visaURL) {
           datepickerWorkpermit: new Date(datepickerWorkpermit),
           visaType: visaType,
           datepickerVisa: new Date(datepickerVisa),
+          dateApplicationExtendsion: new Date(dateApplicationExtendsion),
+          datepickerNextAppointment: new Date(datepickerNextAppointment),
+          applicationDescription: applicationDescription,
           remark: remark
         }).then(function () {
           remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
@@ -98,10 +105,16 @@ function renderDetails() {
     // Get timestamp
     let { datePassport,
       dateWorkpermit,
-      dateVisa }
+      dateVisa,
+      dateAppcationExtension,
+      dateNextAppointment }
       = convert(data.datepickerPassport.seconds,
         data.datepickerWorkpermit.seconds,
-        data.datepickerVisa.seconds);
+        data.datepickerVisa.seconds
+        // ,
+        // data.dateApplicationExtendsion.seconds,
+        // data.datepickerNextAppointment.seconds
+      );
 
     document.querySelector('.editField').innerHTML = `
 
@@ -329,6 +342,31 @@ function renderDetails() {
     </div>
     <!-- Select nationality -->
 
+    <br>
+    <label class="label">Person Image</label>
+    <!-- Uploading image -->
+    <div class="file has-name is-boxed upload-box is-centered">
+      <label class="file-label">
+        <input class="file-input" type="file" name="resume" id="imageFile" onchange="showFileName('image')">
+        <span class="file-cta">
+          <span class="file-icon">
+            <i class="fas fa-upload"></i>
+          </span>
+          <span class="file-label">
+            Choose a file…
+          </span>
+        </span>
+        <span class="file-name" id="textInput_image">
+        </span>
+      </label>
+    </div>
+    <div class="progress-wrapper">
+      <progress class="progress is-link is-medium" value="0" max="100" id="progressImage"></progress>
+      <p class="progress-value" id="uploaderImageValue">0%</p>
+    </div>
+
+    <!-- end Uploading image -->
+
   </div>
   <!-- Field name email -->
 
@@ -467,6 +505,35 @@ function renderDetails() {
   </div>
   <!-- Field Visa -->
 
+  <!-- Field Application -->
+    <div class="field column cards " id="field">
+      <br>
+      <label class="label"><u>Application Submission</u></label>
+      <br>
+      <label class="label">Date of application for extension</label>
+
+      <div class="control datepicker">
+        <input type="date" class="select-date" id="datepickerExtension" value="${dateAppcationExtension}">
+      </div>
+
+      <br>
+      <label class="label">Next appointment</label>
+      <div class="control datepicker">
+        <input type="date" class="select-date" id="datepickerNextAppointment" value="${dateNextAppointment}">
+      </div>
+      <br>
+      <label class="label">Application Description</label>
+      <span class="select" id="description">
+        <select id="applicationDescription">
+          <option selected>Selected</option>
+          <option value="1 month">1 month</option>
+          <option value="90 days">90 days</option>
+          <option value="1 year">1 year</option>
+        </select>
+      </span>
+    </div>
+    <!-- end Field Application -->
+
   <!-- Field Remark -->
   <div class="field column cards" id="field">
     <br>
@@ -484,6 +551,7 @@ function renderDetails() {
     // Set dropdown nation and visa type value
     SelectElement("nation", `${data.nationality}`)
     SelectElement("type", `${data.visaType}`)
+    SelectElement("applicationDescription", `${data.applicationDescription}`)
 
     // Set dropdown value
     function SelectElement(id, valueToSelect) {
@@ -498,17 +566,21 @@ function renderDetails() {
 renderDetails();
 
 // Convert timestamp
-function convert(timePassport, timeWorkpermit, timeVisa) {
+function convert(timePassport, timeWorkpermit, timeVisa, timeApplicationExtendsion, timeNewAppointment) {
 
   // Convert timestamp to milliseconds
   let dateP = new Date(timePassport * 1000);
   let dateW = new Date(timeWorkpermit * 1000)
   let dateV = new Date(timeVisa * 1000)
+  let dateAE = new Date(timeApplicationExtendsion * 1000);
+  let dateNA = new Date(timeNewAppointment * 1000);
 
   // Year
   let yearP = dateP.getFullYear();
   let yearW = dateW.getFullYear();
   let yearV = dateV.getFullYear();
+  let yearAE = dateAE.getFullYear();
+  let yearNA = dateNA.getFullYear();
 
   // Month 
   // Set for datepicker format
@@ -523,6 +595,14 @@ function convert(timePassport, timeWorkpermit, timeVisa) {
   let monthV = dateV.getMonth() + 1;
   if (monthV < 10) {
     monthV = "0" + monthV
+  }
+  let monthAE = dateAE.getMonth() + 1;
+  if (monthAE < 10) {
+    monthAE = "0" + monthAE
+  }
+  let monthNA = dateNA.getMonth() + 1;
+  if (monthNA < 10) {
+    monthNA = "0" + monthNA
   }
 
   // Day
@@ -539,16 +619,28 @@ function convert(timePassport, timeWorkpermit, timeVisa) {
   if (dayV < 10) {
     dayV = "0" + dayV
   }
+  let dayAE = dateAE.getDate();
+  if (dayAE < 10) {
+    dayAE = "0" + dayAE
+  }
+  let dayNA = dateNA.getDate();
+  if (dayNA < 10) {
+    dayNA = "0" + dayNA
+  }
 
   // Display date time in yyyy-MM-dd format
   let convdataTimeP = yearP + '-' + monthP + '-' + dayP
   let convdataTimeW = yearW + '-' + monthW + '-' + dayW
   let convdataTimeV = yearV + '-' + monthV + '-' + dayV
+  let convdataTimeAE = yearAE + '-' + monthAE + '-' + dayAE
+  let convdataTimeNA = yearNA + '-' + monthNA + '-' + dayNA
 
   return {
     datePassport: convdataTimeP,
     dateWorkpermit: convdataTimeW,
-    dateVisa: convdataTimeV
+    dateVisa: convdataTimeV,
+    dateAppcationExtension: convdataTimeAE,
+    dateNextAppointment: convdataTimeNA,
   };
 }
 

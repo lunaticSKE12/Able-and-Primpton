@@ -41,10 +41,18 @@ function renderDetails() {
       dateWorkpermit, remainingWorkpermit,
       workpermitStatus,
       dateVisa, remainingVisa,
-      visaStatus }
+      visaStatus,
+      dateAppcationExtension,
+      dateNextAppointment,
+      remainingAppoinment }
       = convert(data.datepickerPassport.seconds,
         data.datepickerWorkpermit.seconds,
-        data.datepickerVisa.seconds);
+        data.datepickerVisa.seconds
+        // new submission extension
+        // ,
+        // data.dateApplicationExtendsion.seconds,
+        // data.datepickerNextAppointment.seconds
+      );
 
     // Push render to HTML
     document.querySelector('.card-detail').innerHTML = `
@@ -132,6 +140,7 @@ function renderDetails() {
                   <label class="label">
                     <a id="${data.workpermitURL}" onclick="copyURL(this.id)"><u>workpermit link</u></a>
                   </label>
+                  
                 </div>
             </div>
         </div>
@@ -172,6 +181,19 @@ function renderDetails() {
                 </div>
             </div>
         </div>
+
+        <!-- Field Application -->
+    <div class="field column cards " id="field">
+      <br>
+      <label class="label"><u>Application Submission</u></label>
+      <br>
+      <label class="label">Date of application for extension : ${dateAppcationExtension}</label>
+      <label class="label">Next appointment : ${dateNextAppointment}</label>
+      <label class="label">Application Description : ${data.applicationDescription}</label>
+      <label class="label">Status : ${appointmentStatus}</label>
+      
+    </div>
+    <!-- end Field Application -->
 
         <div class="column cards is-3" id="field">
             <div class="field">

@@ -6,7 +6,15 @@ let percent = 100
 
 // Show file name to upload passport, workpermit, visa
 function showFileName(type) {
-  if (type === 'passport') {
+  if (type === 'image') {
+    // Get file name
+    var inputFileImage = document.getElementById('imageFile').files[0].name;
+    // Get field text 
+    var text = document.getElementById('textInput_image')
+    // Show file name
+    text.textContent = inputFileImage;
+  }
+  else if (type === 'passport') {
     // Get file name
     var inputFilePassport = document.getElementById('passportFile').files[0].name;
     // Get field text 
@@ -46,12 +54,20 @@ function getField() {
   let visaType = type.options[type.selectedIndex].value;
   let datepickerVisa = document.getElementById('datepickerVisa').value
   let remark = document.getElementById('remark').value;
+  // let dateApplicationExtendsion = document.getElementById('datepickerExtension').value
+  // let datepickerNextAppointment = document.getElementById('datepickerNextAppointment').value
+  // let getApplicationDescription = document.getElementById("applicationDescription");
+  // let applicationDescription = getApplicationDescription.options[getApplicationDescription.selectedIndex].value;
 
   return {
     name_en, name_th, nationality,
     passportNumber, datepickerPassport,
     datepickerWorkpermit, visaType,
     datepickerVisa, remark
+    // ,
+    // dateApplicationExtendsion,
+    // datepickerNextAppointment,
+    // applicationDescription
   }
 }
 
@@ -63,7 +79,11 @@ function isFieldFilled() {
   let { name_en, name_th, nationality,
     passportNumber, datepickerPassport,
     datepickerWorkpermit, visaType,
-    datepickerVisa, remark } = getField()
+    datepickerVisa, remark,
+    dateApplicationExtendsion,
+    datepickerNextAppointment,
+    applicationDescription
+  } = getField()
 
   return (name_en !== '') &&
     (nationality !== '') &&

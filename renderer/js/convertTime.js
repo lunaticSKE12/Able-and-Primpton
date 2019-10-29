@@ -9,10 +9,11 @@ let secondsPerDay = 86400
 let passportWarningDays = 195
 let workpermitWarningDays = 60
 let visaWarningDays = 45
+let applicationWarningDays = 5
 
 // Convert time for timestamp to date dd-mm-yyyy for passport, workpermit, visa
 // return expire date, remaining days, status for passport, workpermit, visa
-function convert(timePassport, timeWorkpermit, timeVisa) {
+function convert(timePassport, timeWorkpermit, timeVisa, timeApplicationExtendsion, timeNewAppointment) {
 
   // Unixtimestamp
   // get now date in seconds
@@ -22,6 +23,7 @@ function convert(timePassport, timeWorkpermit, timeVisa) {
   let elapsedPassport = Math.ceil((timePassport - now) / secondsPerDay)
   let elapsedWorkpermit = Math.ceil((timeWorkpermit - now) / secondsPerDay)
   let elapsedVisa = Math.ceil((timeVisa - now) / secondsPerDay)
+  let elapsedNextAppointment = Math.ceil((timeNewAppointment - now) / secondsPerDay)
   // Months array
   let months_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -29,30 +31,40 @@ function convert(timePassport, timeWorkpermit, timeVisa) {
   let dateP = new Date(timePassport * changeSeconds);
   let dateW = new Date(timeWorkpermit * changeSeconds)
   let dateV = new Date(timeVisa * changeSeconds)
+  let dateAE = new Date(timeApplicationExtendsion * changeSeconds);
+  let dateNA = new Date(timeNewAppointment * changeSeconds);
 
   // Year
   let yearP = dateP.getFullYear();
   let yearW = dateW.getFullYear();
   let yearV = dateV.getFullYear();
+  let yearAE = dateAE.getFullYear();
+  let yearNA = dateNA.getFullYear();
 
   // Month
   let monthP = months_arr[dateP.getMonth()];
   let monthW = months_arr[dateW.getMonth()];
   let monthV = months_arr[dateV.getMonth()];
+  let monthAE = months_arr[dateAE.getMonth()];
+  let monthNA = months_arr[dateNA.getMonth()];
 
   // Day
   let dayP = dateP.getDate();
   let dayW = dateW.getDate();
   let dayV = dateV.getDate();
+  let dayAE = dateAE.getDate();
+  let dayNA = dateNA.getDate();
 
   // Display date time in dd-MM-yyyy h:m:s format
   let convdataTimeP = dayP + ' ' + monthP + ' ' + yearP
   let convdataTimeW = dayW + ' ' + monthW + ' ' + yearW
   let convdataTimeV = dayV + ' ' + monthV + ' ' + yearV
+  let convdataTimeAE = dayAE + ' ' + monthAE + ' ' + yearAE
+  let convdataTimeNA = dayNA + ' ' + monthNA + ' ' + yearNA
 
   // Check status
-  let { passportStatus, workpermitStatus, visaStatus } =
-    checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa)
+  let { passportStatus, workpermitStatus, visaStatus, appointmentStatus } =
+    checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa, elapsedNextAppointment)
 
   return {
     datePassport: convdataTimeP,
@@ -63,12 +75,16 @@ function convert(timePassport, timeWorkpermit, timeVisa) {
     workpermitStatus: workpermitStatus,
     dateVisa: convdataTimeV,
     remainingVisa: elapsedVisa,
-    visaStatus: visaStatus
+    visaStatus: visaStatus,
+    dateAppcationExtension: convdataTimeAE,
+    dateNextAppointment: convdataTimeNA,
+    appointmentStatus: appointmentStatus,
+    remainingAppoinment: elapsedNextAppointment
   };
 }
 
 // check status for passport, workpermit, visa. Return valid, warning, expired
-function checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa) {
+function checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa, elapsedNextAppointment) {
 
   // passportStatus ----------------------
   if (elapsedPassport >= 1 && elapsedPassport <= passportWarningDays) {
@@ -106,7 +122,18 @@ function checkStatus(elapsedPassport, elapsedWorkpermit, elapsedVisa) {
   }
   // end visaStatus ----------------------
 
+  // AppoinmentStatus -------
+  if (elapsedNextAppointment > 1 && elapsedNextAppointment <= applicationWarningDays) {
+    appointmentStatus = 'Prepare to Pick-up'
+  }
+  else if (elapsedNextAppointment > applicationWarningDays) {
+    appointmentStatus = 'Send'
+  }
+  else {
+    appointmentStatus = 'Done'
+  }
+
   return {
-    passportStatus, workpermitStatus, visaStatus
+    passportStatus, workpermitStatus, visaStatus, appointmentStatus
   }
 }

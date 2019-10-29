@@ -20,13 +20,17 @@ firebase.auth().onAuthStateChanged(function (user) {
 });
 
 // Save detail to server
-function newPerson(passportURL, workpermitURL, visaURL) {
+function newPerson(imageURL, passportURL, workpermitURL, visaURL) {
 
   // Get all field value
   let { name_en, name_th, nationality,
     passportNumber, datepickerPassport,
     datepickerWorkpermit, visaType,
-    datepickerVisa, remark } = getField()
+    datepickerVisa, remark,
+    dateApplicationExtendsion,
+    datepickerNextAppointment,
+    applicationDescription
+  } = getField()
 
   // onAuthStateChanged
   firebase.auth().onAuthStateChanged(function (user) {
@@ -49,6 +53,9 @@ function newPerson(passportURL, workpermitURL, visaURL) {
           datepickerWorkpermit: new Date(datepickerWorkpermit),
           visaType: visaType,
           datepickerVisa: new Date(datepickerVisa),
+          dateApplicationExtendsion: new Date(dateApplicationExtendsion),
+          datepickerNextAppointment: new Date(datepickerNextAppointment),
+          applicationDescription: applicationDescription,
           remark: remark
         }).then(function () {
           // Return to people page
