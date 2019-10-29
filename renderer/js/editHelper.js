@@ -6,7 +6,15 @@ let percent = 100
 
 // Show file name to upload passport, workpermit, visa
 function showFileName(type) {
-  if (type === 'passport') {
+  if (type === 'image') {
+    // Get file name
+    var inputFileImage = document.getElementById('imageFile').files[0].name;
+    // Get field text 
+    var text = document.getElementById('textInput_image')
+    // Show file name
+    text.textContent = inputFileImage;
+  }
+  else if (type === 'passport') {
     // Get file name
     var inputFilePassport = document.getElementById('passportFile').files[0].name;
     // Get field text 
@@ -79,22 +87,22 @@ function save() {
   // if all filled
   if (isFieldFilled()) {
 
-    // passport -------------------------------------------------------
-    // if no passport upload
-    if (document.getElementById('passportFile').files[0] === undefined) {
+    // image -------------------------------------------------------
+    // if no image upload
+    if (document.getElementById('imageFile').files[0] === undefined) {
 
       // Get current user
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.
 
-          // Set passport URL temp in user before update to person
+          // Set image URL temp in user before update to person
           db.collection('users').doc(user.uid).update({
-            passportURL: ''
+            imageURL: ''
           }).then(function () {
-            // Set passport progress 100%
-            var bar = document.getElementById('progressPassport');
-            var barValue = document.getElementById('uploaderPassportValue');
+            // Set image progress 100%
+            var bar = document.getElementById('progressImage');
+            var barValue = document.getElementById('uploaderImageValue');
             bar.value = percent;
             barValue.innerText = "100%"
           })
@@ -102,14 +110,14 @@ function save() {
       });
     }
 
-    // If have passport to upload
-    else if (document.getElementById('passportFile').files[0] !== undefined) {
+    // If have image to upload
+    else if (document.getElementById('imageFile').files[0] !== undefined) {
       // console.log('have img')
       // Get file and file name then set directory in firebase
-      var selectedFile = document.getElementById('passportFile').files[0]
-      var inputFileName = document.getElementById('passportFile').files[0].name;
+      var selectedFile = document.getElementById('imageFile').files[0]
+      var inputFileName = document.getElementById('imageFile').files[0].name;
       let name_en = document.getElementById('name_en').value
-      let storageRef = firebase.storage().ref(`/img/${name_en}/passport/${inputFileName}`);
+      let storageRef = firebase.storage().ref(`/img/${name_en}/image/${inputFileName}`);
 
       // console.log("ref " + storageRef);
 
@@ -119,10 +127,10 @@ function save() {
       uploadTask.on('state_changed', function (snapshot) {
         // Observe state change events such as progress, pause, and resume
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        // Set progress bar passport
+        // Set progress bar image
         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * percent;
-        var bar = document.getElementById('progressPassport');
-        var barValue = document.getElementById('uploaderPassportValue');
+        var bar = document.getElementById('progressImage');
+        var barValue = document.getElementById('uploaderImageValue');
         bar.value = progress;
         barValue.innerText = `${progress}%`
 
@@ -141,13 +149,13 @@ function save() {
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-          console.log('File passport available at', downloadURL);
+          console.log('File image available at', downloadURL);
           firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
               // User is signed in.
-              // Set passport URL temp in user before update to person
+              // Set image URL temp in user before update to person
               db.collection('users').doc(user.uid).update({
-                passportURL: downloadURL
+                imageURL: downloadURL
               })
             }
           });
@@ -155,6 +163,94 @@ function save() {
       });
       //////// Upload ---------------------------------------------------------------
     }
+
+    // end image -------------------------------------------------------
+
+
+
+    // passport -------------------------------------------------------
+
+    var trackImage = setInterval(function () {
+      // Set delay for upload workpermit
+      // If workpermit progress 100%
+      if (document.getElementById('progressImage').value === percent) {
+        // if no passport upload
+        if (document.getElementById('passportFile').files[0] === undefined) {
+
+          // Get current user
+          firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+              // User is signed in.
+
+              // Set passport URL temp in user before update to person
+              db.collection('users').doc(user.uid).update({
+                passportURL: ''
+              }).then(function () {
+                // Set passport progress 100%
+                var bar = document.getElementById('progressPassport');
+                var barValue = document.getElementById('uploaderPassportValue');
+                bar.value = percent;
+                barValue.innerText = "100%"
+              })
+            }
+          });
+        }
+
+        // If have passport to upload
+        else if (document.getElementById('passportFile').files[0] !== undefined) {
+          // console.log('have img')
+          // Get file and file name then set directory in firebase
+          var selectedFile = document.getElementById('passportFile').files[0]
+          var inputFileName = document.getElementById('passportFile').files[0].name;
+          let name_en = document.getElementById('name_en').value
+          let storageRef = firebase.storage().ref(`/img/${name_en}/passport/${inputFileName}`);
+
+          // console.log("ref " + storageRef);
+
+          //////// Upload ---------------------------------------------------------------
+          var uploadTask = storageRef.put(selectedFile);
+
+          uploadTask.on('state_changed', function (snapshot) {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            // Set progress bar passport
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * percent;
+            var bar = document.getElementById('progressPassport');
+            var barValue = document.getElementById('uploaderPassportValue');
+            bar.value = progress;
+            barValue.innerText = `${progress}%`
+
+            // console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log('Upload is paused');
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log('Upload is running');
+                break;
+            }
+          }, function (error) {
+
+          }, function () {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+              console.log('File passport available at', downloadURL);
+              firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                  // User is signed in.
+                  // Set passport URL temp in user before update to person
+                  db.collection('users').doc(user.uid).update({
+                    passportURL: downloadURL
+                  })
+                }
+              });
+            });
+          });
+          //////// Upload ---------------------------------------------------------------
+        }
+      }
+    }, 2000);
 
     // end passport -------------------------------------------------------
 
@@ -347,11 +443,12 @@ function save() {
             // User is signed in.
             db.collection('users').doc(user.uid).get().then(doc => {
               // Get current user upload URL
+              image = doc.data().imageURL
               passport = doc.data().passportURL
               workpermit = doc.data().workpermitURL
               visa = doc.data().visaURL
               // Then pass to save in person
-              newPerson(passport, workpermit, visa)
+              newPerson(image, passport, workpermit, visa)
             })
           }
         })

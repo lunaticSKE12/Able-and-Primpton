@@ -49,7 +49,7 @@ function renderDetails() {
     // Push render to HTML
     document.querySelector('.card-detail').innerHTML = `
         
-        <div class="column cards is-3" id="field">
+        <div class="column cards is-4" id="field">
             <div class="field">
                 <div class="control">
                     <label class="label">Name :
@@ -61,6 +61,10 @@ function renderDetails() {
                     <label class="label">Nationality :
                         <label>${data.nationality}</label>
                     </label>
+
+                    <figure class="column image">
+                      <img src="${data.imageURL}">
+                    </figure>
                     
                 </div>
             </div>

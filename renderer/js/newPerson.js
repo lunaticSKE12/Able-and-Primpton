@@ -20,7 +20,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 });
 
 // Save detail to server
-function newPerson(passportURL, workpermitURL, visaURL) {
+function newPerson(imageURL, passportURL, workpermitURL, visaURL) {
 
   // Get all field value
   let { name_en, name_th, nationality,
@@ -38,6 +38,7 @@ function newPerson(passportURL, workpermitURL, visaURL) {
 
         // Save detail to server
         dbCom.doc(company_id).collection('people').add({
+          imageURL: imageURL,
           passportURL: passportURL,
           workpermitURL: workpermitURL,
           visaURL: visaURL,

@@ -2,7 +2,7 @@
  *   @author Napong Dungduangsasitorn
  * */
 // Show detail from server
-function newPerson(passportURL, workpermitURL, visaURL) {
+function newPerson(imageURL, passportURL, workpermitURL, visaURL) {
   // Get all field value
   let { name_en, name_th, nationality,
     passportNumber, datepickerPassport,
@@ -19,7 +19,12 @@ function newPerson(passportURL, workpermitURL, visaURL) {
         company_id = doc.data().selected_company_id
         company_person = doc.data().selected_person_id
 
-        // Update URL passport, workpermit, visa
+        // Update URL image passport, workpermit, visa
+        if (imageURL !== '') {
+          dbCom.doc(company_id).collection('people').doc(company_person).update({
+            imageURL: imageURL
+          })
+        }
         if (passportURL !== '') {
           dbCom.doc(company_id).collection('people').doc(company_person).update({
             passportURL: passportURL
@@ -329,6 +334,31 @@ function renderDetails() {
     </div>
     <!-- Select nationality -->
 
+    <!-- Uploading image -->
+      <br>
+
+      <label class="label"><u>Image</u></label>
+      <div class="file has-name is-boxed upload-box is-centered">
+        <label class="file-label">
+          <input class="file-input" type="file" name="resume" id="imageFile" onchange="showFileName('image')">
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Choose a file…
+            </span>
+          </span>
+          <span class="file-name" id="textInput_image">
+          </span>
+        </label>
+      </div>
+      <div class="progress-wrapper">
+        <progress class="progress is-link is-medium" value="0" max="100" id="progressImage"></progress>
+        <p class="progress-value" id="uploaderImageValue">0%</p>
+      </div>
+
+      <!-- end Uploading image -->
   </div>
   <!-- Field name email -->
 
