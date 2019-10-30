@@ -10,6 +10,9 @@ let passportWarningDays = 195
 let workpermitWarningDays = 60
 let visaWarningDays = 45
 
+// warning days for appointment
+let applicationWarningDays = 5
+
 // Convert time for timestamp to date dd-mm-yyyy for passport, workpermit, visa
 // return expire date, remaining days, status for passport, workpermit, visa
 function convert(timePassport, timeWorkpermit, timeVisa) {
@@ -65,6 +68,21 @@ function convert(timePassport, timeWorkpermit, timeVisa) {
     remainingVisa: elapsedVisa,
     visaStatus: visaStatus
   };
+}
+
+function convertApplication(timeApplicationExtendsion, timeNewAppointment, applicationDescription) {
+
+  if (timeApplicationExtendsion === 'no extendsion' && timeNewAppointment === 'no appointment'
+    && applicationDescription === 'no description') {
+    return {
+      dateApplicationExtendsion: '-',
+      datepickerNextAppointment: '-',
+      applicationDescription: '-',
+      remainingApplication: '-',
+      applicationStatus: '-'
+    }
+  }
+
 }
 
 // check status for passport, workpermit, visa. Return valid, warning, expired

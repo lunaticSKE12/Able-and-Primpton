@@ -7,7 +7,11 @@ function newPerson(imageURL, passportURL, workpermitURL, visaURL) {
   let { name_en, name_th, nationality,
     passportNumber, datepickerPassport,
     datepickerWorkpermit, visaType,
-    datepickerVisa, remark } = getField()
+    datepickerVisa,
+    dateApplicationExtendsion,
+    datepickerNextAppointment,
+    applicationDescription,
+    remark } = getField()
 
   // onAuthStateChanged
   firebase.auth().onAuthStateChanged(function (user) {
@@ -41,21 +45,45 @@ function newPerson(imageURL, passportURL, workpermitURL, visaURL) {
           })
         }
 
-        // console.log("have img to update")
-        // Save details to server
-        dbCom.doc(company_id).collection('people').doc(company_person).update({
-          name_en: name_en,
-          name_th: name_th,
-          nationality: nationality,
-          passportNumber: passportNumber,
-          datepickerPassport: new Date(datepickerPassport),
-          datepickerWorkpermit: new Date(datepickerWorkpermit),
-          visaType: visaType,
-          datepickerVisa: new Date(datepickerVisa),
-          remark: remark
-        }).then(function () {
-          remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
-        })
+        if (dateApplicationExtendsion !== '' && datepickerNextAppointment !== '') {
+          // Save details to server
+          dbCom.doc(company_id).collection('people').doc(company_person).update({
+            name_en: name_en,
+            name_th: name_th,
+            nationality: nationality,
+            passportNumber: passportNumber,
+            datepickerPassport: new Date(datepickerPassport),
+            datepickerWorkpermit: new Date(datepickerWorkpermit),
+            visaType: visaType,
+            datepickerVisa: new Date(datepickerVisa),
+            dateApplicationExtendsion: new Date(dateApplicationExtendsion),
+            datepickerNextAppointment: new Date(datepickerNextAppointment),
+            applicationDescription: applicationDescription,
+            remark: remark
+          }).then(function () {
+            remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
+          })
+        }
+        else {
+          dbCom.doc(company_id).collection('people').doc(company_person).update({
+            name_en: name_en,
+            name_th: name_th,
+            nationality: nationality,
+            passportNumber: passportNumber,
+            datepickerPassport: new Date(datepickerPassport),
+            datepickerWorkpermit: new Date(datepickerWorkpermit),
+            visaType: visaType,
+            datepickerVisa: new Date(datepickerVisa),
+            dateApplicationExtendsion: "no extendsion",
+            datepickerNextAppointment: "no appointment",
+            applicationDescription: "no description",
+            remark: remark
+          }).then(function () {
+            remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
+          })
+        }
+
+
       })
     } else {
       // No user is signed in.
@@ -496,6 +524,35 @@ function renderDetails() {
       </div>
   </div>
   <!-- Field Visa -->
+
+  <!-- Field Application -->
+    <div class="field column cards " id="field">
+      <br>
+      <label class="label"><u>Application Submission</u></label>
+      <br>
+      <label class="label">Date of application for extension</label>
+
+      <div class="control datepicker">
+        <input type="date" class="select-date" id="datepickerExtension">
+      </div>
+
+      <br>
+      <label class="label">Next appointment</label>
+      <div class="control datepicker">
+        <input type="date" class="select-date" id="datepickerNextAppointment">
+      </div>
+      <br>
+      <label class="label">Application Description</label>
+      <span class="select" id="application">
+        <select id="applicationDescription">
+          <option selected>Selected</option>
+          <option value="1 month">1 month</option>
+          <option value="90 days">90 days</option>
+          <option value="1 year">1 year</option>
+        </select>
+      </span>
+    </div>
+    <!-- end Field Application -->
 
   <!-- Field Remark -->
   <div class="field column cards" id="field">
