@@ -46,9 +46,10 @@ function renderDetails() {
         data.datepickerWorkpermit.seconds,
         data.datepickerVisa.seconds);
 
-    let { dateApplicationExtendsion, datepickerNextAppointment, applicationDescription,
+    let { dateApplicationExtendsion, datepickerNextAppointment,
       remainingApplication, applicationStatus }
-      = convertApplication(data.dateApplicationExtendsion, data.datepickerNextAppointment, data.applicationDescription);
+      = convertApplication(data.dateApplicationExtendsion.seconds, data.datepickerNextAppointment.seconds);
+
 
     // Push render to HTML
     document.querySelector('.card-detail').innerHTML = `
@@ -144,7 +145,7 @@ function renderDetails() {
             </div>
         </div>
 
-        <div class="column cards is-3" id="field">
+        <div class="column cards" id="field">
             <div class="field">
                 <div class="control">
                     <label class="label"><u>Visa</u></label>
@@ -184,13 +185,22 @@ function renderDetails() {
 
 
 
-        <div class="field column cards " id="field">
+        <div class="field column cards" id="field">
           <label class="label"><u>Application Submission</u></label>
           <label class="label">Date of application for extension : ${dateApplicationExtendsion}</label>
           <label class="label">Next appointment : ${datepickerNextAppointment}</label>
-          <label class="label">Application Description : ${applicationDescription}</label>
-          <label class="label">Remaining days : ${remainingApplication}</label>
-          <label class="label">Status : ${applicationStatus}</label>
+          <label class="label">Application Description : ${data.applicationDescription === undefined ?
+        (`no description`) :
+        (`${data.applicationDescription}`)}</label>
+        ${applicationStatus === 'warning' ? (`
+          <label class="label" "style='color: orange'">Remaining days : ${remainingApplication}</label>
+          <label class="label" "style='color: orange'">Status : ${applicationStatus}</label>
+        `) :
+        (`
+          <label class="label" style='color: green'>Remaining days : ${remainingApplication}</label>
+          <label class="label" style='color: green'>Status : ${applicationStatus}</label>
+        `)}  
+          
         </div>
         
 
