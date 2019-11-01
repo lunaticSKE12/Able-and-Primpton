@@ -137,7 +137,8 @@ function renderDetails() {
         data.datepickerVisa.seconds);
 
     let { dateApplicationExtendsion, datepickerNextAppointment } =
-      convertApplication(data.dateApplicationExtendsion.seconds, data.datepickerNextAppointment.seconds);
+      convertApplication(data.dateApplicationExtendsion,
+        data.datepickerNextAppointment);
 
     document.querySelector('.editField').innerHTML = `
 

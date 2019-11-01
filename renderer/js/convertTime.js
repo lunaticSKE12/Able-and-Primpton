@@ -132,6 +132,8 @@ function convertApplication(timeApplicationExtendsion, timeNewAppointment) {
     }
   }
 
+  timeApplicationExtendsion = timeApplicationExtendsion.seconds
+  timeNewAppointment = timeNewAppointment.seconds
   // Unixtimestamp
   // get now date in seconds
   let now = Math.round(+new Date() / changeSeconds);

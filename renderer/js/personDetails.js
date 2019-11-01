@@ -48,7 +48,8 @@ function renderDetails() {
 
     let { dateApplicationExtendsion, datepickerNextAppointment,
       remainingApplication, applicationStatus }
-      = convertApplication(data.dateApplicationExtendsion.seconds, data.datepickerNextAppointment.seconds);
+      = convertApplication(data.dateApplicationExtendsion,
+        data.datepickerNextAppointment);
 
 
     // Push render to HTML
@@ -190,11 +191,10 @@ function renderDetails() {
           <label class="label">Date of application for extension : ${dateApplicationExtendsion}</label>
           <label class="label">Next appointment : ${datepickerNextAppointment}</label>
           <label class="label">Application Description : ${data.applicationDescription === undefined ?
-        (`no description`) :
-        (`${data.applicationDescription}`)}</label>
+        (`no description`) : (`${data.applicationDescription}`)}</label>
         ${applicationStatus === 'warning' ? (`
-          <label class="label" "style='color: orange'">Remaining days : ${remainingApplication}</label>
-          <label class="label" "style='color: orange'">Status : ${applicationStatus}</label>
+          <label class="label" style='color: orange'>Remaining days : ${remainingApplication}</label>
+          <label class="label" style='color: orange'>Status : ${applicationStatus}</label>
         `) :
         (`
           <label class="label" style='color: green'>Remaining days : ${remainingApplication}</label>
