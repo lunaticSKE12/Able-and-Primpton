@@ -47,6 +47,11 @@ function renderBoard() {
                 doc.data().datepickerWorkpermit.seconds,
                 doc.data().datepickerVisa.seconds);
 
+            let { dateApplicationExtendsion, datepickerNextAppointment,
+              remainingApplication, applicationStatus }
+              = convertApplication(doc.data().dateApplicationExtendsion,
+                doc.data().datepickerNextAppointment);
+
             // Check who will expire soon then render
             // Return true if warning or expire
             let isWarning =
@@ -55,7 +60,8 @@ function renderBoard() {
               visaStatus === 'warning' ||
               passportStatus === 'expired' ||
               workpermitStatus === 'expired' ||
-              visaStatus === 'expired'
+              visaStatus === 'expired' ||
+              applicationStatus === 'warning'
 
             // Render who will expire soon
             if (isWarning) {
@@ -65,7 +71,11 @@ function renderBoard() {
                 dateWorkpermit, remainingWorkpermit,
                 workpermitStatus,
                 dateVisa, remainingVisa,
-                visaStatus)
+                visaStatus,
+                dateApplicationExtendsion,
+                datepickerNextAppointment,
+                remainingApplication,
+                applicationStatus)
             }
 
             // Get where to render
@@ -85,7 +95,11 @@ function renderBoard() {
     dateWorkpermit, remainingWorkpermit,
     workpermitStatus,
     dateVisa, remainingVisa,
-    visaStatus) => {
+    visaStatus,
+    dateApplicationExtendsion,
+    datepickerNextAppointment,
+    remainingApplication,
+    applicationStatus) => {
 
     const detail = doc.data();
     // Condition render change color according to status
@@ -162,11 +176,36 @@ function renderBoard() {
                 </b></a></li>
           `)}
               </ul>
-            </ul>
-          </li>
-        </ul>
-      </aside>
-      `;
+
+              <ul class="column">
+                <li><a><b>Date of application for extension : ${dateApplicationExtendsion}</b></a></li>
+                <li><a><b>Next appointment : ${datepickerNextAppointment}</b></a></li>
+                ${applicationStatus === 'warning' ?
+        (`
+                <li><a><b style='color: orange'>
+                application Remaining days : ${remainingApplication}
+                </b></a></li>
+                <li><a><b style='color: orange'>
+                application Status : ${applicationStatus}
+                </b></a></li>
+        `) :
+        (`
+                <li><a><b style='color: green'>
+                application Remaining days : ${remainingApplication}
+                </b></a></li>
+                <li><a><b style='color: green'>
+                application Status : ${applicationStatus}
+                </b></a></li>
+          `)
+      }
+                
+                
+              </ul >
+            </ul >
+          </li >
+        </ul >
+      </aside >
+    `;
 
     // push render to temp
     html += li

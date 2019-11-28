@@ -53,15 +53,32 @@ function getField() {
   let type = document.getElementById("type");
   let visaType = type.options[type.selectedIndex].value;
   let datepickerVisa = document.getElementById('datepickerVisa').value
+
+  let dateApplicationExtendsion = document.getElementById('datepickerExtension').value
+  let datepickerNextAppointment = document.getElementById('datepickerNextAppointment').value
+  let getApplicationDescription = document.getElementById("applicationDescription");
+  let applicationDescription = getApplicationDescription.options[getApplicationDescription.selectedIndex].value;
+
   let remark = document.getElementById('remark').value;
 
   return {
     name_en, name_th, nationality,
     passportNumber, datepickerPassport,
     datepickerWorkpermit, visaType,
-    datepickerVisa, remark
+    datepickerVisa, dateApplicationExtendsion,
+    datepickerNextAppointment,
+    applicationDescription,
+    remark
   }
 }
+
+// function test() {
+//   let dateApplicationExtendsion = document.getElementById('datepickerExtension').value
+//   let datepickerNextAppointment = document.getElementById('datepickerNextAppointment').value
+//   let getApplicationDescription = document.getElementById("applicationDescription");
+//   let applicationDescription = getApplicationDescription.options[getApplicationDescription.selectedIndex].value;
+//   console.log('' === dateApplicationExtendsion)
+// }
 
 // Check all require fields are filled
 // Return true if all require filled

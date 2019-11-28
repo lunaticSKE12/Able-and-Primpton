@@ -7,7 +7,11 @@ function newPerson(imageURL, passportURL, workpermitURL, visaURL) {
   let { name_en, name_th, nationality,
     passportNumber, datepickerPassport,
     datepickerWorkpermit, visaType,
-    datepickerVisa, remark } = getField()
+    datepickerVisa,
+    dateApplicationExtendsion,
+    datepickerNextAppointment,
+    applicationDescription,
+    remark } = getField()
 
   // onAuthStateChanged
   firebase.auth().onAuthStateChanged(function (user) {
@@ -41,21 +45,45 @@ function newPerson(imageURL, passportURL, workpermitURL, visaURL) {
           })
         }
 
-        // console.log("have img to update")
-        // Save details to server
-        dbCom.doc(company_id).collection('people').doc(company_person).update({
-          name_en: name_en,
-          name_th: name_th,
-          nationality: nationality,
-          passportNumber: passportNumber,
-          datepickerPassport: new Date(datepickerPassport),
-          datepickerWorkpermit: new Date(datepickerWorkpermit),
-          visaType: visaType,
-          datepickerVisa: new Date(datepickerVisa),
-          remark: remark
-        }).then(function () {
-          remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
-        })
+        if (dateApplicationExtendsion !== '' && datepickerNextAppointment !== '') {
+          // Save details to server
+          dbCom.doc(company_id).collection('people').doc(company_person).update({
+            name_en: name_en,
+            name_th: name_th,
+            nationality: nationality,
+            passportNumber: passportNumber,
+            datepickerPassport: new Date(datepickerPassport),
+            datepickerWorkpermit: new Date(datepickerWorkpermit),
+            visaType: visaType,
+            datepickerVisa: new Date(datepickerVisa),
+            dateApplicationExtendsion: new Date(dateApplicationExtendsion),
+            datepickerNextAppointment: new Date(datepickerNextAppointment),
+            applicationDescription: applicationDescription,
+            remark: remark
+          }).then(function () {
+            remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
+          })
+        }
+        else {
+          dbCom.doc(company_id).collection('people').doc(company_person).update({
+            name_en: name_en,
+            name_th: name_th,
+            nationality: nationality,
+            passportNumber: passportNumber,
+            datepickerPassport: new Date(datepickerPassport),
+            datepickerWorkpermit: new Date(datepickerWorkpermit),
+            visaType: visaType,
+            datepickerVisa: new Date(datepickerVisa),
+            dateApplicationExtendsion: "no extendsion",
+            datepickerNextAppointment: "no appointment",
+            applicationDescription: "no description",
+            remark: remark
+          }).then(function () {
+            remote.getCurrentWindow().loadURL(`file://${__dirname}/personDetails.html`)
+          })
+        }
+
+
       })
     } else {
       // No user is signed in.
@@ -107,6 +135,10 @@ function renderDetails() {
       = convert(data.datepickerPassport.seconds,
         data.datepickerWorkpermit.seconds,
         data.datepickerVisa.seconds);
+
+    let { dateApplicationExtendsion, datepickerNextAppointment } =
+      convertApplication(data.dateApplicationExtendsion,
+        data.datepickerNextAppointment);
 
     document.querySelector('.editField').innerHTML = `
 
@@ -497,6 +529,35 @@ function renderDetails() {
   </div>
   <!-- Field Visa -->
 
+  <!-- Field Application -->
+    <div class="field column cards " id="field">
+      <br>
+      <label class="label"><u>Application Submission</u></label>
+      <br>
+      <label class="label">Date of application for extension</label>
+
+      <div class="control datepicker">
+        <input type="date" class="select-date" id="datepickerExtension" value="${dateApplicationExtendsion}">
+      </div>
+
+      <br>
+      <label class="label">Next appointment</label>
+      <div class="control datepicker">
+        <input type="date" class="select-date" id="datepickerNextAppointment" value="${datepickerNextAppointment}">
+      </div>
+      <br>
+      <label class="label">Application Description</label>
+      <span class="select" id="application">
+        <select id="applicationDescription">
+          <option selected>Selected</option>
+          <option value="1 month">1 month</option>
+          <option value="90 days">90 days</option>
+          <option value="1 year">1 year</option>
+        </select>
+      </span>
+    </div>
+    <!-- end Field Application -->
+
   <!-- Field Remark -->
   <div class="field column cards" id="field">
     <br>
@@ -514,11 +575,13 @@ function renderDetails() {
     // Set dropdown nation and visa type value
     SelectElement("nation", `${data.nationality}`)
     SelectElement("type", `${data.visaType}`)
+    SelectElement("applicationDescription", `${data.applicationDescription}`)
 
     // Set dropdown value
     function SelectElement(id, valueToSelect) {
       var element = document.getElementById(id);
       element.value = valueToSelect;
+
     }
   }
 
@@ -527,13 +590,15 @@ function renderDetails() {
 // Call render
 renderDetails();
 
+// Change to seconds or milliseconds
+let changeSeconds = 1000
 // Convert timestamp
 function convert(timePassport, timeWorkpermit, timeVisa) {
 
   // Convert timestamp to milliseconds
-  let dateP = new Date(timePassport * 1000);
-  let dateW = new Date(timeWorkpermit * 1000)
-  let dateV = new Date(timeVisa * 1000)
+  let dateP = new Date(timePassport * changeSeconds);
+  let dateW = new Date(timeWorkpermit * changeSeconds)
+  let dateV = new Date(timeVisa * changeSeconds)
 
   // Year
   let yearP = dateP.getFullYear();
@@ -582,3 +647,62 @@ function convert(timePassport, timeWorkpermit, timeVisa) {
   };
 }
 
+
+// Convert time for timestamp to date dd-mm-yyyy for application extendsion, new appointment
+// return 
+function convertApplication(timeApplicationExtendsion, timeNewAppointment) {
+
+  if (
+    (timeApplicationExtendsion === 'no extendsion' &&
+      timeNewAppointment === 'no appointment') ||
+    (timeApplicationExtendsion === undefined &&
+      timeNewAppointment === undefined)
+  ) {
+    return {
+      dateApplicationExtendsion: 'no extendsion',
+      datepickerNextAppointment: 'no appointment',
+      remainingApplication: '-',
+      applicationStatus: '-'
+    }
+  }
+
+  // Convert timestamp to milliseconds
+  let dateE = new Date(timeApplicationExtendsion * changeSeconds)
+  let dateA = new Date(timeNewAppointment * changeSeconds);
+  // Year
+  let yearE = dateE.getFullYear();
+  let yearA = dateA.getFullYear();
+
+  // Month 
+  // Set for datepicker format
+  let monthE = dateE.getMonth() + 1;
+  if (monthE < 10) {
+    monthE = "0" + monthE
+  }
+  let monthA = dateA.getMonth() + 1;
+  if (monthA < 10) {
+    monthA = "0" + monthA
+  }
+
+  // Day
+  // Set for datepicker format
+  let dayE = dateE.getDate();
+  if (dayE < 10) {
+    dayE = "0" + dayE
+  }
+  let dayA = dateE.getDate();
+  if (dayA < 10) {
+    dayA = "0" + dayA
+  }
+
+  // Display date time in yyyy-MM-dd format
+  let convdataTimeE = yearE + '-' + monthE + '-' + dayE
+  let convdataTimeA = yearA + '-' + monthA + '-' + dayA
+
+  return {
+    dateApplicationExtendsion: convdataTimeE,
+    datepickerNextAppointment: convdataTimeA,
+
+  }
+
+}
