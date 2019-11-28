@@ -156,12 +156,10 @@ function convertApplication(timeApplicationExtendsion, timeNewAppointment) {
   let dayE = dateE.getDate();
   let dayA = dateA.getDate();
 
-
   // Display date time in dd-MM-yyyy h:m:s format
   let convdataTimeE = dayE + ' ' + monthE + ' ' + yearE
   let convdataTimeA = dayA + ' ' + monthA + ' ' + yearA
   // Check status
-  console.log(elapsedAppointment)
   let applicationStatus = statusApplication(elapsedAppointment)
 
   return {
