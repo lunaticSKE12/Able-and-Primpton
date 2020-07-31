@@ -30,7 +30,7 @@ build/Release
 node_modules
 
 # Config api key
-# config.js
+config.js
 
 # Compile version program 
 dist/
